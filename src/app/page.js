@@ -13,20 +13,16 @@ export default async function Home() {
 
 	return (
 		<main
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '70vh',
-			}}
+			className={'flex h-screen flex-col items-center justify-center gap-8'}
 		>
-			<div>
+			<>
 				<LoginButton />
 				<RegisterButton />
 				<LogoutButton />
 				<ProfileButton />
-			</div>
+			</>
 
+			<hr className={'w-1/3'} />
 			<h1>Server session</h1>
 			<pre>{JSON.stringify(session)}</pre>
 		</main>
