@@ -7,7 +7,6 @@ env:
   NEXT_PUBLIC_API_TOKEN: ${{ secrets.NEXT_PUBLIC_API_TOKEN }}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-  NODE_ENV: ${{ secrets.NODE_ENV }}
 
 on:
   pull_request:
@@ -26,7 +25,7 @@ jobs:
       - name: Install dependencies in production
         run: npm ci --ignore-scripts
       - name: Build the app
-        continue-on-error: true
+        continue-on-error: false
         run: npm run build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
