@@ -21,7 +21,7 @@ const schema = zod
 	})
 	.required({ email: true, password: true })
 
-function Signing() {
+function Signin() {
 	const {
 		register,
 		handleSubmit,
@@ -42,23 +42,6 @@ function Signing() {
 
 	return (
 		<>
-			<Head>
-				<title>Connexion sur ForMenu</title>
-				<meta
-					name="description"
-					content="Connexion sur formenu.fr la plateforme qui va révolutionner vos
-	            cartes de restaurant !"
-				/>
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
-				<link
-					href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
-					rel="stylesheet"
-				/>
-				{/*	seo tag canonical link */}
-				<link rel="canonical" href="https://formenu.fr/auth/signin" />
-			</Head>
-
 			<div className="relative flex h-[95vh] max-h-screen overflow-hidden md:h-screen md:overflow-auto md:bg-white">
 				<div className="flex flex-1 flex-col justify-center bg-white px-4 sm:px-6 md:py-12 md:pt-12 lg:flex-none lg:px-20 xl:px-24">
 					<div className="mx-auto w-full max-w-sm lg:w-96">
@@ -245,4 +228,4 @@ function Signing() {
 	)
 }
 
-export default Signing
+export default Signin

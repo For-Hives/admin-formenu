@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import WrapSessionProvider from '@/app/components/WrapSessionProvider'
+import WrapSessionProvider from '@/providers/WrapSessionProvider'
 
 export const metadata = {
 	title: 'Administration - ForMenu',
