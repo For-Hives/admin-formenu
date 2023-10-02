@@ -46,3 +46,5 @@ cypress.env.json
 yarn.lock
 
 !package-lock.json
+
+*.iml

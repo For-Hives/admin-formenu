@@ -52,7 +52,7 @@ export const authOptions = {
 		error: '/auth/error',
 	},
 	secret: `${process.env.NEXTAUTH_SECRET}`,
-	debug: process.env.NODE_ENV !== 'production',
+	debug: `${process.env.NODE_ENV}` !== 'production',
 	callbacks: {
 		async session({ session, token, user }) {
 			session.jwt = token.jwt

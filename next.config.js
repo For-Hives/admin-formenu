@@ -20,12 +20,12 @@ const nextConfig = {
 		defaultLocale: 'fr',
 		domains: [
 			{
-				domain: 'formenu.fr',
+				domain: 'formenu.fr/admin',
 				defaultLocale: 'fr',
 				locales: ['fr'],
 			},
 			{
-				domain: 'formenu.net',
+				domain: 'formenu.net/admin',
 				defaultLocale: 'en',
 				locales: ['en'],
 			},

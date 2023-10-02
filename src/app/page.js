@@ -12,23 +12,18 @@ export default async function Home() {
 	console.log(session)
 
 	return (
-		<main
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '70vh',
-			}}
+		<section
+			className={
+				'flex h-full min-h-screen w-full flex-col items-center justify-center gap-8'
+			}
 		>
-			<div>
-				<LoginButton />
-				<RegisterButton />
-				<LogoutButton />
-				<ProfileButton />
-			</div>
-
+			<LoginButton />
+			<RegisterButton />
+			<LogoutButton />
+			<ProfileButton />
+			<hr className={'w-1/3'} />
 			<h1>Server session</h1>
 			<pre>{JSON.stringify(session)}</pre>
-		</main>
+		</section>
 	)
 }
