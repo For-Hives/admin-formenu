@@ -64,7 +64,7 @@ function Signin() {
 										height={50}
 										src="/menu_final.svg"
 									/>
-									<span className="font-Fraunces">
+									<span className="font-[fraunces]">
 										For<span className="font-bold">Me</span>nu
 									</span>
 								</Link>
@@ -190,6 +190,35 @@ function Signin() {
 														}
 													>
 														Se connecter avec Google
+													</p>
+												</button>
+											</div>
+											<div className={'flex w-full justify-center'}>
+												<button
+													data-cy="facebook-signin"
+													onClick={() => {
+														signIn('facebook', {
+															callbackUrl: '/auth/profil',
+														})
+													}}
+													className="flex h-[40px] w-full flex-nowrap items-center justify-center gap-[24px] rounded-md bg-white px-3 text-gray-500 no-underline shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
+												>
+													<span className="sr-only">
+														Se connecter via Facebook
+													</span>
+													<Image
+														src={'/assets/signin-assets/facebook_logo.svg'}
+														alt={'facebook logo'}
+														width={18}
+														height={18}
+														className={'h-[18px] w-[18px]'}
+													/>
+													<p
+														className={
+															'flex flex-nowrap text-[14px] font-medium text-black/[54%]'
+														}
+													>
+														Se connecter avec Facebook
 													</p>
 												</button>
 											</div>
