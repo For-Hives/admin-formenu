@@ -1,8 +1,7 @@
-'use client'
 import React from 'react'
 import Image from 'next/image'
-import { signOut } from 'next-auth/react'
-import { CustomSvg } from '@/components/CustomSvg'
+import Profil from '@/components/Nav/Profil'
+import LogoutButton from '@/components/Nav/Logout-button'
 
 function Nav() {
 	return (
@@ -105,37 +104,8 @@ function Nav() {
 				</div>
 
 				<div className="flex w-full flex-col gap-4">
-					<span className="italic text-white">Profil</span>
-					<div className="flex w-full flex-row items-center justify-between">
-						<Image
-							alt="photo profil"
-							src={'/assets/navbar/pp.png'}
-							width={35}
-							height={35}
-						/>
-						<div className="flex flex-col">
-							<span className="text-slate-50">Nom - Prénom</span>
-							<span className="text-sm text-slate-50">nom du resto'</span>
-						</div>
-						<a href="/profile">
-							<Image
-								alt="svg trois points"
-								src={'/assets/navbar/more_icon.svg'}
-								width={24}
-								height={24}
-							/>
-						</a>
-					</div>
-					<button
-						onClick={signOut}
-						className="flew-row flex h-[40px] w-full items-center justify-start gap-2 rounded-md border-2 border-cyan-700 no-underline"
-					>
-						<CustomSvg
-							url="/assets/navbar/logout_icon.svg"
-							classNames="bg-white ml-2 w-[20px] h-[20px]"
-						/>
-						<span className="text-white">Déconnexion</span>
-					</button>
+					<Profil />
+					<LogoutButton />
 				</div>
 			</nav>
 		</>

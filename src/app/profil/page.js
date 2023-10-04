@@ -1,6 +1,5 @@
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-
 import React from 'react'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Nav from '@/components/Global/Nav'
@@ -10,8 +9,9 @@ export default async function Profile() {
 	if (!session) {
 		redirect('/auth/signin')
 	}
-	const profileData = await getData()
-	console.log(profileData)
+	// console.log(session)
+	const user = await getData(session)
+	// const [user, setUser] = useState(profileData)
 
 	return (
 		<>
@@ -37,12 +37,14 @@ export default async function Profile() {
 											name="lastname"
 											placeholder="Nom"
 											className="grow rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+											value={user.lastname}
 										/>
 										<input
 											type="text"
 											name="firstname"
 											placeholder="Prénom"
 											className="grow rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+											value={user.firstname}
 										/>
 									</div>
 								</div>
@@ -53,6 +55,7 @@ export default async function Profile() {
 										name="email"
 										placeholder="exemple@formenu.fr"
 										className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+										value={user.email}
 									/>
 								</div>
 								<div className="flex flex-col gap-2">
@@ -62,6 +65,7 @@ export default async function Profile() {
 										name="phone"
 										placeholder="+33 6 00 00 00 00"
 										className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+										value={user.phone}
 									/>
 								</div>
 								<div className="flex flex-col gap-2">
@@ -81,9 +85,9 @@ export default async function Profile() {
 												>
 													<path
 														stroke="currentColor"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-														stroke-width="2"
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth="2"
 														d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
 													/>
 												</svg>
@@ -103,6 +107,11 @@ export default async function Profile() {
 										</label>
 									</div>
 								</div>
+								<div className="flex w-full justify-end">
+									<button className="w-[275px] rounded-md bg-indigo-900 p-2 text-white no-underline hover:bg-indigo-700">
+										Enregistrer les changements
+									</button>
+								</div>
 							</form>
 						</div>
 					</main>
@@ -112,7 +121,9 @@ export default async function Profile() {
 	)
 }
 
-async function getData() {
+export async function getData(session) {
+	// const session = getSession()
+	// console.log(session)
 	let response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
 		{
@@ -120,14 +131,12 @@ async function getData() {
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
+				Authorization: `Bearer ${session.jwt}`,
 			},
 		}
 	)
 	if (!response.ok) {
-		throw new Error({
-			status: response.status,
-			message: await response.text(),
-		})
+		console.log(response.status)
 	}
 
 	return await response.json()

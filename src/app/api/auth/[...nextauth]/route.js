@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth'
-
 import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions = {
@@ -10,9 +9,13 @@ export const authOptions = {
 				email: {
 					label: 'Email',
 					type: 'email',
-					placeholder: 'example@example.com',
+					placeholder: 'example@formenu.fr',
 				},
-				password: { label: 'Password', type: 'password' },
+				password: {
+					label: 'Password',
+					type: 'password',
+					placeholder: '************',
+				},
 			},
 			async authorize(credentials) {
 				if (!credentials?.email || !credentials.password) {
