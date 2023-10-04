@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import WrapSessionProvider from '@/providers/WrapSessionProvider'
+import { StoreProvider } from '@/providers/StoreProvider'
 
 export const metadata = {
 	title: 'Administration - ForMenu',
@@ -37,7 +38,9 @@ export default function RootLayout({ children }) {
 					'flex min-h-screen w-full flex-col bg-slate-50 text-slate-950'
 				}
 			>
-				<WrapSessionProvider>{children}</WrapSessionProvider>
+				<WrapSessionProvider>
+					<StoreProvider>{children}</StoreProvider>
+				</WrapSessionProvider>
 			</body>
 		</html>
 	)

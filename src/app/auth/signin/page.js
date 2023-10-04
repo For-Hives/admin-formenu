@@ -169,7 +169,7 @@ function Signin() {
 													data-cy="google-signin"
 													onClick={() => {
 														signIn('google', {
-															callbackUrl: '/auth/profil',
+															callbackUrl: '/profil',
 														})
 													}}
 													className="flex h-[40px] w-full flex-nowrap items-center justify-center gap-[24px] rounded-md bg-white px-3 text-gray-500 no-underline shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
@@ -198,7 +198,7 @@ function Signin() {
 													data-cy="facebook-signin"
 													onClick={() => {
 														signIn('facebook', {
-															callbackUrl: '/auth/profil',
+															callbackUrl: '/profil',
 														})
 													}}
 													className="flex h-[40px] w-full flex-nowrap items-center justify-center gap-[24px] rounded-md bg-white px-3 text-gray-500 no-underline shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
