@@ -10,7 +10,6 @@ export default async function Profil() {
 		redirect('/auth/signin')
 	}
 	const user = await getData(session)
-	console.log(user)
 
 	return (
 		<>
