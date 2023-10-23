@@ -67,14 +67,14 @@ export function FormTabs({ user }) {
 											name="lastname"
 											placeholder="Nom"
 											className="grow rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
-											value={user.lastname}
+											defaultValue={user.lastname}
 										/>
 										<input
 											type="text"
 											name="firstname"
 											placeholder="Prénom"
 											className="grow rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
-											value={user.firstname}
+											defaultValue={user.firstname}
 										/>
 									</div>
 								</div>
@@ -85,7 +85,7 @@ export function FormTabs({ user }) {
 										name="email"
 										placeholder="exemple@formenu.fr"
 										className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
-										value={user.email}
+										defaultValue={user.email}
 									/>
 								</div>
 								<div className="flex flex-col gap-2">
@@ -95,7 +95,7 @@ export function FormTabs({ user }) {
 										name="phone"
 										placeholder="+33 6 00 00 00 00"
 										className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
-										value={user.phoneNumber}
+										defaultValue={user.phoneNumber}
 									/>
 								</div>
 								<div className="flex flex-col gap-2">
