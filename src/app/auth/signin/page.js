@@ -83,9 +83,7 @@ function Signin() {
 									<div>
 										<div>
 											<p className="text-sm font-medium leading-6 text-gray-900">
-												Connectez vous ici, vérifiez votre boite mail ou
-												contactez un administrateur dans le cas où vous n'avez
-												pas reçu vos identifiants.
+												{`Connectez vous ici, vérifiez votre boite mail ou contactez un administrateur dans le cas où vous n'avez pas reçu vos identifiants.`}
 											</p>
 										</div>
 									</div>
@@ -230,7 +228,7 @@ function Signin() {
 														href="#"
 														className="font-medium text-slate-600 hover:text-blue-500"
 													>
-														J'ai oublié mon mot de passe
+														{`J'ai oublié mon mot de passe`}
 													</a>
 												</div>
 											</div>
