@@ -28,5 +28,5 @@ export const LogoutButton = () => {
 }
 
 export const ProfileButton = () => {
-	return <Link href="/profile">Profile</Link>
+	return <Link href="/profil">Profile</Link>
 }
