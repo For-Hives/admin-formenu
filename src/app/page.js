@@ -16,7 +16,7 @@ export default async function Home() {
 			<main className="flex min-h-screen w-full items-center justify-center overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
 				<div className="flex w-full flex-row items-center justify-around">
 					<a
-						href=""
+						href="/cartes"
 						className="flex flex-col items-center justify-center gap-6 no-underline"
 					>
 						<Image
