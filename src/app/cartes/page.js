@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import Nav from '@/components/Global/Nav'
 import { get_data_menus } from '@/services/getData'
 import Image from 'next/image'
+import ToggleMenu from '@/components/ToggleMenu'
 
 export default async function Cartes() {
 	const session = await getServerSession(authOptions)
@@ -16,7 +17,6 @@ export default async function Cartes() {
 	const companie_menus = companie_data.filter(
 		data => data.company.slug === companie.data.attributes.slug
 	)
-	console.log(companie_menus)
 
 	return (
 		<>
@@ -58,22 +58,7 @@ export default async function Cartes() {
 									<span>01 Février - 24 Avril</span>
 								</div>
 								<div className="col-span-2">
-									<label className="relative inline-flex cursor-pointer items-center">
-										{/*TODO ajout onClick pour faire une requête API et changer l'état de la carte*/}
-										<input
-											name="activated"
-											type="checkbox"
-											defaultChecked={menu.activated}
-											className="peer sr-only"
-										/>
-										<div
-											className="peer h-[28px] w-[100px] rounded bg-gray-200 after:absolute after:left-[4px]
-										after:top-[4px] after:h-[20px] after:w-[20px] after:rounded after:border after:border-gray-300
-										after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full
-										peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600
-										dark:bg-gray-700 dark:peer-focus:ring-blue-800"
-										></div>
-									</label>
+									<ToggleMenu id={menu.id} activated={menu.activated} />
 								</div>
 
 								<a href="#" className="absolute right-0 top-0 p-[10px]">
