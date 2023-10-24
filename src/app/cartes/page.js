@@ -61,7 +61,10 @@ export default async function Cartes() {
 									<ToggleMenu id={menu.id} activated={menu.activated} />
 								</div>
 
-								<a href="#" className="absolute right-0 top-0 p-[10px]">
+								<a
+									href={`/cartes/${menu.id}`}
+									className="absolute right-0 top-0 p-[10px]"
+								>
 									<Image
 										src="/icons/change.svg"
 										alt="icone crayon"
@@ -78,9 +81,9 @@ export default async function Cartes() {
 	)
 }
 
-export async function getCompanie(session) {
+async function getCompanie(session) {
 	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/companies/2`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/companies/1`,
 		{
 			method: 'GET',
 			headers: {
@@ -91,7 +94,7 @@ export async function getCompanie(session) {
 		}
 	)
 	if (!response.ok) {
-		throw new Error('Failed to fetch data')
+		throw new Error('Failed to fetch Data')
 	}
 
 	return await response.json()
