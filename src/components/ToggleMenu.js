@@ -15,7 +15,7 @@ function ToggleMenu({ id, activated }) {
 			<div
 				className="peer h-[28px] w-[100px] rounded bg-gray-200 after:absolute after:left-[4px]
 										after:top-[4px] after:h-[20px] after:w-[20px] after:rounded after:border after:border-gray-300
-										after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full
+										after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-[72px]
 										peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600
 										dark:bg-gray-700 dark:peer-focus:ring-blue-800"
 			></div>
