@@ -39,7 +39,7 @@ function Signin() {
 		const result = signIn('credentials', {
 			email: data.email,
 			password: data.password,
-			callbackUrl: '/profil',
+			callbackUrl: '/',
 		})
 	}
 
