@@ -17,21 +17,17 @@ export default async function Profile() {
 		<>
 			<Nav />
 			{session && (
-				<>
-					<main className="min-h-screen w-full overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
-						<div className="flex w-1/2 flex-col gap-8">
-							<div className="flex w-full flex-col gap-8">
-								<div className="flex flex-col">
-									<h1 className="pb-2">Modification de votre profil</h1>
-									<span>Configurez vos paramètres personnels</span>
-								</div>
+				<main className="min-h-screen w-full overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
+					<div className="flex w-1/2 flex-col gap-8">
+						<div className="flex w-full flex-col gap-8">
+							<div className="flex flex-col">
+								<h1 className="pb-2">Modification de votre profil</h1>
+								<span>Configurez vos paramètres personnels</span>
 							</div>
-							<FormTabs user={user} />
-							{/*<div className="flex w-full flex-col gap-6">*/}
-							{/*</div>*/}
 						</div>
-					</main>
-				</>
+						<FormTabs user={user} />
+					</div>
+				</main>
 			)}
 		</>
 	)
