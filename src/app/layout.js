@@ -44,7 +44,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang="fr">
+		<html lang="fr" className={`${lato.variable} ${nunito.variable}`}>
 			<body
 				className={
 					'flex min-h-screen w-full flex-col bg-slate-50 text-slate-950'
