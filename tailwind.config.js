@@ -1,6 +1,5 @@
-const { nextui } = require('@nextui-org/react')
-
 /** @type {import('tailwindcss').Config} */
+const { nextui } = require('@nextui-org/react')
 module.exports = {
 	content: [
 		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,10 +8,8 @@ module.exports = {
 		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
 	],
 	safelist: [
-		'text-2xl',
-		'text-3xl',
 		{
-			pattern: /border-(cyan|yellow|red|indigo|blue|purple|teal)-(400|500|600)/,
+			pattern: /font-(lato|nunito)/,
 		},
 	],
 	theme: {
@@ -28,6 +25,10 @@ module.exports = {
 			},
 			borderWidth: {
 				3: '3px',
+			},
+			fontFamily: {
+				lato: 'var(--font-lato)',
+				nunito: 'var(--font-nunito)',
 			},
 		},
 	},
