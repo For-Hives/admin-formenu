@@ -64,9 +64,6 @@ function Signin() {
 									height={50}
 									src="/menu_final.svg"
 								/>
-								<span className="font-[fraunces]">
-									For<span className="font-bold">Me</span>nu
-								</span>
 							</Link>
 							<h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
 								{session && session.user && !_.isEmpty(session.user)
