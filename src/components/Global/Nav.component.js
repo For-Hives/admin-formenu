@@ -2,20 +2,21 @@ import React from 'react'
 import Image from 'next/image'
 import ProfilComponent from '@/components/Nav/Profil.component'
 import LogoutButton from '@/components/Nav/Logout-button'
+import Link from 'next/link'
 
 function NavComponent() {
 	return (
 		<nav className="fixed left-0 top-0 flex h-full min-h-screen w-[250px] flex-col justify-between bg-cyan-950 p-6">
 			<div className="w-full">
 				<div className="mb-16 w-full">
-					<a href="/" className="flex flex-row items-center no-underline">
+					<Link href="/" className="flex flex-row items-center">
 						<Image
 							alt="Logo ForMenu"
 							width={50}
 							height={50}
 							src="/menu_final.svg"
 						/>
-					</a>
+					</Link>
 				</div>
 				<div className="flex w-full flex-col gap-4">
 					<span className="uppercase italic text-white">Menu</span>
