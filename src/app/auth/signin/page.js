@@ -71,7 +71,6 @@ function Signin() {
 									  (session.user.name ? session.user.name : session.user.email)
 									: 'Connexion'}
 							</h2>
-							<p></p>
 						</div>
 						{!(session && session.user && !_.isEmpty(session.user)) && (
 							<div className="mt-8">
