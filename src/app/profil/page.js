@@ -2,8 +2,8 @@ import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import Nav from '@/components/Global/Nav'
-import FormTabs from '@/components/Profil/FormTabs'
+import NavComponent from '@/components/Global/Nav.component'
+import FormTabsComponent from '@/components/Profil/FormTabs.component'
 
 export default async function Profile() {
 	const session = await getServerSession(authOptions)
@@ -15,7 +15,7 @@ export default async function Profile() {
 
 	return (
 		<>
-			<Nav />
+			<NavComponent />
 			{session && (
 				<main className="min-h-screen w-full overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
 					<div className="flex w-1/2 flex-col gap-8">
@@ -25,7 +25,7 @@ export default async function Profile() {
 								<span>Configurez vos paramètres personnels</span>
 							</div>
 						</div>
-						<FormTabs user={user} />
+						<FormTabsComponent user={user} />
 					</div>
 				</main>
 			)}

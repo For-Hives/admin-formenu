@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 
-export default async function Profil() {
+export default async function ProfilComponent() {
 	const session = await getServerSession(authOptions)
 	if (!session) {
 		redirect('/auth/signin')
@@ -27,7 +27,7 @@ export default async function Profil() {
 					</span>
 					<span className="text-sm text-slate-50">{user.company.name}</span>
 				</div>
-				<a href="/profil">
+				<a href="/src/components/Nav/Profil.component">
 					<Image
 						alt="svg trois points"
 						src={'/assets/navbar/more_icon.svg'}
