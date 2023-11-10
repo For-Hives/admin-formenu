@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import ProfilComponent from '@/components/Nav/Profil.component'
-import LogoutButton from '@/components/Nav/Logout-button'
+import LogoutButtonComponent from '@/components/Nav/LogoutButton.component'
 import Link from 'next/link'
 
 function NavComponent() {
@@ -104,7 +104,7 @@ function NavComponent() {
 
 			<div className="flex w-full flex-col gap-4">
 				<ProfilComponent />
-				<LogoutButton />
+				<LogoutButtonComponent />
 			</div>
 		</nav>
 	)

@@ -3,7 +3,7 @@ import {
 	LogoutButton,
 	ProfileButton,
 	RegisterButton,
-} from '@/components/buttons.component'
+} from '@/components/Buttons/Buttons.component'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 

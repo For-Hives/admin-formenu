@@ -15,6 +15,7 @@
 ```
 git clone
 -> add .env file
+-> add .env file in .bruno folder
 pnpm install
 pnpm run dev
 pnpm run build
@@ -30,9 +31,11 @@ That is the list of technologies that ForMenu use.
 > > - [TailwindCSS](https://tailwindcss.com/)
 > > - [TailwindUI](https://tailwindui.com/)
 > > - [HeadlessUI](https://headlessui.com/)
+> > - [Bruno](https://github.com/usebruno/bruno)
 > > - [Prettier](https://prettier.io/)
 > > - [EsLint](https://eslint.org/)
 > > - [Husky](https://typicode.github.io/husky/#/)
+> > - [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
 
 > **CI/CD**
 >
