@@ -3,72 +3,75 @@
 @tailwind utilities;
 
 * {
-	box-sizing: border-box;
-	list-style: none;
-	text-decoration: none;
-	transition:
-		opacity,
-		z-index,
-		color ease-in-out 0.3s;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    transition: opacity,
+    z-index,
+    color ease-in-out 0.3s;
 }
 
 body {
-	box-sizing: border-box;
-	display: inline-block;
-	width: 100vw;
-	max-width: 100vw;
-	clear: both;
-	overflow-x: hidden;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100vw;
+    max-width: 100vw;
+    clear: both;
+    overflow-x: hidden;
 }
 
 html {
-	overflow-x: hidden;
-	max-width: 100vw;
-	scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
+    scroll-behavior: smooth;
 }
 
 a {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 button {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 @media screen and (min-width: 768px) {
-	::-webkit-scrollbar {
-		-webkit-appearance: none;
-		width: 7px;
-	}
+    ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+    }
 }
 
 @media screen and (min-width: 768px) {
-	::-webkit-scrollbar-thumb {
-		border-radius: 2rem;
-		background-color: #19191e4d;
-		-webkit-box-shadow: 0 0 1px hsl(0deg 0% 100% / 50%);
-	}
+    ::-webkit-scrollbar-thumb {
+        border-radius: 2rem;
+        background-color: #19191e4d;
+        -webkit-box-shadow: 0 0 1px hsl(0deg 0% 100% / 50%);
+    }
 }
 
 /* custom property group for tailwind */
 @layer base {
-	h1 {
-		@apply text-sm font-semibold sm:text-2xl;
-	}
+    * {
+        @apply font-kanit;
+    }
 
-	h2 {
-		@apply text-xs font-light sm:text-xl;
-	}
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-playpen_sans;
+    }
 
-	h3 {
-		@apply sm:text-lg;
-	}
+    h1 {
+        @apply text-sm font-semibold sm:text-2xl;
+    }
 
-	h4 {
-		@apply text-base;
-	}
+    h2 {
+        @apply text-xs font-light sm:text-xl;
+    }
 
-	* {
-		@apply text-slate-950;
-	}
+    h3 {
+        @apply sm:text-lg;
+    }
+
+    h4 {
+        @apply text-base;
+    }
 }

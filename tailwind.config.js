@@ -9,7 +9,7 @@ module.exports = {
 	],
 	safelist: [
 		{
-			pattern: /font-(lato|nunito)/,
+			pattern: /font-(kanit|playpen_sans)/,
 		},
 	],
 	theme: {
@@ -27,8 +27,8 @@ module.exports = {
 				3: '3px',
 			},
 			fontFamily: {
-				lato: 'var(--font-lato)',
-				nunito: 'var(--font-nunito)',
+				kanit: 'var(--font-kanit)',
+				playpen_sans: 'var(--font-playpen_sans)',
 			},
 		},
 	},
