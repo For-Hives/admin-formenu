@@ -1,7 +1,9 @@
 'use client'
 import React from 'react'
+import { useSession } from 'next-auth/react'
 
-function ToggleMenu({ id, activated }) {
+export default function ToggleMenuComponent({ id, activated }) {
+	const { data: session } = useSession()
 	return (
 		<label className="relative inline-flex cursor-pointer items-center">
 			<input
@@ -9,7 +11,7 @@ function ToggleMenu({ id, activated }) {
 				type="checkbox"
 				id={id}
 				defaultChecked={activated}
-				onChange={e => handleToggle(e)}
+				onChange={e => toggleMenuState(e.target.id, e.target.checked, session)}
 				className="peer sr-only"
 			/>
 			<div
@@ -23,14 +25,7 @@ function ToggleMenu({ id, activated }) {
 	)
 }
 
-async function handleToggle(e) {
-	await toggleMenu({
-		id: e.target.id,
-		activated: e.target.checked,
-	})
-}
-
-async function toggleMenu({ id, activated }) {
+async function toggleMenuState(id, activated, session) {
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/menus/${id}`,
 		{
@@ -39,7 +34,7 @@ async function toggleMenu({ id, activated }) {
 				// 	token
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
-				Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+				Authorization: `Bearer ${session.jwt}`,
 			},
 			body: JSON.stringify({
 				data: {
@@ -55,5 +50,3 @@ async function toggleMenu({ id, activated }) {
 	}
 	return res.json()
 }
-
-export default ToggleMenu

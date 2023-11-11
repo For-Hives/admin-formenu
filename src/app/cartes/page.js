@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Nav from '@/components/Global/Nav'
 import { get_data_menus } from '@/services/getData'
 import Image from 'next/image'
-import ToggleMenu from '@/components/ToggleMenu'
+import ToggleMenuComponent from '@/components/ToggleMenu.component'
 
 export default async function Cartes() {
 	const session = await getServerSession(authOptions)
@@ -58,7 +58,10 @@ export default async function Cartes() {
 									<span>01 Février - 24 Avril</span>
 								</div>
 								<div className="col-span-2">
-									<ToggleMenu id={menu.id} activated={menu.activated} />
+									<ToggleMenuComponent
+										id={menu.id}
+										activated={menu.activated}
+									/>
 								</div>
 
 								<a
