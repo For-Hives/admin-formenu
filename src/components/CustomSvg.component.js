@@ -1,4 +1,4 @@
-export function CustomSvg({ url, classNames }) {
+export function CustomSvgComponent({ url, classNames }) {
 	return (
 		<div
 			className={`h-[20px] w-[20px] ${classNames}`}
