@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+
 import WrapSessionProvider from '@/providers/WrapSessionProvider'
 import { StoreProvider } from '@/providers/StoreProvider'
 import WrapNextUiProvider from '@/providers/WrapNextUiProvider'

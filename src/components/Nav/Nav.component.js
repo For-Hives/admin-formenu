@@ -3,28 +3,31 @@ import Image from 'next/image'
 import ProfilComponent from '@/components/Nav/Profil.component'
 import LogoutButtonComponent from '@/components/Nav/LogoutButton.component'
 import Link from 'next/link'
-import { CustomSvgComponent } from '@/components/CustomSvg.component'
 
 const menuItems = [
 	{
 		href: '/',
-		src: '/assets/navbar/tableau_de_bord.svg',
+		flaticon: 'fi fi-rr-apps',
 		text: 'Tableau de bord',
 	},
 	{
 		href: '/mes-menus',
-		src: '/assets/navbar/mes_menus.svg',
+		flaticon: 'fi fi-rr-folder-open',
 		text: 'Mes menus',
 	},
 	{
 		href: '/mes-stats',
-		src: '/assets/navbar/mes_stats.svg',
+		flaticon: 'fi fi-rr-chart-pie-alt',
 		text: 'Mes stats',
 	},
-	{ href: '/exporter', src: '/assets/navbar/exporter.svg', text: 'Exporter' },
+	{
+		href: '/exporter',
+		flaticon: 'fi fi-rr-file-export',
+		text: 'Exporter',
+	},
 	{
 		href: '/mes-parametres',
-		src: '/assets/navbar/mes_parametres.svg',
+		flaticon: 'fi fi-rr-settings-sliders',
 		text: 'Mes paramètres',
 	},
 ]
@@ -43,20 +46,20 @@ function NavComponent() {
 						/>
 					</Link>
 					<ul className="flex w-full flex-col items-start justify-center gap-8">
-						{menuItems.map(({ href, src, text }) => (
-							<li key={href}>
+						{menuItems.map(({ href, flaticon, text }) => (
+							<li key={href} className={'w-full'}>
 								<Link
 									href={href}
-									className="flex flex-row items-center gap-3 no-underline"
+									className="group flex w-full flex-row items-center gap-3 no-underline"
 								>
-									<div className="flex items-center justify-center">
-										<CustomSvgComponent
-											url={src}
-											classNames={'!w-[20px] !h-[20px] bg-white'}
-											alt={text}
-										/>
+									<div className="flex w-full items-center justify-start gap-3 rounded-lg px-4 py-2 transition-all group-hover:bg-cyan-900">
+										<i
+											className={`${flaticon} flex h-[20px] w-[20px] items-center justify-center text-white transition-all group-hover:text-cyan-50`}
+										></i>
+										<p className="text-white transition-all group-hover:text-cyan-50">
+											{text}
+										</p>
 									</div>
-									<span className="text-white">{text}</span>
 								</Link>
 							</li>
 						))}
