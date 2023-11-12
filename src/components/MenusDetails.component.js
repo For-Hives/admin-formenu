@@ -3,38 +3,50 @@ import { useMenusStore } from '@/stores/menu.store'
 import Image from 'next/image'
 import ToggleDishComponent from '@/components/ToggleDish.component'
 import ToggleIngredientComponent from '@/components/ToggleIngredient.component'
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function MenusDetails({ Menu }) {
-	const setStore = useMenusStore(state => state.setMenus)
+export default function MenusDetails({ menu }) {
+	const [loading, setLoading] = useState(true)
+
 	const menuFromStore = useMenusStore(state => state.menus)
+	const setStore = useMenusStore(state => state.setMenus)
 
 	useEffect(() => {
-		setStore(Menu)
-	}, [Menu])
-
-	useEffect(() => {
+		setStore(menu)
 		console.log(menuFromStore)
-	}, [menuFromStore])
+	}, [menu, setStore, menuFromStore])
+
+	useEffect(() => {
+		setLoading(false)
+	}, [])
 
 	return (
 		<>
-			<h2>
-				Vous modifiez le menu : {menuFromStore.id} {menuFromStore.title}
-			</h2>
-			{menuFromStore &&
-				menuFromStore.categories?.map(category => {
-					category.dishes.map(dish => {
-						{
-							dishDetails(dish)
-						}
-					})
-				})}
+			{loading ? (
+				<div>loading</div>
+			) : (
+				<>
+					<h2>
+						Vous modifiez le menu : {menuFromStore?.id} {menuFromStore?.title}
+					</h2>
+					<div className={'flex flex-col gap-8'}>
+						{menuFromStore?.categories?.map(
+							category =>
+								category?.dishes &&
+								category?.dishes.map(dish => (
+									<div key={dish.id}>
+										<DishDetails dish={dish} />
+									</div>
+								))
+						)}
+					</div>
+				</>
+			)}
 		</>
 	)
 }
 
-function dishDetails(dish) {
+export function DishDetails({ dish }) {
 	return (
 		<div
 			key={dish.id}

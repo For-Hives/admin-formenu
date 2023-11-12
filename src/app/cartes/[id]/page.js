@@ -26,7 +26,7 @@ export default async function Page({ params }) {
 					</span>
 				</div>
 				<div className="flex w-full flex-col gap-8 pt-8">
-					<MenusDetails Menu={menu} />
+					<MenusDetails menu={menu} />
 				</div>
 			</main>
 		</>
