@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import NavComponent from '@/components/Global/Nav.component'
+import NavComponent from '@/components/Nav/Nav.component'
 import FormTabsComponent from '@/components/Profil/FormTabs.component'
 
 export default async function Profile() {
