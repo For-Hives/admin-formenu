@@ -4,14 +4,14 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getData } from '@/services/getData'
+import { getDataMe } from '@/services/getData'
 
 export default async function ProfilComponent() {
 	const session = await getServerSession(authOptions)
 	if (!session) {
 		redirect('/auth/signin')
 	}
-	const user = await getData(session)
+	const user = await getDataMe(session)
 
 	return (
 		<div className={'group flex flex-col gap-2 no-underline'}>

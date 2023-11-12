@@ -266,7 +266,7 @@ export async function getNextCategoryInfos(
 	return next_category[0]
 }
 
-export async function getData(session) {
+export async function getDataMe(session) {
 	let response = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/users/me?populate=company`,
 		{
