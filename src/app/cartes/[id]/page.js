@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
-import Nav from '@/components/Global/Nav'
+import Nav from '@/components/Nav/Nav.component'
 import React from 'react'
 
 import MenusDetails from '@/components/MenusDetails.component'
