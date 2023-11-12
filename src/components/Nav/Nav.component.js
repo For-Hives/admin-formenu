@@ -54,7 +54,7 @@ function NavComponent() {
 								>
 									<div className="flex w-full items-center justify-start gap-3 rounded-lg px-4 py-2 transition-all group-hover:bg-cyan-900">
 										<i
-											className={`${flaticon} flex h-[20px] w-[20px] items-center justify-center text-white transition-all group-hover:text-cyan-50`}
+											className={`${flaticon} icon group-hover:text-cyan-50`}
 										></i>
 										<p className="text-white transition-all group-hover:text-cyan-50">
 											{text}
@@ -66,8 +66,7 @@ function NavComponent() {
 					</ul>
 				</div>
 			</div>
-
-			<div className="flex w-full flex-col gap-4">
+			<div className="flex w-full flex-col gap-8">
 				<ProfilComponent />
 				<LogoutButtonComponent />
 			</div>

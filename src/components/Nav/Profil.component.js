@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default async function ProfilComponent() {
 	const session = await getServerSession(authOptions)
@@ -12,7 +13,7 @@ export default async function ProfilComponent() {
 	const user = await getData(session)
 
 	return (
-		<>
+		<div className={'flex flex-col gap-4'}>
 			<span className="italic text-white">Profil</span>
 			<div className="flex w-full flex-row items-center justify-between">
 				<Image
@@ -22,21 +23,16 @@ export default async function ProfilComponent() {
 					height={35}
 				/>
 				<div className="flex flex-col">
-					<span className="text-slate-50">
+					<span className="text-sm text-slate-50">
 						{user.lastname.toUpperCase()} - {user.firstname}
 					</span>
-					<span className="text-sm text-slate-50">{user.company.name}</span>
+					<span className="text-xs text-slate-50/80">{user.company.name}</span>
 				</div>
-				<a href="/src/components/Nav/Profil.component">
-					<Image
-						alt="svg trois points"
-						src={'/assets/navbar/more_icon.svg'}
-						width={24}
-						height={24}
-					/>
-				</a>
+				<Link href="/profil" className={'no-underline'}>
+					<i className="fi fi-rr-menu-dots-vertical icon text-lg"></i>
+				</Link>
 			</div>
-		</>
+		</div>
 	)
 }
 

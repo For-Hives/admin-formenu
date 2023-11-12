@@ -77,3 +77,9 @@ button {
         @apply text-base;
     }
 }
+
+@layer components {
+    .icon {
+        @apply flex h-[20px] w-[20px] items-center justify-center text-white transition-all;
+    }
+}
