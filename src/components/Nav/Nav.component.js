@@ -66,7 +66,7 @@ function NavComponent() {
 					</ul>
 				</div>
 			</div>
-			<div className="flex w-full flex-col gap-8">
+			<div className="flex w-full flex-col gap-6">
 				<ProfilComponent />
 				<LogoutButtonComponent />
 			</div>

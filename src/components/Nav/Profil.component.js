@@ -14,9 +14,12 @@ export default async function ProfilComponent() {
 	const user = await getData(session)
 
 	return (
-		<div className={'flex flex-col gap-4'}>
+		<div className={'group flex flex-col gap-2 no-underline'}>
 			<span className="italic text-white">Profil</span>
-			<div className="flex w-full flex-row items-center justify-between">
+			<Link
+				href={'/profil'}
+				className="flex w-full flex-row items-center justify-between rounded-lg p-2 no-underline transition hover:bg-cyan-900"
+			>
 				<Image
 					alt="photo profil"
 					src={'/assets/navbar/pp.png'}
@@ -29,10 +32,10 @@ export default async function ProfilComponent() {
 					</span>
 					<span className="text-xs text-slate-50/80">{user.company.name}</span>
 				</div>
-				<Link href="/profil" className={'no-underline'}>
+				<div href="/profil">
 					<i className="fi fi-rr-menu-dots-vertical icon text-lg"></i>
-				</Link>
-			</div>
+				</div>
+			</Link>
 		</div>
 	)
 }
