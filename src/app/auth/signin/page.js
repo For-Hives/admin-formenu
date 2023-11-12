@@ -50,8 +50,8 @@ function Signin() {
 
 	return (
 		<Suspense fallback={<LoaderComponent />}>
-			<div className="relative flex h-[95vh] max-h-screen overflow-hidden md:h-screen md:overflow-auto md:bg-white">
-				<div className="flex flex-1 flex-col justify-center bg-white px-4 sm:px-6 md:py-12 md:pt-12 lg:flex-none lg:px-20 xl:px-24">
+			<div className="relative flex h-[95vh] max-h-screen overflow-hidden md:h-screen">
+				<div className="flex flex-1 flex-col justify-center px-4 sm:px-6 md:py-12 md:pt-12 lg:flex-none lg:px-20 xl:px-24">
 					<div className="mx-auto w-full max-w-sm lg:w-96">
 						<div>
 							<Link
@@ -163,36 +163,37 @@ function Signin() {
 									Vous êtes déjà connecté
 								</h2>
 
-								<Link
-									type="submit"
-									className="btn-alt-primary mt-8"
-									href={'/auth/profil'}
-								>
-									Retourner sur mon profil
-								</Link>
-
-								<button
-									type="submit"
-									className="btn-primary-large mt-8"
-									onClick={() => {
-										signOut()
-									}}
-								>
-									Se déconnecter
-								</button>
+								<div className={'flex gap-3'}>
+									<Link
+										type="submit"
+										className="btn-alt-primary mt-8"
+										href={'/auth/profil'}
+									>
+										Retourner sur mon profil
+									</Link>
+									<button
+										type="submit"
+										className="btn-primary-large mt-8"
+										onClick={() => {
+											signOut()
+										}}
+									>
+										Se déconnecter
+									</button>
+								</div>
 							</div>
 						)}
 					</div>
 				</div>
 
-				<div className="relative hidden w-full flex-1 lg:block lg:object-contain">
+				<div className="relative hidden w-full flex-1 translate-x-[10%] transform lg:block">
 					<div className="flex h-full items-center justify-end">
 						<Image
 							src={'/assets/signin-assets/illustration.webp'}
 							alt={'background formenu'}
 							width={1179}
 							height={725}
-							className={'h-[725px] w-[1179px]'}
+							className={'h-[750px] w-[1200px] object-contain'}
 						/>
 					</div>
 				</div>

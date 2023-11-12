@@ -35,11 +35,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="fr" className={`${kanit.variable} ${playpen_sans.variable}`}>
-			<body
-				className={
-					'flex min-h-screen w-full flex-col bg-slate-50 text-slate-950'
-				}
-			>
+			<body className={'flex min-h-screen w-full flex-col text-slate-950'}>
 				<WrapNextUiProvider>
 					<WrapSessionProvider>
 						<StoreProvider>{children}</StoreProvider>
