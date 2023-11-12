@@ -138,7 +138,7 @@ function Signin() {
 											<button
 												data-cy="email-signin"
 												type="submit"
-												className="h-[40px] w-full rounded-md bg-cyan-900 text-sm text-white no-underline"
+												className="h-[40px] w-full rounded-md bg-sky-900 text-sm text-white no-underline"
 											>
 												Se connecter
 											</button>

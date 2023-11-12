@@ -34,7 +34,7 @@ const menuItems = [
 
 function NavComponent() {
 	return (
-		<nav className="fixed left-0 top-0 flex h-full min-h-screen w-[250px] flex-col justify-between bg-cyan-950 p-6">
+		<nav className="fixed left-0 top-0 flex h-full min-h-screen w-[250px] flex-col justify-between bg-sky-950 p-6">
 			<div className="h-full w-full flex-col">
 				<div className="flex w-full flex-col gap-16">
 					<Link href="/" className="flex flex-row items-center">
@@ -52,11 +52,11 @@ function NavComponent() {
 									href={href}
 									className="group flex w-full flex-row items-center gap-3 no-underline"
 								>
-									<div className="flex w-full items-center justify-start gap-3 rounded-lg px-4 py-2 transition-all group-hover:bg-cyan-900">
+									<div className="flex w-full items-center justify-start gap-3 rounded-lg px-4 py-2 transition-all group-hover:bg-sky-900">
 										<i
-											className={`${flaticon} icon group-hover:text-cyan-50`}
+											className={`${flaticon} icon group-hover:text-sky-50`}
 										></i>
-										<p className="text-white transition-all group-hover:text-cyan-50">
+										<p className="text-white transition-all group-hover:text-sky-50">
 											{text}
 										</p>
 									</div>

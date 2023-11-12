@@ -18,7 +18,7 @@ export default async function ProfilComponent() {
 			<span className="italic text-white">Profil</span>
 			<Link
 				href={'/profil'}
-				className="flex w-full flex-row items-center justify-between rounded-lg p-2 no-underline transition hover:bg-cyan-900"
+				className="flex w-full flex-row items-center justify-between rounded-lg p-2 no-underline transition hover:bg-sky-900"
 			>
 				<Image
 					alt="photo profil"

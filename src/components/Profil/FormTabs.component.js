@@ -1,11 +1,11 @@
 'use client'
 import React, { useState } from 'react'
-import { Tabs, Tab, Card, CardBody } from '@nextui-org/react'
+import { Tab, Tabs } from '@nextui-org/react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
-import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
+import { changePassword } from '@/services/changePassword'
 
 const schema = zod
 	.object({
@@ -63,14 +63,14 @@ export function FormTabsComponent({ user }) {
 								type="text"
 								name="lastname"
 								placeholder="Nom"
-								className="grow rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+								className="grow rounded-md border-sky-900 shadow-sm"
 								defaultValue={user.lastname}
 							/>
 							<input
 								type="text"
 								name="firstname"
 								placeholder="Prénom"
-								className="grow rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+								className="grow rounded-md border-sky-900 shadow-sm"
 								defaultValue={user.firstname}
 							/>
 						</div>
@@ -81,7 +81,7 @@ export function FormTabsComponent({ user }) {
 							type="email"
 							name="email"
 							placeholder="exemple@formenu.fr"
-							className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+							className="rounded-md border-sky-900 shadow-sm"
 							defaultValue={user.email}
 						/>
 					</div>
@@ -91,7 +91,7 @@ export function FormTabsComponent({ user }) {
 							type="tel"
 							name="phone"
 							placeholder="+33 6 00 00 00 00"
-							className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+							className="rounded-md border-sky-900 shadow-sm"
 							defaultValue={user.phoneNumber}
 						/>
 					</div>
@@ -133,7 +133,7 @@ export function FormTabsComponent({ user }) {
 					<div className="flex w-full justify-end">
 						<button
 							type="submit"
-							className="w-[275px] rounded-md bg-indigo-900 p-2 text-white no-underline hover:bg-indigo-700"
+							className="w-[275px] rounded-md bg-sky-900 p-2 text-white no-underline hover:bg-sky-700"
 						>
 							Enregistrer les changements
 						</button>
@@ -157,7 +157,7 @@ export function FormTabsComponent({ user }) {
 							name="currentPassword"
 							{...register('currentPassword')}
 							placeholder="************"
-							className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+							className="rounded-md border-sky-900 shadow-sm"
 						/>
 						{errors.currentPassword && (
 							<p className={'mt-2 text-xs text-red-500/80'}>
@@ -172,7 +172,7 @@ export function FormTabsComponent({ user }) {
 							name="password"
 							{...register('password')}
 							placeholder="************"
-							className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+							className="rounded-md border-sky-900 shadow-sm"
 						/>
 						{errors.password && (
 							<p className={'mt-2 text-xs text-red-500/80'}>
@@ -187,7 +187,7 @@ export function FormTabsComponent({ user }) {
 							name="passwordConfirmation"
 							{...register('passwordConfirmation')}
 							placeholder="************"
-							className="rounded-md border-cyan-900 shadow-sm shadow-cyan-300"
+							className="rounded-md border-sky-900 shadow-sm"
 						/>
 						{errors.passwordConfirmation && (
 							<p className={'mt-2 text-xs text-red-500/80'}>
@@ -198,7 +198,7 @@ export function FormTabsComponent({ user }) {
 					<div className="flex w-full justify-end">
 						<button
 							type="submit"
-							className="w-[275px] rounded-md bg-indigo-900 p-2 text-white no-underline hover:bg-indigo-700"
+							className="w-[275px] rounded-md bg-sky-900 p-2 text-white no-underline hover:bg-sky-700"
 						>
 							Changer mon mot de passe
 						</button>
@@ -210,27 +210,3 @@ export function FormTabsComponent({ user }) {
 }
 
 export default FormTabsComponent
-
-export function changePassword(session, data) {
-	fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/change-password`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-			Authorization: `Bearer ${session.data.jwt}`,
-		},
-		body: JSON.stringify({
-			...data,
-		}),
-	})
-		.then(response => {
-			return response.json()
-		})
-		.catch(err =>
-			toast('Une erreur est survenue, veuillez réessayer plus tard', {
-				type: 'error',
-				icon: '⛔',
-				toastId: 'toast-alert',
-			})
-		)
-}
