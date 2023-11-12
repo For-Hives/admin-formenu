@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { getData } from '@/services/getData'
 
 export default async function ProfilComponent() {
 	const session = await getServerSession(authOptions)
@@ -24,7 +25,7 @@ export default async function ProfilComponent() {
 				/>
 				<div className="flex flex-col">
 					<span className="text-sm text-slate-50">
-						{user.lastname.toUpperCase()} - {user.firstname}
+						{user.lastname.toUpperCase()} {user.firstname}
 					</span>
 					<span className="text-xs text-slate-50/80">{user.company.name}</span>
 				</div>
@@ -34,22 +35,4 @@ export default async function ProfilComponent() {
 			</div>
 		</div>
 	)
-}
-
-export async function getData(session) {
-	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/users/me?populate=company`,
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${session.jwt}`,
-			},
-		}
-	)
-	if (!response.ok) {
-		throw new Error('Failed to fetch data')
-	}
-	return await response.json()
 }
