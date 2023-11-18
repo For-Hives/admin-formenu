@@ -14,7 +14,7 @@ export default function ToggleIngredientComponent({ id, activated, menuId }) {
 				name="activated"
 				type="checkbox"
 				id={id}
-				defaultChecked={activated}
+				checked={activated}
 				onChange={e =>
 					toggleMenuState(
 						e.target.id,
@@ -61,6 +61,5 @@ async function toggleMenuState(id, activated, session, menuId, setStore) {
 		throw new Error('Failed to PUT data')
 	}
 	const newMenu = await getMenu(menuId, session)
-	const menuParsed = JSON.parse(JSON.stringify(newMenu))
-	setStore(menuParsed)
+	setStore(newMenu)
 }

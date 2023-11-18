@@ -1,51 +1,42 @@
 'use client'
-import { useMenusStore } from '@/stores/menu.store'
 import Image from 'next/image'
 import ToggleDishComponent from '@/components/ToggleDish.component'
 import ToggleIngredientComponent from '@/components/ToggleIngredient.component'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useMenusStore } from '@/stores/menu.store'
 
 export default function MenusDetails({ menu }) {
 	const menuFromStore = useMenusStore(state => state.menu)
 	const setStore = useMenusStore(state => state.setMenu)
-	const [renderKey, setRenderKey] = useState(0)
 
 	useEffect(() => {
-		if (!menuFromStore || Object.keys(menuFromStore).length === 0) {
+		if (menuFromStore.id !== menu.id) {
 			setStore(menu)
 		}
-		setRenderKey(prevKey => prevKey + 1)
-	}, [menu, setStore])
-
-	// useEffect(() => {
-	// 	setStore(menu)
-	// }, [])
+	}, [menu, menuFromStore, setStore])
 
 	return (
 		<>
-			<div key={renderKey}>
-				{Object.keys(menuFromStore).length === 0 ? (
-					<div>loading</div>
-				) : (
-					<>
-						<h2>
-							Vous modifiez le menu : {menuFromStore?.id} {menuFromStore?.title}
-						</h2>
-						<div className={'flex flex-col gap-8'}>
-							{menuFromStore?.categories?.map(
-								category =>
-									category?.dishes &&
-									category?.dishes.map(dish => (
-										<div key={dish.id}>
-											{renderKey}
-											<DishDetails dish={dish} menuId={menuFromStore?.id} />
-										</div>
-									))
-							)}
-						</div>
-					</>
-				)}
-			</div>
+			{!menuFromStore ? (
+				<div>loading</div>
+			) : (
+				<>
+					<h2>
+						Vous modifiez le menu : {menuFromStore?.id} {menuFromStore?.title}
+					</h2>
+					<div className={'flex flex-col gap-8'}>
+						{menuFromStore?.categories?.map(
+							category =>
+								category?.dishes &&
+								category?.dishes.map(dish => (
+									<div key={dish.id}>
+										<DishDetails dish={dish} menuId={menuFromStore?.id} />
+									</div>
+								))
+						)}
+					</div>
+				</>
+			)}
 		</>
 	)
 }

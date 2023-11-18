@@ -33,7 +33,3 @@ export default async function Page({ params }) {
 		</>
 	)
 }
-
-// function setMenusToStore(menus) {
-// 	useMenusStore(state => state.setMenus(menus))
-// }
