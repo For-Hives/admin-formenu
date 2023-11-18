@@ -6,47 +6,51 @@ import ToggleIngredientComponent from '@/components/ToggleIngredient.component'
 import { useEffect, useState } from 'react'
 
 export default function MenusDetails({ menu }) {
-	const [loading, setLoading] = useState(true)
-
-	const menuFromStore = useMenusStore(state => state.menus)
-	const setStore = useMenusStore(state => state.setMenus)
-
-	useEffect(() => {
-		setStore(menu)
-		console.log(menuFromStore)
-	}, [menu, setStore, menuFromStore])
+	const menuFromStore = useMenusStore(state => state.menu)
+	const setStore = useMenusStore(state => state.setMenu)
+	const [renderKey, setRenderKey] = useState(0)
 
 	useEffect(() => {
-		setLoading(false)
-	}, [])
+		if (!menuFromStore || Object.keys(menuFromStore).length === 0) {
+			setStore(menu)
+		}
+		setRenderKey(prevKey => prevKey + 1)
+	}, [menu, setStore])
+
+	// useEffect(() => {
+	// 	setStore(menu)
+	// }, [])
 
 	return (
 		<>
-			{loading ? (
-				<div>loading</div>
-			) : (
-				<>
-					<h2>
-						Vous modifiez le menu : {menuFromStore?.id} {menuFromStore?.title}
-					</h2>
-					<div className={'flex flex-col gap-8'}>
-						{menuFromStore?.categories?.map(
-							category =>
-								category?.dishes &&
-								category?.dishes.map(dish => (
-									<div key={dish.id}>
-										<DishDetails dish={dish} />
-									</div>
-								))
-						)}
-					</div>
-				</>
-			)}
+			<div key={renderKey}>
+				{Object.keys(menuFromStore).length === 0 ? (
+					<div>loading</div>
+				) : (
+					<>
+						<h2>
+							Vous modifiez le menu : {menuFromStore?.id} {menuFromStore?.title}
+						</h2>
+						<div className={'flex flex-col gap-8'}>
+							{menuFromStore?.categories?.map(
+								category =>
+									category?.dishes &&
+									category?.dishes.map(dish => (
+										<div key={dish.id}>
+											{renderKey}
+											<DishDetails dish={dish} menuId={menuFromStore?.id} />
+										</div>
+									))
+							)}
+						</div>
+					</>
+				)}
+			</div>
 		</>
 	)
 }
 
-export function DishDetails({ dish }) {
+export function DishDetails({ dish, menuId }) {
 	return (
 		<div
 			key={dish.id}
@@ -60,35 +64,38 @@ export function DishDetails({ dish }) {
 					height={80}
 					className="col-span-1"
 				/>
-				<div className="col-span-4 flex flex-col">
+				<div className="col-span-6 flex flex-col">
 					<h2>
 						{dish.name} - {dish.id}
 					</h2>
 					<span>{dish.description}</span>
 				</div>
 
-				<div className="col-span-2">
+				<div className="col-span-2 col-start-8">
 					<ToggleDishComponent id={dish.id} activated={dish.activated} />
 				</div>
 			</div>
-			<div className="flex w-4/5 flex-col gap-2">
+			<div className="flex w-4/5 flex-col">
 				<h3 className="pb-2">Ingrédients</h3>
-				{dish.ingredients.map(ingredient => {
-					return (
-						<div
-							key={ingredient.id}
-							className="flex w-full flex-row items-center justify-between bg-amber-300"
-						>
-							<span>
-								{ingredient.name} - {ingredient.id}
-							</span>
-							<ToggleIngredientComponent
-								id={ingredient.id}
-								activated={ingredient.activated}
-							/>
-						</div>
-					)
-				})}
+				<ul className="decoration flex w-full list-disc flex-col gap-2">
+					{dish.ingredients.map(ingredient => {
+						return (
+							<li
+								key={ingredient.id}
+								className="flex w-full flex-row items-center justify-between"
+							>
+								<span>
+									{ingredient.name} - {ingredient.id}
+								</span>
+								<ToggleIngredientComponent
+									id={ingredient.id}
+									activated={ingredient.activated}
+									menuId={menuId}
+								/>
+							</li>
+						)
+					})}
+				</ul>
 			</div>
 		</div>
 	)

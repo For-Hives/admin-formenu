@@ -5,6 +5,7 @@ import Nav from '@/components/Nav/Nav.component'
 import React from 'react'
 
 import MenusDetails from '@/components/MenusDetails.component'
+import { getMenu } from '@/services/getMenu'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
@@ -31,25 +32,6 @@ export default async function Page({ params }) {
 			</main>
 		</>
 	)
-}
-
-async function getMenu(id, session) {
-	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/menu-deep/${id}`,
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${session.jwt}`,
-			},
-		}
-	)
-	if (!response.ok) {
-		throw new Error('Failed to fetch Data')
-	}
-
-	return await response.json()
 }
 
 // function setMenusToStore(menus) {

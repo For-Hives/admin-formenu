@@ -1,9 +1,13 @@
 'use client'
 import React from 'react'
 import { useSession } from 'next-auth/react'
+import { useMenusStore } from '@/stores/menu.store'
+import { getMenu } from '@/services/getMenu'
 
-export default function ToggleIngredientComponent({ id, activated }) {
+export default function ToggleIngredientComponent({ id, activated, menuId }) {
 	const { data: session } = useSession()
+	const setStore = useMenusStore(state => state.setMenu)
+
 	return (
 		<label className="relative inline-flex cursor-pointer items-center">
 			<input
@@ -11,7 +15,15 @@ export default function ToggleIngredientComponent({ id, activated }) {
 				type="checkbox"
 				id={id}
 				defaultChecked={activated}
-				onChange={e => toggleMenuState(e.target.id, e.target.checked, session)}
+				onChange={e =>
+					toggleMenuState(
+						e.target.id,
+						e.target.checked,
+						session,
+						menuId,
+						setStore
+					)
+				}
 				className="peer sr-only"
 			/>
 			<div
@@ -25,7 +37,7 @@ export default function ToggleIngredientComponent({ id, activated }) {
 	)
 }
 
-async function toggleMenuState(id, activated, session) {
+async function toggleMenuState(id, activated, session, menuId, setStore) {
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/ingredients/${id}`,
 		{
@@ -48,5 +60,7 @@ async function toggleMenuState(id, activated, session) {
 		// This will activate the closest `error.js` Error Boundary
 		throw new Error('Failed to PUT data')
 	}
-	return res.json()
+	const newMenu = await getMenu(menuId, session)
+	const menuParsed = JSON.parse(JSON.stringify(newMenu))
+	setStore(menuParsed)
 }
