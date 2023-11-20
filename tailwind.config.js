@@ -51,10 +51,10 @@ module.exports = {
 							700: '#0369a1',
 							800: '#075985',
 							900: '#0c4a6e',
-							DEFAULT: '#38bdf8',
-							foreground: '#000000',
+							DEFAULT: '#082f49',
+							foreground: '#fff',
 						},
-						focus: '#38bdf8',
+						focus: '#082f49',
 					},
 				},
 				light: {
