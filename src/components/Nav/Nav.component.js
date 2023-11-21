@@ -9,26 +9,31 @@ const menuItems = [
 		href: '/',
 		flaticon: 'fi fi-rr-apps',
 		text: 'Tableau de bord',
+		disabled: false,
 	},
 	{
 		href: '/mes-menus',
 		flaticon: 'fi fi-rr-folder-open',
 		text: 'Mes menus',
+		disabled: true,
 	},
 	{
 		href: '/mes-stats',
 		flaticon: 'fi fi-rr-chart-pie-alt',
 		text: 'Mes stats',
+		disabled: true,
 	},
 	{
 		href: '/exporter',
 		flaticon: 'fi fi-rr-file-export',
 		text: 'Exporter',
+		disabled: true,
 	},
 	{
 		href: '/mes-parametres',
 		flaticon: 'fi fi-rr-settings-sliders',
 		text: 'Mes paramètres',
+		disabled: true,
 	},
 ]
 
@@ -46,11 +51,15 @@ function NavComponent() {
 						/>
 					</Link>
 					<ul className="flex w-full flex-col items-start justify-center gap-8">
-						{menuItems.map(({ href, flaticon, text }) => (
+						{menuItems.map(({ href, flaticon, text, disabled }) => (
 							<li key={href} className={'w-full'}>
 								<Link
+									as={'button'}
+									disabled={disabled}
 									href={href}
-									className="group flex w-full flex-row items-center gap-3 no-underline"
+									className={`group flex w-full flex-row items-center gap-3 no-underline ${
+										disabled ? 'pointer-events-none opacity-25' : 'opacity-100'
+									}`}
 								>
 									<div className="flex w-full items-center justify-start gap-3 rounded-lg px-4 py-2 transition-all group-hover:bg-sky-900">
 										<i
