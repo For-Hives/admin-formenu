@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Nav from '@/components/Nav/Nav.component'
 import { get_data_menus } from '@/services/getData'
 import Image from 'next/image'
-import ToggleMenuComponent from '@/components/ToggleMenu.component'
+import ToggleMenuComponent from '@/components/Toggle/ToggleMenu.component'
 import Link from 'next/link'
 
 export default async function Cartes() {
