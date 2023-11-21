@@ -4,12 +4,23 @@ import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 import ToggleIngredientComponent from '@/components/Toggle/ToggleIngredient.component'
 import React, { useEffect } from 'react'
 import { useMenusStore } from '@/stores/menu.store'
-import Link from 'next/link'
+import {
+	Modal,
+	ModalContent,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	Button,
+	useDisclosure,
+	Checkbox,
+	Input,
+	Link,
+} from '@nextui-org/react'
 
 export default function MenusDetails({ menu }) {
 	const menuFromStore = useMenusStore(state => state.menu)
 	const setStore = useMenusStore(state => state.setMenu)
-
+	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	useEffect(() => {
 		if (menuFromStore.id !== menu.id) {
 			setStore(menu)
@@ -22,6 +33,56 @@ export default function MenusDetails({ menu }) {
 				<div>loading</div>
 			) : (
 				<>
+					<Modal
+						isOpen={isOpen}
+						onOpenChange={onOpenChange}
+						placement="top-center"
+					>
+						<ModalContent>
+							{onClose => (
+								<>
+									<ModalHeader className="flex flex-col gap-1">
+										Log in
+									</ModalHeader>
+									<ModalBody>
+										<Input
+											autoFocus
+											label="Email"
+											placeholder="Enter your email"
+											variant="bordered"
+										/>
+										<Input
+											label="Password"
+											placeholder="Enter your password"
+											type="password"
+											variant="bordered"
+										/>
+										<div className="flex justify-between px-1 py-2">
+											<Checkbox
+												classNames={{
+													label: 'text-small',
+												}}
+											>
+												Remember me
+											</Checkbox>
+											<Link color="primary" href="#" size="sm">
+												Forgot password?
+											</Link>
+										</div>
+									</ModalBody>
+									<ModalFooter>
+										<Button color="danger" variant="flat" onPress={onClose}>
+											Close
+										</Button>
+										<Button color="primary" onPress={onClose}>
+											Sign in
+										</Button>
+									</ModalFooter>
+								</>
+							)}
+						</ModalContent>
+					</Modal>
+
 					<h2>
 						→{' '}
 						<span className={'font-playpen_sans font-black italic'}>
@@ -35,7 +96,11 @@ export default function MenusDetails({ menu }) {
 								category?.dishes &&
 								category?.dishes.map(dish => (
 									<div key={dish.id} className={'h-full w-full'}>
-										<DishDetails dish={dish} menuId={menuFromStore?.id} />
+										<DishDetails
+											dish={dish}
+											menuId={menuFromStore?.id}
+											onOpen={onOpen}
+										/>
 									</div>
 								))
 						)}
@@ -46,7 +111,7 @@ export default function MenusDetails({ menu }) {
 	)
 }
 
-export function DishDetails({ dish, menuId }) {
+export function DishDetails({ dish, menuId, onOpen }) {
 	return (
 		<div
 			key={dish.id}
@@ -84,8 +149,9 @@ export function DishDetails({ dish, menuId }) {
 
 			{/*// href={`/cartes/${menu.id}`}*/}
 			{/*fixme change this to get the update element */}
-			<Link className="absolute right-0 top-0 p-[10px]" href={'#'}>
-				<div
+			<div className="absolute right-0 top-0 p-[10px]" href={'#'}>
+				<Link
+					onPress={onOpen}
 					className={
 						'relative flex h-[60px] w-[60px] items-center justify-center overflow-hidden'
 					}
@@ -100,8 +166,8 @@ export function DishDetails({ dish, menuId }) {
 							'-translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
 						}
 					/>
-				</div>
-			</Link>
+				</Link>
+			</div>
 
 			<div className="col-span-11 col-start-2 flex w-full justify-end">
 				<div className={'flex w-full flex-col'}>
