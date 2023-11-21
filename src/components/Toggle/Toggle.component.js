@@ -1,9 +1,13 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cn, Switch } from '@nextui-org/react'
 
 function ToggleComponent({ id, activated, onUpdate }) {
-	const [isSelected, setIsSelected] = useState(activated)
+	const [isSelected, setIsSelected] = useState(activated ?? true)
+
+	useEffect(() => {
+		setIsSelected(activated)
+	}, [activated])
 
 	const handleChange = async checked => {
 		setIsSelected(checked)
@@ -11,11 +15,11 @@ function ToggleComponent({ id, activated, onUpdate }) {
 			await onUpdate(id, checked)
 		}
 	}
-
 	return (
 		<Switch
 			onChange={e => handleChange(e.target.checked)}
 			isSelected={isSelected}
+			checked={isSelected}
 			size="sm"
 			color="primary"
 			classNames={{
@@ -30,6 +34,23 @@ function ToggleComponent({ id, activated, onUpdate }) {
 			startContent={<p>&nbsp;&nbsp;&nbsp;activé</p>}
 			endContent={<p>désactivé&nbsp;</p>}
 		/>
+		// <label className="relative inline-flex cursor-pointer items-center">
+		// 	<input
+		// 		name="activated"
+		// 		type="checkbox"
+		// 		id={id}
+		// 		checked={activated}
+		// 		onChange={e => handleChange(e.target.checked)}
+		// 		className="peer sr-only"
+		// 	/>
+		// 	<div
+		// 		className="peer h-[28px] w-[100px] rounded bg-gray-200 after:absolute after:left-[4px]
+		// 								after:top-[4px] after:h-[20px] after:w-[20px] after:rounded after:border after:border-gray-300
+		// 								after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-[72px]
+		// 								peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600
+		// 								dark:bg-gray-700 dark:peer-focus:ring-blue-800"
+		// 	></div>
+		// </label>
 	)
 }
 

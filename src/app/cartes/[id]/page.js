@@ -15,7 +15,6 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 
-	console.log(menu)
 	return (
 		<>
 			<Nav />
