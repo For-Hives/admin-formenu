@@ -187,13 +187,13 @@ function Signin() {
 					</div>
 				</div>
 
-				<div className="relative hidden w-full flex-1 translate-x-[10%] transform lg:block">
+				<div className="relative hidden w-full flex-1 translate-x-[15%] transform lg:block">
 					<div className="flex h-full items-center justify-end">
 						<Image
 							src={'/assets/signin-assets/illustration.webp'}
 							alt={'background formenu'}
-							width={1179}
-							height={725}
+							width={1300}
+							height={750}
 							className={'h-[750px] w-[1200px] object-contain'}
 						/>
 					</div>
