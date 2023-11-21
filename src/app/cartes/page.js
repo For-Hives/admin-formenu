@@ -45,12 +45,12 @@ export default async function Cartes() {
 									height={80}
 									className="col-span-1"
 								/>
-								<div className="col-span-7 flex h-full flex-col bg-red-500">
-									<h2>{menu.title}</h2>
-									<span>{menu.description}</span>
+								<div className="col-span-7 flex h-full flex-col">
+									<h2 className={'font-bold'}>{menu.title}</h2>
+									<p className={'font-light'}>{menu.description}</p>
 								</div>
 								{/*	TODO ajout date d'activation de la carte*/}
-								<div className="col-span-2 flex h-full flex-col items-center justify-center bg-blue-500 ">
+								<div className="col-span-2 flex h-full flex-col items-center justify-center">
 									<div className={'flex gap-3'}>
 										<Image
 											src="/icons/calendar_menu.svg"
@@ -61,7 +61,7 @@ export default async function Cartes() {
 										<span className={'text-sm'}>01 Février - 24 Avril</span>
 									</div>
 								</div>
-								<div className="col-span-2 flex h-full items-center justify-end bg-yellow-500">
+								<div className="col-span-2 flex h-full items-center justify-end">
 									<ToggleMenuComponent
 										id={menu.id}
 										activated={menu.activated}

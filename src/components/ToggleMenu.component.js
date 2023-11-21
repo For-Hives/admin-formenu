@@ -15,19 +15,19 @@ export default function ToggleMenuComponent({ id, activated }) {
 			color="primary"
 			classNames={{
 				wrapper: cn(
-					'w-[100px] relative inline-flex cursor-pointer items-center p-2 h-[30px] rounded'
+					'w-[95px] relative inline-flex cursor-pointer items-center p-2 h-[30px] rounded'
 				),
 				thumb: cn(
 					'rounded h-[20px] w-[20px] bg-white',
 					//selected
-					'group-data-[selected=true]:ml-[64px]'
+					'group-data-[selected=true]:ml-[59px]'
 					// pressed
 					// 'group-data-[pressed=true]:h-[20px] w-[20px]',
 					// 'group-data-[selected]:group-data-[pressed]:ml-4'
 				),
 			}}
-			startContent={<p>activé</p>}
-			endContent={<p>désactivé</p>}
+			startContent={<p>&nbsp;&nbsp;&nbsp;activé</p>}
+			endContent={<p>désactivé&nbsp;</p>}
 		/>
 		// <label className="relative inline-flex cursor-pointer items-center">
 		// 	<input
