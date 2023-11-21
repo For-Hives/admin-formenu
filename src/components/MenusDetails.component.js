@@ -103,28 +103,30 @@ export function DishDetails({ dish, menuId }) {
 				</div>
 			</Link>
 
-			{/*<div className="flex w-4/5 flex-col">*/}
-			{/*	<h3 className="pb-2">Ingrédients</h3>*/}
-			{/*	<ul className="decoration flex w-full list-disc flex-col gap-2">*/}
-			{/*		{dish.ingredients.map(ingredient => {*/}
-			{/*			return (*/}
-			{/*				<li*/}
-			{/*					key={ingredient.id}*/}
-			{/*					className="flex w-full flex-row items-center justify-between"*/}
-			{/*				>*/}
-			{/*					<span>*/}
-			{/*						{ingredient.name} - {ingredient.id}*/}
-			{/*					</span>*/}
-			{/*					<ToggleIngredientComponent*/}
-			{/*						id={ingredient.id}*/}
-			{/*						activated={ingredient.activated}*/}
-			{/*						menuId={menuId}*/}
-			{/*					/>*/}
-			{/*				</li>*/}
-			{/*			)*/}
-			{/*		})}*/}
-			{/*	</ul>*/}
-			{/*</div>*/}
+			<div className="col-span-11 col-start-2 flex w-full justify-end">
+				<div className={'flex w-full flex-col'}>
+					<h3 className="pb-2">Ingrédients</h3>
+					<ul className="decoration flex w-full list-disc flex-col gap-2">
+						{dish.ingredients.map(ingredient => {
+							return (
+								<li
+									key={ingredient.id}
+									className="flex w-full flex-row items-center justify-between"
+								>
+									<span>
+										{ingredient.name} - {ingredient.id}
+									</span>
+									<ToggleIngredientComponent
+										id={ingredient.id}
+										activated={ingredient.activated}
+										menuId={menuId}
+									/>
+								</li>
+							)
+						})}
+					</ul>
+				</div>
+			</div>
 		</div>
 	)
 }

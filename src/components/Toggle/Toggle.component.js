@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { cn, Switch } from '@nextui-org/react'
 
 function ToggleComponent({ id, activated, onUpdate }) {
-	const [isSelected, setIsSelected] = useState(activated ?? true)
+	const [isSelected, setIsSelected] = useState(activated)
 
 	const handleChange = async checked => {
 		setIsSelected(checked)
