@@ -83,7 +83,8 @@ export default async function Cartes() {
 											width={40}
 											height={40}
 											className={
-												'absolute left-[100px] top-1/2 h-[40px] w-[40px] -translate-x-1/2 -translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
+												'absolute left-[100px] top-1/2 h-[40px] w-[40px] -translate-x-1/2 ' +
+												'-translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
 											}
 										/>
 									</div>

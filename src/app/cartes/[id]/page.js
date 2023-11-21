@@ -15,18 +15,24 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 
+	console.log(menu)
 	return (
 		<>
 			<Nav />
-			<main className="min-h-screen w-full overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
-				<div>
-					<h1 className="pb-2">Modification de la carte</h1>
+			<main className="flex min-h-screen w-full flex-col gap-6 overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
+				<div className={'flex flex-col gap-2'}>
+					<h1>
+						Modification de la carte:{' '}
+						<span className={'font-playpen_sans font-black italic'}>
+							&quot;{menu.title}&quot;
+						</span>
+					</h1>
 					<span>
 						Vous pouvez modifier, activer et désactiver des cartes, ingrédients
 						ou plat à la volée ici !
 					</span>
 				</div>
-				<div className="flex w-full flex-col gap-8 pt-8">
+				<div className="flex w-full flex-col gap-8">
 					<MenusDetails menu={menu} />
 				</div>
 			</main>
