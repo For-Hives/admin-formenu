@@ -36,7 +36,7 @@ export default async function Cartes() {
 						return (
 							<div
 								key={menu.id}
-								className="relative grid w-full grid-cols-12 items-center gap-8 rounded-lg bg-white p-8 px-16 shadow-xl"
+								className="group relative grid w-full grid-cols-12 items-center gap-8 rounded-lg bg-white p-8 px-16 shadow-md transition-all hover:shadow-xl"
 							>
 								<Image
 									src="/icons/menu_icon_carte.svg"
@@ -72,12 +72,21 @@ export default async function Cartes() {
 									href={`/cartes/${menu.id}`}
 									className="absolute right-0 top-0 p-[10px]"
 								>
-									<Image
-										src="/icons/change.svg"
-										alt="icone crayon"
-										width={40}
-										height={40}
-									/>
+									<div
+										className={
+											'relative flex h-[60px] w-[60px] items-center justify-center overflow-hidden'
+										}
+									>
+										<Image
+											src="/icons/change.svg"
+											alt="icone crayon"
+											width={40}
+											height={40}
+											className={
+												'absolute left-[100px] top-1/2 h-[40px] w-[40px] -translate-x-1/2 -translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
+											}
+										/>
+									</div>
 								</Link>
 							</div>
 						)
