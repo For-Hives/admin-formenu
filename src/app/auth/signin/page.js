@@ -9,6 +9,8 @@ import { Suspense, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { LoaderComponent } from '@/components/Loaders/Loader.component'
 import { Input } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 const schema = zod
 	.object({
@@ -35,14 +37,30 @@ function Signin() {
 		resolver: zodResolver(schema),
 	})
 
+	const router = useRouter()
+
 	const { data: session } = useSession()
 
-	const onSubmit = data => {
-		const result = signIn('credentials', {
+	const onSubmit = async data => {
+		const { error } = await signIn('credentials', {
+			redirect: false,
 			email: data.email,
 			password: data.password,
-			callbackUrl: '/',
 		})
+		if (error) {
+			toast(`Ce n'est pas le bon email ou mot de passe ! Réessayez !`, {
+				icon: '⚠️',
+				type: 'error',
+				toastId: 'toast-alert',
+			})
+		} else {
+			toast(`Bienvenue !`, {
+				icon: '👋',
+				type: 'success',
+				toastId: 'toast-success',
+			})
+			router.push('/')
+		}
 	}
 
 	useEffect(() => {
