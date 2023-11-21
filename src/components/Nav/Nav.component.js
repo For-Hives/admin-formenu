@@ -54,7 +54,6 @@ function NavComponent() {
 						{menuItems.map(({ href, flaticon, text, disabled }) => (
 							<li key={href} className={'w-full'}>
 								<Link
-									as={'button'}
 									disabled={disabled}
 									href={href}
 									className={`group flex w-full flex-row items-center gap-3 no-underline ${
