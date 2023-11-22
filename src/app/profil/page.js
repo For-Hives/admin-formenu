@@ -17,6 +17,7 @@ export default async function Profile() {
 		<>
 			<NavComponent />
 			{session && (
+				// +4rem -> equivalent of pr-16 / pl-16, space to don't be under the nav bar
 				<main className="min-h-screen w-full overflow-hidden py-8 pl-[calc(250px+4rem)]">
 					<div className="flex w-1/2 flex-col gap-8">
 						<div className="flex w-full flex-col gap-8">

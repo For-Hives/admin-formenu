@@ -18,6 +18,7 @@ export default async function Page({ params }) {
 	return (
 		<>
 			<Nav />
+			{/* +4rem -> equivalent of pr-16 / pl-16, space to don't be under the nav bar  */}
 			<main className="flex min-h-screen w-full flex-col gap-6 overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
 				<div className={'flex flex-col gap-2'}>
 					<h1>Modification de la carte</h1>
