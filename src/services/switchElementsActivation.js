@@ -21,13 +21,11 @@ export async function toggleDishState(id, activated, session) {
 	)
 
 	if (!res.ok) {
-		// This will activate the closest `error.js` Error Boundary
 		toast('Une erreur est survenue, veuillez réessayer plus tard', {
 			type: 'error',
 			icon: '⛔',
 			toastId: 'toast-alert',
 		})
-		throw new Error('Failed to PUT data')
 	} else {
 		toast('Plat modifié avec succès', {
 			type: 'success',
@@ -64,13 +62,11 @@ export async function toggleIngredientState(
 	)
 
 	if (!res.ok) {
-		// This will activate the closest `error.js` Error Boundary
 		toast('Une erreur est survenue, veuillez réessayer plus tard', {
 			type: 'error',
 			icon: '⛔',
 			toastId: 'toast-alert',
 		})
-		throw new Error('Failed to PUT data')
 	} else {
 		toast('Ingrédient modifié avec succès', {
 			type: 'success',
@@ -102,13 +98,11 @@ export async function toggleMenuState(id, activated, session) {
 	)
 
 	if (!res.ok) {
-		// This will activate the closest `error.js` Error Boundary
 		toast('Une erreur est survenue, veuillez réessayer plus tard', {
 			type: 'error',
 			icon: '⛔',
 			toastId: 'toast-alert',
 		})
-		throw new Error('Failed to PUT data')
 	} else {
 		toast('Menu modifié avec succès', {
 			type: 'success',
