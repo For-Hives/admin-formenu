@@ -54,10 +54,10 @@ function NavComponent() {
 						{menuItems.map(({ href, flaticon, text, enabled }) => (
 							<li key={href} className={'w-full'}>
 								<Link
-									disabled={enabled}
+									disabled={!enabled}
 									href={href}
 									className={`group flex w-full flex-row items-center gap-3 no-underline ${
-										enabled ? 'pointer-events-none opacity-25' : 'opacity-100'
+										!enabled ? 'pointer-events-none opacity-25' : 'opacity-100'
 									}`}
 								>
 									<div className="flex w-full items-center justify-start gap-3 rounded-lg px-4 py-2 transition-all group-hover:bg-sky-900">
