@@ -71,7 +71,7 @@ function Signin() {
 		<Suspense fallback={<LoaderComponent />}>
 			<div className="relative flex h-[95vh] max-h-screen overflow-hidden md:h-screen">
 				<div className="flex flex-1 flex-col justify-center px-4 sm:px-6 md:py-12 md:pt-12 lg:flex-none lg:px-20 xl:px-24">
-					<div className="mx-auto w-full max-w-sm lg:w-96">
+					<div className="mx-auto w-full max-w-sm xl:w-96">
 						<div>
 							<Link
 								className="flex flex-row items-center no-underline"
@@ -205,14 +205,14 @@ function Signin() {
 					</div>
 				</div>
 
-				<div className="relative hidden w-full flex-1 translate-x-[15%] transform lg:block">
+				<div className="relative hidden w-full flex-1 translate-x-[15%] transform xl:block">
 					<div className="flex h-full items-center justify-end">
 						<Image
 							src={'/assets/signin-assets/illustration.webp'}
 							alt={'background formenu'}
 							width={1300}
 							height={750}
-							className={'h-[750px] w-[1200px] object-contain'}
+							className={'object-contain'}
 						/>
 					</div>
 				</div>
