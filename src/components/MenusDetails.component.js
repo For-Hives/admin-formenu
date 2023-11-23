@@ -34,40 +34,24 @@ export default function MenusDetails({ menu }) {
 			) : (
 				<>
 					<Modal
-						isOpen={isOpen}
+						isOpen={!isOpen}
 						onOpenChange={onOpenChange}
-						placement="top-center"
+						placement="center"
+						classNames={{
+							base: '!w-[90vw] max-w-[90vw] h-[90vh]',
+							header: 'border-b-[1px] border-[#f0f9ff]',
+							footer: 'border-t-[1px] border-[#f0f9ff]',
+						}}
 					>
 						<ModalContent>
 							{onClose => (
 								<>
 									<ModalHeader className="flex flex-col gap-1">
-										Log in
+										Modification du plat
 									</ModalHeader>
 									<ModalBody>
-										<Input
-											autoFocus
-											label="Email"
-											placeholder="Enter your email"
-											variant="bordered"
-										/>
-										<Input
-											label="Password"
-											placeholder="Enter your password"
-											type="password"
-											variant="bordered"
-										/>
-										<div className="flex justify-between px-1 py-2">
-											<Checkbox
-												classNames={{
-													label: 'text-small',
-												}}
-											>
-												Remember me
-											</Checkbox>
-											<Link color="primary" href="#" size="sm">
-												Forgot password?
-											</Link>
+										<div className={'h-full w-full bg-red-500'}>
+											{/*	fixme - here the modal */}
 										</div>
 									</ModalBody>
 									<ModalFooter>
