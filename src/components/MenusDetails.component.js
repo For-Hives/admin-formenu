@@ -50,8 +50,36 @@ export default function MenusDetails({ menu }) {
 										Modification du plat
 									</ModalHeader>
 									<ModalBody>
-										<div className={'h-full w-full bg-red-500'}>
-											{/*	fixme - here the modal */}
+										<div
+											className={
+												'grid h-full w-full grid-cols-12 gap-8 bg-red-100 p-8'
+											}
+										>
+											{/* column 1 */}
+											<div>
+												<h2>Quel est le nom de votre plat ?</h2>
+												<p>
+													Ce sera cet élément qui sera vu de prime abord et qui
+													sera afficher en premier, mettez ce que vous voulez !
+												</p>
+												<Input
+													data-cy="name_dish"
+													id="name_dish"
+													name="name_dish"
+													type="text"
+													size={'sm'}
+													label="name_dish"
+													radius={'sm'}
+													variant={'bordered'}
+													color={'primary'}
+													// isInvalid={!!errors.password}
+													// errorMessage={errors.password?.message}
+													autoComplete="current-password"
+												/>
+												{/*{...register('password', {*/}
+												{/*	required: true,*/}
+												{/*})}*/}
+											</div>
 										</div>
 									</ModalBody>
 									<ModalFooter>
