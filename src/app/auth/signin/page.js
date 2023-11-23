@@ -8,6 +8,9 @@ import * as zod from 'zod'
 import { Suspense, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { LoaderComponent } from '@/components/Loaders/Loader.component'
+import { Input } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 const schema = zod
 	.object({
@@ -34,14 +37,30 @@ function Signin() {
 		resolver: zodResolver(schema),
 	})
 
+	const router = useRouter()
+
 	const { data: session } = useSession()
 
-	const onSubmit = data => {
-		const result = signIn('credentials', {
+	const onSubmit = async data => {
+		const { error } = await signIn('credentials', {
+			redirect: false,
 			email: data.email,
 			password: data.password,
-			callbackUrl: '/',
 		})
+		if (error) {
+			toast(`Ce n'est pas le bon email ou mot de passe ! Réessayez !`, {
+				icon: '⚠️',
+				type: 'error',
+				toastId: 'toast-alert',
+			})
+		} else {
+			toast(`Bienvenue !`, {
+				icon: '👋',
+				type: 'success',
+				toastId: 'toast-success',
+			})
+			router.push('/')
+		}
 	}
 
 	useEffect(() => {
@@ -52,7 +71,7 @@ function Signin() {
 		<Suspense fallback={<LoaderComponent />}>
 			<div className="relative flex h-[95vh] max-h-screen overflow-hidden md:h-screen">
 				<div className="flex flex-1 flex-col justify-center px-4 sm:px-6 md:py-12 md:pt-12 lg:flex-none lg:px-20 xl:px-24">
-					<div className="mx-auto w-full max-w-sm lg:w-96">
+					<div className="mx-auto w-full max-w-sm xl:w-96">
 						<div>
 							<Link
 								className="flex flex-row items-center no-underline"
@@ -90,47 +109,47 @@ function Signin() {
 									>
 										<div>
 											<div className="mt-2">
-												<input
+												<Input
 													data-cy="email-input"
 													id="email"
 													name="email"
 													type="text"
-													placeholder="Email"
+													size={'sm'}
+													label="Email"
 													autoComplete="email"
+													radius={'sm'}
+													variant={'bordered'}
+													color={'primary'}
+													isInvalid={!!errors.email}
+													errorMessage={errors.email?.message}
+													required
 													{...register('email', {
 														required: true,
 													})}
-													required
-													className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
 												/>
-												{errors.email && (
-													<p className={'mt-2 text-xs text-red-500/80'}>
-														{errors.email.message}
-													</p>
-												)}
 											</div>
 										</div>
 
 										<div className="space-y-1">
 											<div className="mt-2">
-												<input
+												<Input
 													data-cy="password-input"
 													id="password"
 													name="password"
 													type="password"
-													placeholder="Mot de passe"
+													size={'sm'}
+													label="password"
+													radius={'sm'}
+													variant={'bordered'}
+													color={'primary'}
+													isInvalid={!!errors.password}
+													errorMessage={errors.password?.message}
+													required
 													autoComplete="current-password"
 													{...register('password', {
 														required: true,
 													})}
-													required
-													className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
 												/>
-												{errors.password && (
-													<p className={'mt-2 text-xs text-red-500/80'}>
-														{errors.password.message}
-													</p>
-												)}
 											</div>
 										</div>
 
@@ -186,14 +205,14 @@ function Signin() {
 					</div>
 				</div>
 
-				<div className="relative hidden w-full flex-1 translate-x-[10%] transform lg:block">
+				<div className="relative hidden w-full flex-1 translate-x-[15%] transform xl:block">
 					<div className="flex h-full items-center justify-end">
 						<Image
 							src={'/assets/signin-assets/illustration.webp'}
 							alt={'background formenu'}
-							width={1179}
-							height={725}
-							className={'h-[750px] w-[1200px] object-contain'}
+							width={1300}
+							height={750}
+							className={'object-contain'}
 						/>
 					</div>
 				</div>

@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import 'react-toastify/dist/ReactToastify.css'
 
 import WrapSessionProvider from '@/providers/WrapSessionProvider'
 import { StoreProvider } from '@/providers/StoreProvider'
@@ -13,7 +14,7 @@ const kanit = Kanit({
 })
 
 const playpen_sans = Playpen_Sans({
-	weight: ['400', '500', '600', '700'],
+	weight: ['200', '300', '400', '500', '600', '700', '800'],
 	subsets: ['latin'],
 	variable: '--font-playpen_sans',
 	style: ['normal'],

@@ -13,6 +13,7 @@ export default async function Home() {
 	return (
 		<>
 			<Nav />
+			{/* +4rem -> equivalent of pr-16 / pl-16, space to don't be under the nav bar  */}
 			<main className="flex min-h-screen w-full items-center justify-center overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
 				<div className="flex w-full flex-row items-center justify-around">
 					<a
