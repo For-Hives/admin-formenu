@@ -15,7 +15,9 @@ import {
 	Checkbox,
 	Input,
 	Link,
+	Textarea,
 } from '@nextui-org/react'
+import { customInput } from '@/styles/customConfNextui'
 
 export default function MenusDetails({ menu }) {
 	const menuFromStore = useMenusStore(state => state.menu)
@@ -36,9 +38,9 @@ export default function MenusDetails({ menu }) {
 					<Modal
 						isOpen={!isOpen}
 						onOpenChange={onOpenChange}
-						placement="center"
+						scrollBehavior="inside"
 						classNames={{
-							base: '!w-[90vw] max-w-[90vw] h-[90vh]',
+							base: '!w-[90vw] max-w-[90vw]',
 							header: 'border-b-[1px] border-[#f0f9ff]',
 							footer: 'border-t-[1px] border-[#f0f9ff]',
 						}}
@@ -54,8 +56,8 @@ export default function MenusDetails({ menu }) {
 											className={'grid h-full w-full grid-cols-12 gap-16 p-8'}
 										>
 											{/* column 1 */}
-											<div className={'col-span-6 flex flex-col gap-4'}>
-												<div className={'flex flex-col gap-2'}>
+											<div className={'col-span-6 flex flex-col gap-3'}>
+												<div className={'flex flex-col gap-1'}>
 													<h2>Quel est le nom de votre plat ?</h2>
 													<p>
 														Ce sera cet élément qui sera vu de prime abord et
@@ -72,26 +74,89 @@ export default function MenusDetails({ menu }) {
 														size={'sm'}
 														label="name_dish"
 														radius={'sm'}
-														variant={'flat'}
+														variant={'bordered'}
 														color={'primary'}
 														// isInvalid={!!errors.password}
 														// errorMessage={errors.password?.message}
 														autoComplete="current-password"
-														className={'rounded-md border border-cyan-900'}
+														classNames={customInput}
 													/>
 													{/*{...register('password', {*/}
 													{/*	required: true,*/}
 													{/*})}*/}
 												</div>
-												<div className={'flex flex-col gap-2'}>
-													<h2>Quelle est la description de votre plat ?</h2>
-													<p>
-														Elle vous permettra de savoir à quoi correspond
-														votre plat, donner des explications complémentaires,
-														ou bien même l’histoire du plat ! Vous pourrez
-														afficher toutes les informations complémentaires
-														ici.
-													</p>
+												<div className={'flex flex-col gap-3'}>
+													<div className={'flex flex-col gap-1'}>
+														<h2>Quelle est la description de votre plat ?</h2>
+														<p>
+															Elle vous permettra de savoir à quoi correspond
+															votre plat, donner des explications
+															complémentaires, ou bien même l’histoire du plat !
+															Vous pourrez afficher toutes les informations
+															complémentaires ici.
+														</p>
+													</div>
+													<Textarea
+														data-cy="description_dish"
+														id="description_dish"
+														name="description_dish"
+														label="Description"
+														placeholder="..."
+														radius={'sm'}
+														size={'sm'}
+														variant={'bordered'}
+														className={'w-full'}
+														classNames={customInput}
+														color={'primary'}
+													/>
+												</div>
+												<div className={'flex flex-col gap-4'}>
+													<div className={'flex flex-col gap-2'}>
+														<h2>Image de présentation du plat</h2>
+														<p>
+															Vous pouvez présenter une image de votre plat,
+															elle permettra à vos clients de se trouver plus
+															simplement dans les choix qui lui sont proposés
+														</p>
+													</div>
+													<div className="flex w-full items-center justify-center rounded-md border border-cyan-900/50 bg-cyan-900/10 p-4">
+														<label
+															htmlFor="dropzone-file"
+															className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 "
+														>
+															<div className="flex flex-col items-center justify-center pb-6 pt-5">
+																<svg
+																	className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
+																	aria-hidden="true"
+																	xmlns="http://www.w3.org/2000/svg"
+																	fill="none"
+																	viewBox="0 0 20 16"
+																>
+																	<path
+																		stroke="currentColor"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																		stroke-width="2"
+																		d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+																	/>
+																</svg>
+																<p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+																	<span className="font-semibold">
+																		Click to upload
+																	</span>{' '}
+																	or drag and drop
+																</p>
+																<p className="text-xs text-gray-500 dark:text-gray-400">
+																	PNG, JPG, WEBP up to 1MB
+																</p>
+															</div>
+															<input
+																id="dropzone-file"
+																type="file"
+																className="hidden"
+															/>
+														</label>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -188,8 +253,8 @@ export function DishDetails({ dish, menuId, onOpen }) {
 						width={40}
 						height={40}
 						className={
-							'absolute left-[100px] top-1/2 h-[40px] w-[40px] -translate-x-1/2 ' +
-							'-translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
+							'-trangray-x-1/2 absolute left-[100px] top-1/2 h-[40px] w-[40px] ' +
+							'-trangray-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
 						}
 					/>
 				</Link>
