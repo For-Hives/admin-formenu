@@ -83,6 +83,16 @@ export default function MenusDetails({ menu }) {
 													{/*	required: true,*/}
 													{/*})}*/}
 												</div>
+												<div className={'flex flex-col gap-2'}>
+													<h2>Quelle est la description de votre plat ?</h2>
+													<p>
+														Elle vous permettra de savoir à quoi correspond
+														votre plat, donner des explications complémentaires,
+														ou bien même l’histoire du plat ! Vous pourrez
+														afficher toutes les informations complémentaires
+														ici.
+													</p>
+												</div>
 											</div>
 										</div>
 									</ModalBody>
