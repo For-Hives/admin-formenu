@@ -51,34 +51,38 @@ export default function MenusDetails({ menu }) {
 									</ModalHeader>
 									<ModalBody>
 										<div
-											className={
-												'grid h-full w-full grid-cols-12 gap-8 bg-red-100 p-8'
-											}
+											className={'grid h-full w-full grid-cols-12 gap-16 p-8'}
 										>
 											{/* column 1 */}
-											<div>
-												<h2>Quel est le nom de votre plat ?</h2>
-												<p>
-													Ce sera cet élément qui sera vu de prime abord et qui
-													sera afficher en premier, mettez ce que vous voulez !
-												</p>
-												<Input
-													data-cy="name_dish"
-													id="name_dish"
-													name="name_dish"
-													type="text"
-													size={'sm'}
-													label="name_dish"
-													radius={'sm'}
-													variant={'bordered'}
-													color={'primary'}
-													// isInvalid={!!errors.password}
-													// errorMessage={errors.password?.message}
-													autoComplete="current-password"
-												/>
-												{/*{...register('password', {*/}
-												{/*	required: true,*/}
-												{/*})}*/}
+											<div className={'col-span-6 flex flex-col gap-4'}>
+												<div className={'flex flex-col gap-2'}>
+													<h2>Quel est le nom de votre plat ?</h2>
+													<p>
+														Ce sera cet élément qui sera vu de prime abord et
+														qui sera afficher en premier, mettez ce que vous
+														voulez !
+													</p>
+												</div>
+												<div>
+													<Input
+														data-cy="name_dish"
+														id="name_dish"
+														name="name_dish"
+														type="text"
+														size={'sm'}
+														label="name_dish"
+														radius={'sm'}
+														variant={'flat'}
+														color={'primary'}
+														// isInvalid={!!errors.password}
+														// errorMessage={errors.password?.message}
+														autoComplete="current-password"
+														className={'rounded-md border border-cyan-900'}
+													/>
+													{/*{...register('password', {*/}
+													{/*	required: true,*/}
+													{/*})}*/}
+												</div>
 											</div>
 										</div>
 									</ModalBody>
