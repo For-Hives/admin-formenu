@@ -177,6 +177,7 @@ export default function MenusDetails({ menu }) {
 													</div>
 												</div>
 											</div>
+											{/*fixme here*/}
 											<div className={'col-span-6 flex flex-col gap-3'}>
 												<div className={'flex flex-col gap-1'}>
 													<h2>Ingrédients</h2>
