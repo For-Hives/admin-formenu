@@ -6,5 +6,6 @@ export const useMenusStore = create(set => ({
 
 	// for the modal on the update section (cartes/[id]/page.js)
 	lastDishClicked: {},
-	setLastDishClicked: dish => set({ dish: dish }),
+	setLastDishClicked: lastDishClicked =>
+		set({ lastDishClicked: lastDishClicked }),
 }))
