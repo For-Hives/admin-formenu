@@ -3,7 +3,7 @@ import Image from 'next/image'
 import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 import ToggleIngredientComponent from '@/components/Toggle/ToggleIngredient.component'
 import React, { useEffect } from 'react'
-import { useMenusStore } from '@/stores/menu.store'
+import { lastDishClickedStore, useMenusStore } from '@/stores/menu.store'
 import {
 	Autocomplete,
 	AutocompleteItem,
@@ -29,7 +29,9 @@ import { customInput } from '@/styles/customConfNextui'
  */
 export default function MenusDetails({ menu }) {
 	const menuFromStore = useMenusStore(state => state.menu)
+	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
 	const setStore = useMenusStore(state => state.setMenu)
+	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	useEffect(() => {
 		if (menuFromStore.id !== menu.id) {
@@ -37,6 +39,11 @@ export default function MenusDetails({ menu }) {
 		}
 	}, [menu, menuFromStore, setStore])
 
+	useEffect(() => {
+		if (lastDishClicked) {
+			console.log('lastDishClicked', lastDishClicked)
+		}
+	}, [lastDishClicked])
 	console.log('menuFromStore ss', menuFromStore)
 
 	return (
@@ -46,7 +53,7 @@ export default function MenusDetails({ menu }) {
 			) : (
 				<>
 					<Modal
-						isOpen={!isOpen}
+						isOpen={isOpen}
 						onOpenChange={onOpenChange}
 						scrollBehavior="inside"
 						classNames={{
@@ -146,9 +153,9 @@ export default function MenusDetails({ menu }) {
 																>
 																	<path
 																		stroke="currentColor"
-																		stroke-linecap="round"
-																		stroke-linejoin="round"
-																		stroke-width="2"
+																		strokeLinecap="round"
+																		strokeLinejoin="round"
+																		strokeWidth="2"
 																		d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
 																	/>
 																</svg>
@@ -286,6 +293,7 @@ export default function MenusDetails({ menu }) {
 											dish={dish}
 											menuId={menuFromStore?.id}
 											onOpen={onOpen}
+											setLastDishClicked={setLastDishClicked}
 										/>
 									</div>
 								))
@@ -304,7 +312,7 @@ export default function MenusDetails({ menu }) {
  * @param {function} onOpen - The function to be called when the link is clicked.
  * @returns {JSX.Element} The rendered dish details component.
  */
-export function DishDetails({ dish, menuId, onOpen }) {
+export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 	return (
 		<div
 			key={dish.id}
@@ -340,11 +348,13 @@ export function DishDetails({ dish, menuId, onOpen }) {
 				<ToggleDishComponent id={dish.id} activated={dish.activated} />
 			</div>
 
-			{/*// href={`/cartes/${menu.id}`}*/}
-			{/*fixme change this to get the update element */}
-			<div className="absolute right-0 top-0 p-[10px]" href={'#'}>
+			<div className="absolute right-0 top-0 z-10 p-[10px]">
 				<Link
-					onPress={onOpen}
+					type={'button'}
+					onClick={() => {
+						onOpen()
+						setLastDishClicked(dish)
+					}}
 					className={
 						'relative flex h-[60px] w-[60px] items-center justify-center overflow-hidden'
 					}
@@ -355,8 +365,8 @@ export function DishDetails({ dish, menuId, onOpen }) {
 						width={40}
 						height={40}
 						className={
-							'-trangray-x-1/2 absolute left-[100px] top-1/2 h-[40px] w-[40px] ' +
-							'-trangray-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
+							'absolute left-[100px] top-1/2 h-[40px] w-[40px] -translate-x-1/2 ' +
+							'-translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
 						}
 					/>
 				</Link>
