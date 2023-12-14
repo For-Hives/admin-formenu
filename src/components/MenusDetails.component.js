@@ -57,33 +57,35 @@ export default function MenusDetails({ menu }) {
 										>
 											{/* column 1 */}
 											<div className={'col-span-6 flex flex-col gap-3'}>
-												<div className={'flex flex-col gap-1'}>
-													<h2>Quel est le nom de votre plat ?</h2>
-													<p>
-														Ce sera cet élément qui sera vu de prime abord et
-														qui sera afficher en premier, mettez ce que vous
-														voulez !
-													</p>
-												</div>
-												<div>
-													<Input
-														data-cy="name_dish"
-														id="name_dish"
-														name="name_dish"
-														type="text"
-														size={'sm'}
-														label="name_dish"
-														radius={'sm'}
-														variant={'bordered'}
-														color={'primary'}
-														// isInvalid={!!errors.password}
-														// errorMessage={errors.password?.message}
-														autoComplete="current-password"
-														classNames={customInput}
-													/>
-													{/*{...register('password', {*/}
-													{/*	required: true,*/}
-													{/*})}*/}
+												<div className={'flex flex-col gap-3'}>
+													<div className={'flex flex-col gap-1'}>
+														<h2>Quel est le nom de votre plat ?</h2>
+														<p>
+															Ce sera cet élément qui sera vu de prime abord et
+															qui sera afficher en premier, mettez ce que vous
+															voulez !
+														</p>
+													</div>
+													<div>
+														<Input
+															data-cy="name_dish"
+															id="name_dish"
+															name="name_dish"
+															type="text"
+															size={'sm'}
+															label="name_dish"
+															radius={'sm'}
+															variant={'bordered'}
+															color={'primary'}
+															// isInvalid={!!errors.password}
+															// errorMessage={errors.password?.message}
+															autoComplete="current-password"
+															classNames={customInput}
+														/>
+														{/*{...register('password', {*/}
+														{/*	required: true,*/}
+														{/*})}*/}
+													</div>
 												</div>
 												<div className={'flex flex-col gap-3'}>
 													<div className={'flex flex-col gap-1'}>
@@ -157,6 +159,17 @@ export default function MenusDetails({ menu }) {
 															/>
 														</label>
 													</div>
+												</div>
+											</div>
+											<div className={'col-span-6 flex flex-col gap-3'}>
+												<div className={'flex flex-col gap-1'}>
+													<h2>Ingrédients</h2>
+													<p>
+														Mets les ingrédients qui composes tes plats ici, ils
+														permettrons aux clients de chercher, et retrouver
+														facilement les plats en questions.
+													</p>
+													{/*	todo input autocomplete & add to select multiple with catégorie etc */}
 												</div>
 											</div>
 										</div>
