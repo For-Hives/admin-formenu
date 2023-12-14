@@ -22,7 +22,7 @@ import {
 import { customInput } from '@/styles/customConfNextui'
 
 /**
- * Retrieves and displays details of a menu.
+ * Retrieves and displays details of a menu. (main part) , and modal part ( todo : refactor & moove the modal part in a new component)
  *
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
@@ -44,7 +44,6 @@ export default function MenusDetails({ menu }) {
 			console.log('lastDishClicked', lastDishClicked)
 		}
 	}, [lastDishClicked])
-	console.log('menuFromStore ss', menuFromStore)
 
 	return (
 		<>
@@ -187,78 +186,75 @@ export default function MenusDetails({ menu }) {
 														facilement les plats en questions.
 													</p>
 
-													{/*<Autocomplete*/}
-													{/*	classNames={{*/}
-													{/*		base: 'max-w-xs',*/}
-													{/*		listboxWrapper: 'max-h-[320px]',*/}
-													{/*		selectorButton: 'text-default-500',*/}
-													{/*	}}*/}
-													{/*	defaultItems={users}*/}
-													{/*	inputProps={{*/}
-													{/*		classNames: {*/}
-													{/*			input: 'ml-1',*/}
-													{/*			inputWrapper: 'h-[48px]',*/}
-													{/*		},*/}
-													{/*	}}*/}
-													{/*	listboxProps={{*/}
-													{/*		hideSelectedIcon: true,*/}
-													{/*		itemClasses: {*/}
-													{/*			base: [*/}
-													{/*				'rounded-medium',*/}
-													{/*				'text-default-500',*/}
-													{/*				'transition-opacity',*/}
-													{/*				'data-[hover=true]:text-foreground',*/}
-													{/*				'dark:data-[hover=true]:bg-default-50',*/}
-													{/*				'data-[pressed=true]:opacity-70',*/}
-													{/*				'data-[hover=true]:bg-default-200',*/}
-													{/*				'data-[selectable=true]:focus:bg-default-100',*/}
-													{/*				'data-[focus-visible=true]:ring-default-500',*/}
-													{/*			],*/}
-													{/*		},*/}
-													{/*	}}*/}
-													{/*	aria-label="Select an employee"*/}
-													{/*	placeholder="Enter employee name"*/}
-													{/*	popoverProps={{*/}
-													{/*		offset: 10,*/}
-													{/*		classNames: {*/}
-													{/*			base: 'rounded-large',*/}
-													{/*			content:*/}
-													{/*				'p-1 border-small border-default-100 bg-background',*/}
-													{/*		},*/}
-													{/*	}}*/}
-													{/*	radius={'sm'}*/}
-													{/*	size={'sm'}*/}
-													{/*	variant={'bordered'}*/}
-													{/*>*/}
-													{/*	{item => (*/}
-													{/*		<AutocompleteItem*/}
-													{/*			key={item.id}*/}
-													{/*			textValue={item.name}*/}
-													{/*		>*/}
-													{/*			<div className="flex items-center justify-between">*/}
-													{/*				<div className="flex items-center gap-2">*/}
-													{/*					/!*<Avatar alt={item.name} className="flex-shrink-0" size="sm" src={item.avatar} />*!/*/}
-													{/*					<div className="flex flex-col">*/}
-													{/*						<span className="text-small">*/}
-													{/*							{item.name}*/}
-													{/*						</span>*/}
-													{/*						<span className="text-tiny text-default-400">*/}
-													{/*							{item.team}*/}
-													{/*						</span>*/}
-													{/*					</div>*/}
-													{/*				</div>*/}
-													{/*				<Button*/}
-													{/*					className="mr-0.5 border-small font-medium shadow-small"*/}
-													{/*					radius="full"*/}
-													{/*					size="sm"*/}
-													{/*					variant="bordered"*/}
-													{/*				>*/}
-													{/*					Add*/}
-													{/*				</Button>*/}
-													{/*			</div>*/}
-													{/*		</AutocompleteItem>*/}
-													{/*	)}*/}
-													{/*</Autocomplete>*/}
+													<Autocomplete
+														classNames={{
+															base: 'max-w-xs',
+															listboxWrapper: 'max-h-[320px]',
+															selectorButton: 'text-default-500',
+														}}
+														defaultItems={lastDishClickedStore.ingredients}
+														inputProps={{
+															classNames: {
+																input: 'ml-1',
+																inputWrapper: 'h-[48px]',
+															},
+														}}
+														listboxProps={{
+															hideSelectedIcon: true,
+															itemClasses: {
+																base: [
+																	'rounded-medium',
+																	'text-default-500',
+																	'transition-opacity',
+																	'data-[hover=true]:text-foreground',
+																	'dark:data-[hover=true]:bg-default-50',
+																	'data-[pressed=true]:opacity-70',
+																	'data-[hover=true]:bg-default-200',
+																	'data-[selectable=true]:focus:bg-default-100',
+																	'data-[focus-visible=true]:ring-default-500',
+																],
+															},
+														}}
+														aria-label="Select an employee"
+														placeholder="Enter employee name"
+														popoverProps={{
+															offset: 10,
+															classNames: {
+																base: 'rounded-large',
+																content:
+																	'p-1 border-small border-default-100 bg-background',
+															},
+														}}
+														radius={'sm'}
+														size={'sm'}
+														variant={'bordered'}
+													>
+														{item => (
+															<AutocompleteItem
+																key={item.id}
+																textValue={item.name}
+															>
+																<div className="flex items-center justify-between">
+																	<div className="flex items-center gap-2">
+																		{/*<Avatar alt={item.name} className="flex-shrink-0" size="sm" src={item.avatar} />*/}
+																		<div className="flex flex-col">
+																			<span className="text-small">
+																				{item.name}
+																			</span>
+																		</div>
+																	</div>
+																	<Button
+																		className="mr-0.5 border-small font-medium shadow-small"
+																		radius="full"
+																		size="sm"
+																		variant="bordered"
+																	>
+																		Add
+																	</Button>
+																</div>
+															</AutocompleteItem>
+														)}
+													</Autocomplete>
 												</div>
 											</div>
 										</div>
@@ -353,6 +349,7 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 					type={'button'}
 					onClick={() => {
 						onOpen()
+						console.log('dish', dish)
 						setLastDishClicked(dish)
 					}}
 					className={
