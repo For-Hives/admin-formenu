@@ -3,7 +3,7 @@ import Image from 'next/image'
 import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 import ToggleIngredientComponent from '@/components/Toggle/ToggleIngredient.component'
 import React, { useEffect } from 'react'
-import { lastDishClickedStore, useMenusStore } from '@/stores/menu.store'
+import { useMenusStore } from '@/stores/menu.store'
 import {
 	Autocomplete,
 	AutocompleteItem,
@@ -14,7 +14,6 @@ import {
 	ModalFooter,
 	Button,
 	useDisclosure,
-	Checkbox,
 	Input,
 	Link,
 	Textarea,
@@ -41,7 +40,7 @@ export default function MenusDetails({ menu }) {
 
 	useEffect(() => {
 		if (lastDishClicked) {
-			console.log('lastDishClicked', lastDishClicked)
+			console.log('lastDishClicked', lastDishClicked.ingredients)
 		}
 	}, [lastDishClicked])
 
@@ -179,7 +178,11 @@ export default function MenusDetails({ menu }) {
 											</div>
 											{/*fixme here*/}
 											<div className={'col-span-6 flex flex-col gap-3'}>
-												<div className={'flex flex-col gap-1'}>
+												<div
+													className={
+														'flex flex-col gap-1 [&>*]:!transition-none [&>*]:!duration-0'
+													}
+												>
 													<h2>Ingrédients</h2>
 													<p>
 														Mets les ingrédients qui composes tes plats ici, ils
@@ -189,30 +192,45 @@ export default function MenusDetails({ menu }) {
 
 													<Autocomplete
 														classNames={{
-															base: 'max-w-xs',
-															listboxWrapper: 'max-h-[320px]',
-															selectorButton: 'text-default-500',
+															base: '',
+															listboxWrapper: 'max-h-[450px]',
+															selectorButton: 'text-gray-700',
 														}}
-														defaultItems={lastDishClickedStore.ingredients}
+														defaultItems={lastDishClicked.ingredients}
 														inputProps={{
 															classNames: {
-																input: 'ml-1',
-																inputWrapper: 'h-[48px]',
+																label: 'text-gray-700',
+																input: [
+																	'bg-transparent',
+																	'text-gray-700/90 ',
+																	'placeholder:text-gray-700/25',
+																],
+																innerWrapper: 'bg-transparent',
+																inputWrapper: [
+																	'shadow-none',
+																	'border',
+																	'border-cyan-900/25',
+																	'bg-gray-50',
+																	'hover:bg-gray-100',
+																	'group-data-[focused=true]:bg-gray-200',
+																	'!cursor-text',
+																],
 															},
 														}}
 														listboxProps={{
-															hideSelectedIcon: true,
+															hideSelectedIcon: false,
 															itemClasses: {
 																base: [
-																	'rounded-medium',
-																	'text-default-500',
-																	'transition-opacity',
-																	'data-[hover=true]:text-foreground',
-																	'dark:data-[hover=true]:bg-default-50',
-																	'data-[pressed=true]:opacity-70',
-																	'data-[hover=true]:bg-default-200',
-																	'data-[selectable=true]:focus:bg-default-100',
-																	'data-[focus-visible=true]:ring-default-500',
+																	'[&>*]:!transition-none',
+																	'[&>*]:!duration-0',
+																	'rounded',
+																	'text-gray-900',
+																	'data-[hover=true]:text-white',
+																	'data-[hover=true]:transition-none',
+																	'data-[hover=true]:duration-0',
+																	'data-[hover=true]:bg-sky-950',
+																	'data-[selectable=true]:focus:bg-sky-900',
+																	'data-[focus-visible=true]:ring-gray-500',
 																],
 															},
 														}}
@@ -221,9 +239,19 @@ export default function MenusDetails({ menu }) {
 														popoverProps={{
 															offset: 10,
 															classNames: {
-																base: 'rounded-large',
+																base: [
+																	'[&>*]:!transition-none',
+																	'[&>*]:!duration-0',
+																	'rounded',
+																	'border',
+																	'p-0',
+																	'm-0',
+																	'border-cyan-900/25',
+																	'bg-gray-50',
+																],
+
 																content:
-																	'p-1 border-small border-default-100 bg-background',
+																	'border border-cyan-900/25 bg-gray-50 rounded m-0 p-0',
 															},
 														}}
 														radius={'sm'}
@@ -237,21 +265,12 @@ export default function MenusDetails({ menu }) {
 															>
 																<div className="flex items-center justify-between">
 																	<div className="flex items-center gap-2">
-																		{/*<Avatar alt={item.name} className="flex-shrink-0" size="sm" src={item.avatar} />*/}
 																		<div className="flex flex-col">
 																			<span className="text-small">
 																				{item.name}
 																			</span>
 																		</div>
 																	</div>
-																	<Button
-																		className="mr-0.5 border-small font-medium shadow-small"
-																		radius="full"
-																		size="sm"
-																		variant="bordered"
-																	>
-																		Add
-																	</Button>
 																</div>
 															</AutocompleteItem>
 														)}
@@ -313,7 +332,7 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 	return (
 		<div
 			key={dish.id}
-			className="group relative grid w-full grid-cols-12 items-center gap-8 rounded-lg bg-white p-8 px-16 shadow-md transition-all hover:shadow-xl"
+			className="group relative grid w-full grid-cols-12 items-center gap-8 rounded-lg bg-white p-8 px-16 shadow-md hover:shadow-xl"
 		>
 			<Image
 				src="/icons/menu_icon_carte.svg"
