@@ -192,13 +192,19 @@ export default function MenusDetails({ menu }) {
 
 													<Autocomplete
 														classNames={{
-															base: '',
-															listboxWrapper: 'max-h-[450px]',
+															base: ['!p-0', '[&>*]:!p-0'],
+															listboxWrapper: [
+																'!m-0',
+																'!p-0',
+																'max-h-[450px]',
+																'[&>*]:!p-0',
+															],
 															selectorButton: 'text-gray-700',
 														}}
 														defaultItems={lastDishClicked.ingredients}
 														inputProps={{
 															classNames: {
+																base: '!p-0',
 																label: 'text-gray-700',
 																input: [
 																	'bg-transparent',
@@ -223,7 +229,7 @@ export default function MenusDetails({ menu }) {
 																base: [
 																	'[&>*]:!transition-none',
 																	'[&>*]:!duration-0',
-																	'rounded',
+																	'rounded-none',
 																	'text-gray-900',
 																	'data-[hover=true]:text-white',
 																	'data-[hover=true]:transition-none',
@@ -244,14 +250,14 @@ export default function MenusDetails({ menu }) {
 																	'[&>*]:!duration-0',
 																	'rounded',
 																	'border',
-																	'p-0',
+																	'!p-0',
 																	'm-0',
 																	'border-cyan-900/25',
 																	'bg-gray-50',
 																],
 
 																content:
-																	'border border-cyan-900/25 bg-gray-50 rounded m-0 p-0',
+																	'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',
 															},
 														}}
 														radius={'sm'}
