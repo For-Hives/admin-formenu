@@ -5,7 +5,9 @@ import {
 	Autocomplete,
 	AutocompleteItem,
 	Button,
+	Checkbox,
 	Chip,
+	cn,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -190,7 +192,7 @@ export default function MenusDetails({ menu }) {
 															},
 														}}
 														listboxProps={{
-															hideSelectedIcon: false,
+															hideSelectedIcon: true,
 															itemClasses: {
 																base: [
 																	'[&>*]:!transition-none',
@@ -201,8 +203,6 @@ export default function MenusDetails({ menu }) {
 																	'data-[hover=true]:transition-none',
 																	'data-[hover=true]:duration-0',
 																	'data-[hover=true]:bg-sky-950',
-																	'data-[selectable=true]:focus:bg-sky-900',
-																	'data-[focus-visible=true]:ring-gray-500',
 																],
 															},
 														}}
@@ -230,16 +230,20 @@ export default function MenusDetails({ menu }) {
 														size={'sm'}
 														variant={'bordered'}
 													>
+														{/* make it depend of selected keys ( rerender the list on change of selected Keys ) */}
 														{lastDishClicked.ingredients.map(item => (
 															<AutocompleteItem key={item.id}>
-																<label>
-																	<input
-																		type="checkbox"
-																		checked={isIngredientSelected(item.id)}
-																		onChange={() => onSelectionChange(item.id)}
-																	/>
-																	{item.name}
-																</label>
+																<Checkbox
+																	className={'custom-checkbox'}
+																	isSelected={isIngredientSelected(item.id)}
+																	onChange={() => onSelectionChange(item.id)}
+																	classNames={{
+																		wrapper: 'custom-icon',
+																		base: 'custom-box',
+																	}}
+																	radius={'sm'}
+																/>
+																<label>{item.name}</label>
 															</AutocompleteItem>
 														))}
 													</Autocomplete>

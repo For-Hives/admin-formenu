@@ -82,3 +82,27 @@ button {
         @apply flex h-[20px] w-[20px] items-center justify-center text-white transition-all;
     }
 }
+
+li[data-hover="true"][data-selected="true"] .custom-icon{
+    inset: 0 !important;
+}
+
+li[data-hover="true"][data-selected="true"] .custom-icon::before{
+    display: none;
+}
+
+li[data-hover="true"][data-selected="true"] .custom-icon::after{
+    display: none;
+}
+
+li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon{
+    inset: 0 !important;
+}
+
+li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon::before{
+    display: none;
+}
+
+li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon::after{
+    display: none;
+}
