@@ -41,11 +41,14 @@ export default function MenusDetails({ menu }) {
 
 	// Handle selection change
 	const onSelectionChange = ingredientId => {
+		if (ingredientId == null) return
+
 		setSelectedKeys(prev => {
-			if (prev.includes(ingredientId.toString())) {
-				return prev.filter(k => k !== ingredientId.toString())
+			const ingredientStr = ingredientId.toString()
+			if (prev.includes(ingredientStr)) {
+				return prev.filter(k => k !== ingredientStr)
 			} else {
-				return [...prev, ingredientId.toString()]
+				return [...prev, ingredientStr]
 			}
 		})
 	}
@@ -71,26 +74,6 @@ export default function MenusDetails({ menu }) {
 			console.log('lastDishClicked', lastDishClicked.ingredients)
 		}
 	}, [lastDishClicked])
-
-	const IngredientChip = ({ name, onRemove }) => (
-		<div
-			style={{
-				padding: '5px',
-				border: '1px solid gray',
-				borderRadius: '10px',
-				display: 'inline-block',
-				margin: '5px',
-			}}
-		>
-			{name}
-			<button
-				style={{ marginLeft: '10px', cursor: 'pointer' }}
-				onClick={onRemove}
-			>
-				✖
-			</button>
-		</div>
-	)
 
 	return (
 		<>
@@ -167,7 +150,7 @@ export default function MenusDetails({ menu }) {
 															],
 															selectorButton: 'text-gray-700',
 														}}
-														items={lastDishClicked.ingredients}
+														defaultItems={lastDishClicked.ingredients}
 														onInputChange={onInputChange}
 														onSelectionChange={onSelectionChange}
 														inputProps={{
@@ -232,7 +215,10 @@ export default function MenusDetails({ menu }) {
 													>
 														{/* make it depend of selected keys ( rerender the list on change of selected Keys ) */}
 														{lastDishClicked.ingredients.map(item => (
-															<AutocompleteItem key={item.id}>
+															<AutocompleteItem
+																key={item.id}
+																textValue={item.name}
+															>
 																<Checkbox
 																	className={'custom-checkbox'}
 																	isSelected={isIngredientSelected(item.id)}
