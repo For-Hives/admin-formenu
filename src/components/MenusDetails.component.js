@@ -59,21 +59,10 @@ export default function MenusDetails({ menu }) {
 	}
 
 	useEffect(() => {
-		console.log(selectedKeys)
-		console.log(inputValue)
-	}, [selectedKeys, inputValue])
-
-	useEffect(() => {
 		if (menuFromStore.id !== menu.id) {
 			setStore(menu)
 		}
 	}, [menu, menuFromStore, setStore])
-
-	useEffect(() => {
-		if (lastDishClicked) {
-			console.log('lastDishClicked', lastDishClicked.ingredients)
-		}
-	}, [lastDishClicked])
 
 	return (
 		<>
@@ -139,6 +128,7 @@ export default function MenusDetails({ menu }) {
 													</div>
 
 													<Autocomplete
+														shouldCloseOnBlur={true}
 														inputValue={inputValue}
 														classNames={{
 															base: ['!p-0', '[&>*]:!p-0'],
