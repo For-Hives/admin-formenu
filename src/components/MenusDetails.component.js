@@ -71,6 +71,11 @@ export default function MenusDetails({ menu, ingredients }) {
 		}
 	}, [ingredientsFromStore])
 
+	useEffect(() => {
+		if (Object.keys(lastDishClicked).length === 0) return
+		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
+	}, [lastDishClicked])
+
 	return (
 		<>
 			{!menuFromStore ? (
@@ -103,7 +108,6 @@ export default function MenusDetails({ menu, ingredients }) {
 												<InputDescriptionDish />
 												<InputDropzoneImageDish />
 											</div>
-											{/*fixme here*/}
 											<div className={'col-span-6 flex flex-col gap-3'}>
 												<div
 													className={
@@ -116,7 +120,7 @@ export default function MenusDetails({ menu, ingredients }) {
 														permettrons aux clients de chercher, et retrouver
 														facilement les plats en questions.
 													</p>
-													<div className={'flex gap-2'}>
+													<div className={'flex w-full flex-wrap gap-2'}>
 														{selectedKeys.map(key => {
 															const ingredient =
 																lastDishClicked.ingredients.find(
@@ -135,7 +139,7 @@ export default function MenusDetails({ menu, ingredients }) {
 													</div>
 
 													<Autocomplete
-														shouldCloseOnBlur={true}
+														shouldCloseOnBlur={false}
 														inputValue={inputValue}
 														classNames={{
 															base: ['!p-0', '[&>*]:!p-0'],
@@ -147,7 +151,7 @@ export default function MenusDetails({ menu, ingredients }) {
 															],
 															selectorButton: 'text-gray-700',
 														}}
-														defaultItems={lastDishClicked.ingredients}
+														defaultItems={ingredientsFromStore}
 														onInputChange={onInputChange}
 														onSelectionChange={onSelectionChange}
 														inputProps={{
@@ -189,6 +193,7 @@ export default function MenusDetails({ menu, ingredients }) {
 														aria-label="Select an employee"
 														placeholder="Enter employee name"
 														popoverProps={{
+															triggerType: 'dialog',
 															offset: 10,
 															classNames: {
 																base: [
@@ -201,7 +206,6 @@ export default function MenusDetails({ menu, ingredients }) {
 																	'border-cyan-900/25',
 																	'bg-gray-50',
 																],
-
 																content:
 																	'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',
 															},
