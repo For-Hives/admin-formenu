@@ -7,7 +7,6 @@ import {
 	Button,
 	Checkbox,
 	Chip,
-	cn,
 	Modal,
 	ModalBody,
 	ModalContent,
