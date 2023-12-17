@@ -8,4 +8,8 @@ export const useMenusStore = create(set => ({
 	lastDishClicked: {},
 	setLastDishClicked: lastDishClicked =>
 		set({ lastDishClicked: lastDishClicked }),
+
+	// ingredients list
+	ingredients: {},
+	setIngredients: ingredients => set({ ingredients: ingredients }),
 }))

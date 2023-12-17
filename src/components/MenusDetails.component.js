@@ -23,9 +23,11 @@ import { InputDescriptionDish } from '@/components/InputDescriptionDish'
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
  */
-export default function MenusDetails({ menu }) {
+export default function MenusDetails({ menu, ingredients }) {
+	const ingredientsFromStore = useMenusStore(state => state.ingredients)
 	const menuFromStore = useMenusStore(state => state.menu)
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
+	const setIngredients = useMenusStore(state => state.setIngredients)
 	const setStore = useMenusStore(state => state.setMenu)
 	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -62,6 +64,12 @@ export default function MenusDetails({ menu }) {
 			setStore(menu)
 		}
 	}, [menu, menuFromStore, setStore])
+
+	useEffect(() => {
+		if (Object.keys(ingredientsFromStore).length === 0) {
+			setIngredients(ingredients)
+		}
+	}, [ingredientsFromStore])
 
 	return (
 		<>

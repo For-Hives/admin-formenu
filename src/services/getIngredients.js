@@ -1,6 +1,6 @@
-export async function getMenu(id, session) {
+export async function getIngredients(session) {
 	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/menu-deep/${id}`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/my-ingredients`,
 		{
 			method: 'GET',
 			headers: {
