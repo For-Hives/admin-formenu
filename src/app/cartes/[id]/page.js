@@ -6,6 +6,7 @@ import React from 'react'
 
 import MenusDetails from '@/components/MenusDetails.component'
 import { getMenu } from '@/services/getMenu'
+import { getIngredients } from '@/services/getIngredients'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
@@ -14,6 +15,7 @@ export default async function Page({ params }) {
 	}
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
+	const ingredients = await getIngredients(session)
 
 	return (
 		<>
@@ -28,7 +30,7 @@ export default async function Page({ params }) {
 					</span>
 				</div>
 				<div className="flex w-full flex-col gap-8">
-					<MenusDetails menu={menu} />
+					<MenusDetails menu={menu} ingredients={ingredients} />
 				</div>
 			</main>
 		</>
