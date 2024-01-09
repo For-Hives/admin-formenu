@@ -229,11 +229,12 @@ export default function MenusDetails({ menu, ingredients }) {
 		if (!isIngredientInDish) {
 			const withSelectedIngredient =
 				lastDishClicked.ingredients.push(ingredientToAdd)
-			console.log('withSelectedIngredient', withSelectedIngredient)
+			console.log('-> withSelectedIngredient', withSelectedIngredient)
 			// new object to force rerender deep copy
 			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
 			newLastDishClicked.ingredients = withSelectedIngredient
-			setLastDishClicked(newLastDishClicked)
+			console.log('newLastDishClicked', newLastDishClicked)
+			// setLastDishClicked(newLastDishClicked)
 		} else {
 			const withoutSelectedIngredient = lastDishClicked.ingredients.filter(
 				item => item.id.toString() !== ingredientId.toString()
@@ -242,7 +243,8 @@ export default function MenusDetails({ menu, ingredients }) {
 			// new object to force rerender deep copy
 			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
 			newLastDishClicked.ingredients = withoutSelectedIngredient
-			setLastDishClicked(newLastDishClicked)
+			console.log('newLastDishClicked', newLastDishClicked)
+			// setLastDishClicked(newLastDishClicked)
 		}
 	}
 
@@ -265,6 +267,10 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
+		console.log(
+			'******************** lastDishClicked.ingredients *****************',
+			lastDishClicked.ingredients
+		)
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
 	}, [lastDishClicked])
 
