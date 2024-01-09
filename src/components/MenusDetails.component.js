@@ -222,29 +222,19 @@ export default function MenusDetails({ menu, ingredients }) {
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		if (!isIngredientInDish) {
-			// Create a new array with the added ingredient
-			const newIngredients = [...lastDishClicked.ingredients, ingredientToAdd]
+		setLastDishClicked(prevDish => {
+			let newIngredients
 
-			// Deeply clone lastDishClicked and update its ingredients
-			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = newIngredients
+			if (!isIngredientInDish) {
+				newIngredients = [...prevDish.ingredients, ingredientToAdd]
+			} else {
+				newIngredients = prevDish.ingredients.filter(
+					item => item.id.toString() !== ingredientId.toString()
+				)
+			}
 
-			// Update the state with the new object
-			setLastDishClicked(newLastDishClicked)
-		} else {
-			// Create a new array without the selected ingredient
-			const newIngredients = lastDishClicked.ingredients.filter(
-				item => item.id.toString() !== ingredientId.toString()
-			)
-
-			// Deeply clone lastDishClicked and update its ingredients
-			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = newIngredients
-
-			// Update the state with the new object
-			setLastDishClicked(newLastDishClicked)
-		}
+			return { ...prevDish, ingredients: newIngredients }
+		})
 	}
 
 	// Handle input change
