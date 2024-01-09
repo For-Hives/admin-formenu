@@ -108,6 +108,9 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	// State to store the selected keys (IDs) and input value
 	const [selectedKeys, setSelectedKeys] = useState([])
+	// Local state to store the selected keys (IDs) and input value
+	const [localSelectedKeys, setLocalSelectedKeys] = useState([])
+
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 
@@ -182,6 +185,13 @@ export default function MenusDetails({ menu, ingredients }) {
 		)
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
 	}, [lastDishClicked])
+
+	useEffect(() => {
+		// When the modal opens, synchronize the local state with the global state
+		if (isOpen) {
+			setLocalSelectedKeys(selectedKeys)
+		}
+	}, [isOpen, selectedKeys])
 
 	return (
 		<>
