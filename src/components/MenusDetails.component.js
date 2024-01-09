@@ -71,8 +71,7 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	// State to store the selected keys (IDs) and input value
 	const [selectedKeys, setSelectedKeys] = useState([])
-	// Local state to store the selected keys (IDs) and input value
-	const [localSelectedKeys, setLocalSelectedKeys] = useState([])
+	const [checkboxStates, setCheckboxStates] = useState({})
 
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
@@ -86,8 +85,6 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	// Handle selection change
 	const onSelectionChange = ingredientId => {
-		console.log('------------- lastDishClicked', lastDishClicked)
-
 		if (ingredientId == null) return
 
 		const ingredientToAdd = ingredients.find(
@@ -128,6 +125,13 @@ export default function MenusDetails({ menu, ingredients }) {
 		setInputValue(value)
 	}
 
+	const handleCheckboxChange = ingredientId => {
+		setCheckboxStates(prevStates => ({
+			...prevStates,
+			[ingredientId]: !prevStates[ingredientId],
+		}))
+	}
+
 	useEffect(() => {
 		if (menuFromStore.id !== menu.id) {
 			setStore(menu)
@@ -142,19 +146,19 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
-		console.log(
-			'******************** lastDishClicked.ingredients *****************',
-			lastDishClicked.ingredients
-		)
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
 	}, [lastDishClicked])
 
 	useEffect(() => {
-		// When the modal opens, synchronize the local state with the global state
-		if (isOpen) {
-			setLocalSelectedKeys(selectedKeys)
-		}
-	}, [isOpen, selectedKeys])
+		// Initialize the local checkbox states based on the selected keys
+		const initialStates = {}
+		ingredientsFromStore.forEach(ingredient => {
+			initialStates[ingredient.id] = selectedKeys.includes(
+				ingredient.id.toString()
+			)
+		})
+		setCheckboxStates(initialStates)
+	}, [ingredientsFromStore, selectedKeys])
 
 	return (
 		<>
@@ -209,11 +213,11 @@ export default function MenusDetails({ menu, ingredients }) {
 														{ingredientsFromStore.map(ingredient => (
 															<div key={ingredient.id}>
 																<Checkbox
-																	isSelected={isIngredientSelected(
-																		ingredient.id
-																	)}
+																	checked={
+																		checkboxStates[ingredient.id] || false
+																	}
 																	onChange={() =>
-																		onSelectionChange(ingredient.id)
+																		handleCheckboxChange(ingredient.id)
 																	}
 																>
 																	{ingredient.name}
