@@ -19,6 +19,132 @@ import { InputNameDish } from '@/components/InputNameDish'
 import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
 import { InputDescriptionDish } from '@/components/InputDescriptionDish'
 
+function InputIngredientsDish({
+	selectedKeys,
+	lastDishClicked,
+	ingredientsFromStore,
+	isIngredientSelected,
+	onSelectionChange,
+	onInputChange,
+	inputValue,
+}) {
+	return (
+		<div
+			className={'flex flex-col gap-1 [&>*]:!transition-none [&>*]:!duration-0'}
+		>
+			<h2>Ingrédients</h2>
+			<p>
+				Mets les ingrédients qui composes tes plats ici, ils permettrons aux
+				clients de chercher, et retrouver facilement les plats en questions.
+			</p>
+			<div className={'flex w-full flex-wrap gap-2'}>
+				{selectedKeys.map(key => {
+					const ingredient = lastDishClicked.ingredients.find(
+						item => item.id.toString() === key
+					)
+					return (
+						<Chip
+							key={key}
+							onClose={() => onSelectionChange(key)}
+							variant="flat"
+						>
+							{ingredient?.name}
+						</Chip>
+					)
+				})}
+			</div>
+
+			<Autocomplete
+				shouldCloseOnBlur={false}
+				inputValue={inputValue}
+				classNames={{
+					base: ['!p-0', '[&>*]:!p-0'],
+					listboxWrapper: ['!m-0', '!p-0', 'max-h-[450px]', '[&>*]:!p-0'],
+					selectorButton: 'text-gray-700',
+				}}
+				defaultItems={ingredientsFromStore}
+				onInputChange={onInputChange}
+				onSelectionChange={onSelectionChange}
+				inputProps={{
+					classNames: {
+						base: '!p-0',
+						label: 'text-gray-700',
+						input: [
+							'bg-transparent',
+							'text-gray-700/90 ',
+							'placeholder:text-gray-700/25',
+						],
+						innerWrapper: 'bg-transparent',
+						inputWrapper: [
+							'shadow-none',
+							'border',
+							'border-cyan-900/25',
+							'bg-gray-50',
+							'hover:bg-gray-100',
+							'group-data-[focused=true]:bg-gray-200',
+							'!cursor-text',
+						],
+					},
+				}}
+				listboxProps={{
+					hideSelectedIcon: true,
+					itemClasses: {
+						base: [
+							'[&>*]:!transition-none',
+							'[&>*]:!duration-0',
+							'rounded-none',
+							'text-gray-900',
+							'data-[hover=true]:text-white',
+							'data-[hover=true]:transition-none',
+							'data-[hover=true]:duration-0',
+							'data-[hover=true]:bg-sky-950',
+						],
+					},
+				}}
+				aria-label="Select an employee"
+				placeholder="Enter employee name"
+				popoverProps={{
+					triggerType: 'dialog',
+					offset: 10,
+					classNames: {
+						base: [
+							'[&>*]:!transition-none',
+							'[&>*]:!duration-0',
+							'rounded',
+							'border',
+							'!p-0',
+							'm-0',
+							'border-cyan-900/25',
+							'bg-gray-50',
+						],
+						content: 'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',
+					},
+				}}
+				radius={'sm'}
+				size={'sm'}
+				variant={'bordered'}
+			>
+				{/* make it depend of selected keys ( rerender the list on change of selected Keys ) */}
+				{lastDishClicked.ingredients.map(item => (
+					<AutocompleteItem key={item.id} textValue={item.name}>
+						<Checkbox
+							className={'custom-checkbox'}
+							isSelected={isIngredientSelected(item.id)}
+							onChange={() => onSelectionChange(item.id)}
+							classNames={{
+								wrapper: 'custom-icon',
+								base: 'custom-box',
+							}}
+							radius={'sm'}
+						/>
+						<label>{item.name}</label>
+					</AutocompleteItem>
+				))}
+			</Autocomplete>
+		</div>
+	)
+}
+
 /**
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
@@ -109,132 +235,15 @@ export default function MenusDetails({ menu, ingredients }) {
 												<InputDropzoneImageDish />
 											</div>
 											<div className={'col-span-6 flex flex-col gap-3'}>
-												<div
-													className={
-														'flex flex-col gap-1 [&>*]:!transition-none [&>*]:!duration-0'
-													}
-												>
-													<h2>Ingrédients</h2>
-													<p>
-														Mets les ingrédients qui composes tes plats ici, ils
-														permettrons aux clients de chercher, et retrouver
-														facilement les plats en questions.
-													</p>
-													<div className={'flex w-full flex-wrap gap-2'}>
-														{selectedKeys.map(key => {
-															const ingredient =
-																lastDishClicked.ingredients.find(
-																	item => item.id.toString() === key
-																)
-															return (
-																<Chip
-																	key={key}
-																	onClose={() => onSelectionChange(key)}
-																	variant="flat"
-																>
-																	{ingredient?.name}
-																</Chip>
-															)
-														})}
-													</div>
-
-													<Autocomplete
-														shouldCloseOnBlur={false}
-														inputValue={inputValue}
-														classNames={{
-															base: ['!p-0', '[&>*]:!p-0'],
-															listboxWrapper: [
-																'!m-0',
-																'!p-0',
-																'max-h-[450px]',
-																'[&>*]:!p-0',
-															],
-															selectorButton: 'text-gray-700',
-														}}
-														defaultItems={ingredientsFromStore}
-														onInputChange={onInputChange}
-														onSelectionChange={onSelectionChange}
-														inputProps={{
-															classNames: {
-																base: '!p-0',
-																label: 'text-gray-700',
-																input: [
-																	'bg-transparent',
-																	'text-gray-700/90 ',
-																	'placeholder:text-gray-700/25',
-																],
-																innerWrapper: 'bg-transparent',
-																inputWrapper: [
-																	'shadow-none',
-																	'border',
-																	'border-cyan-900/25',
-																	'bg-gray-50',
-																	'hover:bg-gray-100',
-																	'group-data-[focused=true]:bg-gray-200',
-																	'!cursor-text',
-																],
-															},
-														}}
-														listboxProps={{
-															hideSelectedIcon: true,
-															itemClasses: {
-																base: [
-																	'[&>*]:!transition-none',
-																	'[&>*]:!duration-0',
-																	'rounded-none',
-																	'text-gray-900',
-																	'data-[hover=true]:text-white',
-																	'data-[hover=true]:transition-none',
-																	'data-[hover=true]:duration-0',
-																	'data-[hover=true]:bg-sky-950',
-																],
-															},
-														}}
-														aria-label="Select an employee"
-														placeholder="Enter employee name"
-														popoverProps={{
-															triggerType: 'dialog',
-															offset: 10,
-															classNames: {
-																base: [
-																	'[&>*]:!transition-none',
-																	'[&>*]:!duration-0',
-																	'rounded',
-																	'border',
-																	'!p-0',
-																	'm-0',
-																	'border-cyan-900/25',
-																	'bg-gray-50',
-																],
-																content:
-																	'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',
-															},
-														}}
-														radius={'sm'}
-														size={'sm'}
-														variant={'bordered'}
-													>
-														{/* make it depend of selected keys ( rerender the list on change of selected Keys ) */}
-														{lastDishClicked.ingredients.map(item => (
-															<AutocompleteItem
-																key={item.id}
-																textValue={item.name}
-															>
-																<Checkbox
-																	className={'custom-checkbox'}
-																	isSelected={isIngredientSelected(item.id)}
-																	onChange={() => onSelectionChange(item.id)}
-																	classNames={{
-																		wrapper: 'custom-icon',
-																		base: 'custom-box',
-																	}}
-																	radius={'sm'}
-																/>
-																<label>{item.name}</label>
-															</AutocompleteItem>
-														))}
-													</Autocomplete>
-												</div>
+												<InputIngredientsDish
+													ingredientsFromStore={ingredientsFromStore}
+													selectedKeys={selectedKeys}
+													lastDishClicked={lastDishClicked}
+													isIngredientSelected={isIngredientSelected}
+													onSelectionChange={onSelectionChange}
+													onInputChange={onInputChange}
+													inputValue={inputValue}
+												/>
 											</div>
 										</div>
 									</ModalBody>
