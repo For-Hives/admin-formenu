@@ -210,16 +210,40 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	// Handle selection change
 	const onSelectionChange = ingredientId => {
+		console.log('------------- lastDishClicked', lastDishClicked)
+
 		if (ingredientId == null) return
 
-		setSelectedKeys(prev => {
-			const ingredientStr = ingredientId.toString()
-			if (prev.includes(ingredientStr)) {
-				return prev.filter(k => k !== ingredientStr)
-			} else {
-				return [...prev, ingredientStr]
-			}
-		})
+		const ingredientToAdd = ingredients.find(
+			item => item.id.toString() === ingredientId.toString()
+		)
+
+		console.log('ingredientToAdd', ingredientToAdd)
+
+		const isIngredientInDish = lastDishClicked.ingredients.some(
+			item => item.id.toString() === ingredientId.toString()
+		)
+
+		console.log('isIngredientInDish', isIngredientInDish)
+
+		if (!isIngredientInDish) {
+			const withSelectedIngredient =
+				lastDishClicked.ingredients.push(ingredientToAdd)
+			console.log('withSelectedIngredient', withSelectedIngredient)
+			// new object to force rerender deep copy
+			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
+			newLastDishClicked.ingredients = withSelectedIngredient
+			setLastDishClicked(newLastDishClicked)
+		} else {
+			const withoutSelectedIngredient = lastDishClicked.ingredients.filter(
+				item => item.id.toString() !== ingredientId.toString()
+			)
+			console.log('withoutSelectedIngredient', withoutSelectedIngredient)
+			// new object to force rerender deep copy
+			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
+			newLastDishClicked.ingredients = withoutSelectedIngredient
+			setLastDishClicked(newLastDishClicked)
+		}
 	}
 
 	// Handle input change
@@ -298,8 +322,8 @@ export default function MenusDetails({ menu, ingredients }) {
 															{ingredientsFromStore.map(ingredient => (
 																<div key={ingredient.id}>
 																	<Checkbox
-																		checked={selectedKeys.includes(
-																			ingredient.id.toString()
+																		isSelected={isIngredientSelected(
+																			ingredient.id
 																		)}
 																		onChange={() =>
 																			onSelectionChange(ingredient.id)
