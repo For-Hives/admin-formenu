@@ -19,43 +19,6 @@ import { DishDetails } from '@/components/DishDetails'
 import { InputNameDish } from '@/components/InputNameDish'
 import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
 import { InputDescriptionDish } from '@/components/InputDescriptionDish'
-import { customInput } from '@/styles/customConfNextui'
-
-function IngredientsModal({
-	isOpen,
-	onClose,
-	ingredients,
-	selectedKeys,
-	onSelectionChange,
-}) {
-	return (
-		<Modal isOpen={isOpen} onClose={onClose}>
-			<ModalHeader>Gérer les Ingrédients</ModalHeader>
-			<ModalBody>
-				<div className="grid grid-cols-3 gap-4">
-					{ingredients.map(ingredient => (
-						<div key={ingredient.id}>
-							<Checkbox
-								checked={selectedKeys.includes(ingredient.id.toString())}
-								onChange={() => onSelectionChange(ingredient.id)}
-							>
-								{ingredient.name}
-							</Checkbox>
-						</div>
-					))}
-				</div>
-			</ModalBody>
-			<ModalFooter>
-				<Button auto flat color="error" onClick={onClose}>
-					Fermer
-				</Button>
-				<Button auto onClick={onClose}>
-					Enregistrer
-				</Button>
-			</ModalFooter>
-		</Modal>
-	)
-}
 
 function InputIngredientsDish({
 	selectedKeys,
