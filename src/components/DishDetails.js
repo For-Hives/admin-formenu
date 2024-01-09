@@ -52,7 +52,6 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 					type={'button'}
 					onClick={() => {
 						onOpen()
-						console.log('dish', dish)
 						setLastDishClicked(dish)
 					}}
 					className={
