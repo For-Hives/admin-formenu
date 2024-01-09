@@ -60,7 +60,6 @@ function IngredientsModal({
 function InputIngredientsDish({
 	selectedKeys,
 	lastDishClicked,
-	ingredientsFromStore,
 	onSelectionChange,
 	openIngredientsUpdate,
 }) {
@@ -89,96 +88,7 @@ function InputIngredientsDish({
 					)
 				})}
 			</div>
-
 			<Button onClick={openIngredientsUpdate}>Modifier les Ingrédients</Button>
-
-			{/*<Autocomplete*/}
-			{/*	shouldCloseOnBlur={false}*/}
-			{/*	inputValue={inputValue}*/}
-			{/*	classNames={{*/}
-			{/*		base: ['!p-0', '[&>*]:!p-0'],*/}
-			{/*		listboxWrapper: ['!m-0', '!p-0', 'max-h-[450px]', '[&>*]:!p-0'],*/}
-			{/*		selectorButton: 'text-gray-700',*/}
-			{/*	}}*/}
-			{/*	defaultItems={ingredientsFromStore}*/}
-			{/*	onInputChange={onInputChange}*/}
-			{/*	onSelectionChange={onSelectionChange}*/}
-			{/*	inputProps={{*/}
-			{/*		classNames: {*/}
-			{/*			base: '!p-0',*/}
-			{/*			label: 'text-gray-700',*/}
-			{/*			input: [*/}
-			{/*				'bg-transparent',*/}
-			{/*				'text-gray-700/90 ',*/}
-			{/*				'placeholder:text-gray-700/25',*/}
-			{/*			],*/}
-			{/*			innerWrapper: 'bg-transparent',*/}
-			{/*			inputWrapper: [*/}
-			{/*				'shadow-none',*/}
-			{/*				'border',*/}
-			{/*				'border-cyan-900/25',*/}
-			{/*				'bg-gray-50',*/}
-			{/*				'hover:bg-gray-100',*/}
-			{/*				'group-data-[focused=true]:bg-gray-200',*/}
-			{/*				'!cursor-text',*/}
-			{/*			],*/}
-			{/*		},*/}
-			{/*	}}*/}
-			{/*	listboxProps={{*/}
-			{/*		hideSelectedIcon: true,*/}
-			{/*		itemClasses: {*/}
-			{/*			base: [*/}
-			{/*				'[&>*]:!transition-none',*/}
-			{/*				'[&>*]:!duration-0',*/}
-			{/*				'rounded-none',*/}
-			{/*				'text-gray-900',*/}
-			{/*				'data-[hover=true]:text-white',*/}
-			{/*				'data-[hover=true]:transition-none',*/}
-			{/*				'data-[hover=true]:duration-0',*/}
-			{/*				'data-[hover=true]:bg-sky-950',*/}
-			{/*			],*/}
-			{/*		},*/}
-			{/*	}}*/}
-			{/*	aria-label="Select an employee"*/}
-			{/*	placeholder="Enter employee name"*/}
-			{/*	popoverProps={{*/}
-			{/*		triggerType: 'dialog',*/}
-			{/*		offset: 10,*/}
-			{/*		classNames: {*/}
-			{/*			base: [*/}
-			{/*				'[&>*]:!transition-none',*/}
-			{/*				'[&>*]:!duration-0',*/}
-			{/*				'rounded',*/}
-			{/*				'border',*/}
-			{/*				'!p-0',*/}
-			{/*				'm-0',*/}
-			{/*				'border-cyan-900/25',*/}
-			{/*				'bg-gray-50',*/}
-			{/*			],*/}
-			{/*			content: 'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',*/}
-			{/*		},*/}
-			{/*	}}*/}
-			{/*	radius={'sm'}*/}
-			{/*	size={'sm'}*/}
-			{/*	variant={'bordered'}*/}
-			{/*>*/}
-			{/*	/!* make it depend of selected keys ( rerender the list on change of selected Keys ) *!/*/}
-			{/*	{lastDishClicked.ingredients.map(item => (*/}
-			{/*		<AutocompleteItem key={item.id} textValue={item.name}>*/}
-			{/*			<Checkbox*/}
-			{/*				className={'custom-checkbox'}*/}
-			{/*				isSelected={isIngredientSelected(item.id)}*/}
-			{/*				onChange={() => onSelectionChange(item.id)}*/}
-			{/*				classNames={{*/}
-			{/*					wrapper: 'custom-icon',*/}
-			{/*					base: 'custom-box',*/}
-			{/*				}}*/}
-			{/*				radius={'sm'}*/}
-			{/*			/>*/}
-			{/*			<label>{item.name}</label>*/}
-			{/*		</AutocompleteItem>*/}
-			{/*	))}*/}
-			{/*</Autocomplete>*/}
 		</div>
 	)
 }
@@ -222,19 +132,29 @@ export default function MenusDetails({ menu, ingredients }) {
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		setLastDishClicked(prevDish => {
-			let newIngredients
+		if (!isIngredientInDish) {
+			// Create a new array with the added ingredient
+			const newIngredients = [...lastDishClicked.ingredients, ingredientToAdd]
 
-			if (!isIngredientInDish) {
-				newIngredients = [...prevDish.ingredients, ingredientToAdd]
-			} else {
-				newIngredients = prevDish.ingredients.filter(
-					item => item.id.toString() !== ingredientId.toString()
-				)
-			}
+			// Deeply clone lastDishClicked and update its ingredients
+			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
+			newLastDishClicked.ingredients = newIngredients
 
-			return { ...prevDish, ingredients: newIngredients }
-		})
+			// Update the state with the new object
+			setLastDishClicked(newLastDishClicked)
+		} else {
+			// Create a new array without the selected ingredient
+			const newIngredients = lastDishClicked.ingredients.filter(
+				item => item.id.toString() !== ingredientId.toString()
+			)
+
+			// Deeply clone lastDishClicked and update its ingredients
+			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
+			newLastDishClicked.ingredients = newIngredients
+
+			// Update the state with the new object
+			setLastDishClicked(newLastDishClicked)
+		}
 	}
 
 	// Handle input change
@@ -311,26 +231,24 @@ export default function MenusDetails({ menu, ingredients }) {
 													</div>
 												</>
 											) : (
-												<>
-													<div className={'col-span-12 flex flex-col gap-3'}>
-														<div className={'grid grid-cols-3 gap-4'}>
-															{ingredientsFromStore.map(ingredient => (
-																<div key={ingredient.id}>
-																	<Checkbox
-																		isSelected={isIngredientSelected(
-																			ingredient.id
-																		)}
-																		onChange={() =>
-																			onSelectionChange(ingredient.id)
-																		}
-																	>
-																		{ingredient.name}
-																	</Checkbox>
-																</div>
-															))}
-														</div>
+												<div className={'col-span-12 flex flex-col gap-3'}>
+													<div className={'grid grid-cols-3 gap-4'}>
+														{ingredientsFromStore.map(ingredient => (
+															<div key={ingredient.id}>
+																<Checkbox
+																	isSelected={isIngredientSelected(
+																		ingredient.id
+																	)}
+																	onChange={() =>
+																		onSelectionChange(ingredient.id)
+																	}
+																>
+																	{ingredient.name}
+																</Checkbox>
+															</div>
+														))}
 													</div>
-												</>
+												</div>
 											)}
 										</div>
 									</ModalBody>
