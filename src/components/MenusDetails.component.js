@@ -218,33 +218,32 @@ export default function MenusDetails({ menu, ingredients }) {
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		console.log('ingredientToAdd', ingredientToAdd)
-
 		const isIngredientInDish = lastDishClicked.ingredients.some(
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		console.log('isIngredientInDish', isIngredientInDish)
-
 		if (!isIngredientInDish) {
-			const withSelectedIngredient =
-				lastDishClicked.ingredients.push(ingredientToAdd)
-			console.log('-> withSelectedIngredient', withSelectedIngredient)
-			// new object to force rerender deep copy
+			// Create a new array with the added ingredient
+			const newIngredients = [...lastDishClicked.ingredients, ingredientToAdd]
+
+			// Deeply clone lastDishClicked and update its ingredients
 			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = withSelectedIngredient
-			console.log('newLastDishClicked', newLastDishClicked)
-			// setLastDishClicked(newLastDishClicked)
+			newLastDishClicked.ingredients = newIngredients
+
+			// Update the state with the new object
+			setLastDishClicked(newLastDishClicked)
 		} else {
-			const withoutSelectedIngredient = lastDishClicked.ingredients.filter(
+			// Create a new array without the selected ingredient
+			const newIngredients = lastDishClicked.ingredients.filter(
 				item => item.id.toString() !== ingredientId.toString()
 			)
-			console.log('withoutSelectedIngredient', withoutSelectedIngredient)
-			// new object to force rerender deep copy
+
+			// Deeply clone lastDishClicked and update its ingredients
 			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = withoutSelectedIngredient
-			console.log('newLastDishClicked', newLastDishClicked)
-			// setLastDishClicked(newLastDishClicked)
+			newLastDishClicked.ingredients = newIngredients
+
+			// Update the state with the new object
+			setLastDishClicked(newLastDishClicked)
 		}
 	}
 
