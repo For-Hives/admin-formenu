@@ -83,7 +83,7 @@ export default function MenusDetails({ menu, ingredients }) {
 	// State to store the selected keys (IDs) and input value
 	const [selectedKeys, setSelectedKeys] = useState([])
 	const [inputValue, setInputValue] = useState('')
-	const [isIngredientModalOpen, setIngredientModalOpen] = useState(false);
+	const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
 
 
 	const isIngredientSelected = ingredientId => {
@@ -91,11 +91,11 @@ export default function MenusDetails({ menu, ingredients }) {
 	}
 
 	const onIngredientModalOpen = () => {
-		setIngredientModalOpen(true);
+		setIsIngredientModalOpen(true);
 	}
 
 	const onIngredientModalClose = () => {
-		setIngredientModalOpen(false);
+		setIsIngredientModalOpen(false);
 	}
 
 	// Handle selection change
