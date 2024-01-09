@@ -19,54 +19,6 @@ import { InputNameDish } from '@/components/InputNameDish'
 import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
 import { InputDescriptionDish } from '@/components/InputDescriptionDish'
 
-function ModalDishUpdate(props) {
-	return (
-		<Modal
-			isOpen={props.open}
-			onOpenChange={props.onOpenChange}
-			scrollBehavior="inside"
-			classNames={{
-				base: '!w-[90vw] max-w-[90vw]',
-				header: 'border-b-[1px] border-[#f0f9ff]',
-				footer: 'border-t-[1px] border-[#f0f9ff]',
-			}}
-		>
-			<ModalContent>{props.prop2}</ModalContent>
-		</Modal>
-	)
-}
-
-
-export default function ModalIngredients({ open, onClose, ingredients, selectedKeys, onSelectionChange }) {
-	return (
-		<Modal isOpen={open} onClose={onClose} scrollBehavior="inside">
-			<ModalHeader>Modifier les Ingrédients</ModalHeader>
-			<ModalBody>
-				<div className="grid grid-cols-3 gap-4">
-					{ingredients.map(ingredient => (
-						<div key={ingredient.id}>
-							<Checkbox
-								checked={selectedKeys.includes(ingredient.id)}
-								onChange={() => onSelectionChange(ingredient.id)}
-							>
-								{ingredient.name}
-							</Checkbox>
-						</div>
-					))}
-				</div>
-			</ModalBody>
-			<ModalFooter>
-				<Button auto flat color="error" onClick={onClose}>
-					Fermer
-				</Button>
-				<Button auto onClick={onClose}>
-					Enregistrer
-				</Button>
-			</ModalFooter>
-		</Modal>
-	)
-}
-
 /**
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
@@ -83,19 +35,9 @@ export default function MenusDetails({ menu, ingredients }) {
 	// State to store the selected keys (IDs) and input value
 	const [selectedKeys, setSelectedKeys] = useState([])
 	const [inputValue, setInputValue] = useState('')
-	const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
-
 
 	const isIngredientSelected = ingredientId => {
 		return selectedKeys.includes(ingredientId.toString())
-	}
-
-	const onIngredientModalOpen = () => {
-		setIsIngredientModalOpen(true);
-	}
-
-	const onIngredientModalClose = () => {
-		setIsIngredientModalOpen(false);
 	}
 
 	// Handle selection change
@@ -140,174 +82,174 @@ export default function MenusDetails({ menu, ingredients }) {
 				<div>loading</div>
 			) : (
 				<>
-					<ModalIngredients
-						open={isIngredientModalOpen}
-						onClose={onIngredientModalClose}
-						ingredients={ingredientsFromStore}
-						selectedKeys={selectedKeys}
-						onSelectionChange={onSelectionChange}
-					/>
-
-					<ModalDishUpdate
-						open={isOpen}
+					<Modal
+						isOpen={isOpen}
 						onOpenChange={onOpenChange}
-						prop2={onClose => (
-							<>
-								<ModalHeader className="flex flex-col gap-1">
-									Modification du plat
-								</ModalHeader>
-								<ModalBody>
-									<div className={'grid h-full w-full grid-cols-12 gap-16 p-8'}>
-										{/* column 1 */}
-										<div className={'col-span-6 flex flex-col gap-3'}>
-											<InputNameDish />
-											<InputDescriptionDish />
-											<InputDropzoneImageDish />
-										</div>
-										<div className={'col-span-6 flex flex-col gap-3'}>
-											<div
-												className={
-													'flex flex-col gap-1 [&>*]:!transition-none [&>*]:!duration-0'
-												}
-											>
-												<h2>Ingrédients</h2>
-												<p>
-													Mets les ingrédients qui composes tes plats ici, ils
-													permettrons aux clients de chercher, et retrouver
-													facilement les plats en questions.
-												</p>
-												<div className={'flex w-full flex-wrap gap-2'}>
-													{selectedKeys.map(key => {
-														const ingredient = lastDishClicked.ingredients.find(
-															item => item.id.toString() === key
-														)
-														return (
-															<Chip
-																key={key}
-																onClose={() => onSelectionChange(key)}
-																variant="flat"
+						scrollBehavior="inside"
+						classNames={{
+							base: '!w-[90vw] max-w-[90vw]',
+							header: 'border-b-[1px] border-[#f0f9ff]',
+							footer: 'border-t-[1px] border-[#f0f9ff]',
+						}}
+					>
+						<ModalContent>
+							{onClose => (
+								<>
+									<ModalHeader className="flex flex-col gap-1">
+										Modification du plat
+									</ModalHeader>
+									<ModalBody>
+										<div
+											className={'grid h-full w-full grid-cols-12 gap-16 p-8'}
+										>
+											{/* column 1 */}
+											<div className={'col-span-6 flex flex-col gap-3'}>
+												<InputNameDish />
+												<InputDescriptionDish />
+												<InputDropzoneImageDish />
+											</div>
+											<div className={'col-span-6 flex flex-col gap-3'}>
+												<div
+													className={
+														'flex flex-col gap-1 [&>*]:!transition-none [&>*]:!duration-0'
+													}
+												>
+													<h2>Ingrédients</h2>
+													<p>
+														Mets les ingrédients qui composes tes plats ici, ils
+														permettrons aux clients de chercher, et retrouver
+														facilement les plats en questions.
+													</p>
+													<div className={'flex w-full flex-wrap gap-2'}>
+														{selectedKeys.map(key => {
+															const ingredient =
+																lastDishClicked.ingredients.find(
+																	item => item.id.toString() === key
+																)
+															return (
+																<Chip
+																	key={key}
+																	onClose={() => onSelectionChange(key)}
+																	variant="flat"
+																>
+																	{ingredient?.name}
+																</Chip>
+															)
+														})}
+													</div>
+
+													<Autocomplete
+														shouldCloseOnBlur={false}
+														inputValue={inputValue}
+														classNames={{
+															base: ['!p-0', '[&>*]:!p-0'],
+															listboxWrapper: [
+																'!m-0',
+																'!p-0',
+																'max-h-[450px]',
+																'[&>*]:!p-0',
+															],
+															selectorButton: 'text-gray-700',
+														}}
+														defaultItems={ingredientsFromStore}
+														onInputChange={onInputChange}
+														onSelectionChange={onSelectionChange}
+														inputProps={{
+															classNames: {
+																base: '!p-0',
+																label: 'text-gray-700',
+																input: [
+																	'bg-transparent',
+																	'text-gray-700/90 ',
+																	'placeholder:text-gray-700/25',
+																],
+																innerWrapper: 'bg-transparent',
+																inputWrapper: [
+																	'shadow-none',
+																	'border',
+																	'border-cyan-900/25',
+																	'bg-gray-50',
+																	'hover:bg-gray-100',
+																	'group-data-[focused=true]:bg-gray-200',
+																	'!cursor-text',
+																],
+															},
+														}}
+														listboxProps={{
+															hideSelectedIcon: true,
+															itemClasses: {
+																base: [
+																	'[&>*]:!transition-none',
+																	'[&>*]:!duration-0',
+																	'rounded-none',
+																	'text-gray-900',
+																	'data-[hover=true]:text-white',
+																	'data-[hover=true]:transition-none',
+																	'data-[hover=true]:duration-0',
+																	'data-[hover=true]:bg-sky-950',
+																],
+															},
+														}}
+														aria-label="Select an employee"
+														placeholder="Enter employee name"
+														popoverProps={{
+															triggerType: 'dialog',
+															offset: 10,
+															classNames: {
+																base: [
+																	'[&>*]:!transition-none',
+																	'[&>*]:!duration-0',
+																	'rounded',
+																	'border',
+																	'!p-0',
+																	'm-0',
+																	'border-cyan-900/25',
+																	'bg-gray-50',
+																],
+																content:
+																	'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',
+															},
+														}}
+														radius={'sm'}
+														size={'sm'}
+														variant={'bordered'}
+													>
+														{/* make it depend of selected keys ( rerender the list on change of selected Keys ) */}
+														{lastDishClicked.ingredients.map(item => (
+															<AutocompleteItem
+																key={item.id}
+																textValue={item.name}
 															>
-																{ingredient?.name}
-															</Chip>
-														)
-													})}
+																<Checkbox
+																	className={'custom-checkbox'}
+																	isSelected={isIngredientSelected(item.id)}
+																	onChange={() => onSelectionChange(item.id)}
+																	classNames={{
+																		wrapper: 'custom-icon',
+																		base: 'custom-box',
+																	}}
+																	radius={'sm'}
+																/>
+																<label>{item.name}</label>
+															</AutocompleteItem>
+														))}
+													</Autocomplete>
 												</div>
-
-												<Button auto onClick={onIngredientModalOpen}>
-													Modifier les Ingrédients
-												</Button>
-
-												{/*<Autocomplete*/}
-												{/*	shouldCloseOnBlur={false}*/}
-												{/*	inputValue={inputValue}*/}
-												{/*	classNames={{*/}
-												{/*		base: ['!p-0', '[&>*]:!p-0'],*/}
-												{/*		listboxWrapper: [*/}
-												{/*			'!m-0',*/}
-												{/*			'!p-0',*/}
-												{/*			'max-h-[450px]',*/}
-												{/*			'[&>*]:!p-0',*/}
-												{/*		],*/}
-												{/*		selectorButton: 'text-gray-700',*/}
-												{/*	}}*/}
-												{/*	defaultItems={ingredientsFromStore}*/}
-												{/*	onInputChange={onInputChange}*/}
-												{/*	onSelectionChange={onSelectionChange}*/}
-												{/*	inputProps={{*/}
-												{/*		classNames: {*/}
-												{/*			base: '!p-0',*/}
-												{/*			label: 'text-gray-700',*/}
-												{/*			input: [*/}
-												{/*				'bg-transparent',*/}
-												{/*				'text-gray-700/90 ',*/}
-												{/*				'placeholder:text-gray-700/25',*/}
-												{/*			],*/}
-												{/*			innerWrapper: 'bg-transparent',*/}
-												{/*			inputWrapper: [*/}
-												{/*				'shadow-none',*/}
-												{/*				'border',*/}
-												{/*				'border-cyan-900/25',*/}
-												{/*				'bg-gray-50',*/}
-												{/*				'hover:bg-gray-100',*/}
-												{/*				'group-data-[focused=true]:bg-gray-200',*/}
-												{/*				'!cursor-text',*/}
-												{/*			],*/}
-												{/*		},*/}
-												{/*	}}*/}
-												{/*	listboxProps={{*/}
-												{/*		hideSelectedIcon: true,*/}
-												{/*		itemClasses: {*/}
-												{/*			base: [*/}
-												{/*				'[&>*]:!transition-none',*/}
-												{/*				'[&>*]:!duration-0',*/}
-												{/*				'rounded-none',*/}
-												{/*				'text-gray-900',*/}
-												{/*				'data-[hover=true]:text-white',*/}
-												{/*				'data-[hover=true]:transition-none',*/}
-												{/*				'data-[hover=true]:duration-0',*/}
-												{/*				'data-[hover=true]:bg-sky-950',*/}
-												{/*			],*/}
-												{/*		},*/}
-												{/*	}}*/}
-												{/*	aria-label="Select an employee"*/}
-												{/*	placeholder="Enter employee name"*/}
-												{/*	popoverProps={{*/}
-												{/*		triggerType: 'dialog',*/}
-												{/*		offset: 10,*/}
-												{/*		classNames: {*/}
-												{/*			base: [*/}
-												{/*				'[&>*]:!transition-none',*/}
-												{/*				'[&>*]:!duration-0',*/}
-												{/*				'rounded',*/}
-												{/*				'border',*/}
-												{/*				'!p-0',*/}
-												{/*				'm-0',*/}
-												{/*				'border-cyan-900/25',*/}
-												{/*				'bg-gray-50',*/}
-												{/*			],*/}
-												{/*			content:*/}
-												{/*				'border border-cyan-900/25 bg-gray-50 rounded !m-0 !p-0',*/}
-												{/*		},*/}
-												{/*	}}*/}
-												{/*	radius={'sm'}*/}
-												{/*	size={'sm'}*/}
-												{/*	variant={'bordered'}*/}
-												{/*>*/}
-												{/*	/!* make it depend of selected keys ( rerender the list on change of selected Keys ) *!/*/}
-												{/*	{lastDishClicked.ingredients.map(item => (*/}
-												{/*		<AutocompleteItem*/}
-												{/*			key={item.id}*/}
-												{/*			textValue={item.name}*/}
-												{/*		>*/}
-												{/*			<Checkbox*/}
-												{/*				className={'custom-checkbox'}*/}
-												{/*				isSelected={isIngredientSelected(item.id)}*/}
-												{/*				onChange={() => onSelectionChange(item.id)}*/}
-												{/*				classNames={{*/}
-												{/*					wrapper: 'custom-icon',*/}
-												{/*					base: 'custom-box',*/}
-												{/*				}}*/}
-												{/*				radius={'sm'}*/}
-												{/*			/>*/}
-												{/*			<label>{item.name}</label>*/}
-												{/*		</AutocompleteItem>*/}
-												{/*	))}*/}
-												{/*</Autocomplete>*/}
 											</div>
 										</div>
-									</div>
-								</ModalBody>
-								<ModalFooter>
-									<Button color="danger" variant="flat" onPress={onClose}>
-										Close
-									</Button>
-									<Button color="primary" onPress={onClose}>
-										Sign in
-									</Button>
-								</ModalFooter>
-							</>
-						)}
-					/>
+									</ModalBody>
+									<ModalFooter>
+										<Button color="danger" variant="flat" onPress={onClose}>
+											Close
+										</Button>
+										<Button color="primary" onPress={onClose}>
+											Sign in
+										</Button>
+									</ModalFooter>
+								</>
+							)}
+						</ModalContent>
+					</Modal>
 
 					<h2>
 						→{' '}
