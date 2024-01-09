@@ -83,6 +83,11 @@ export default function MenusDetails({ menu, ingredients }) {
 		return selectedKeys.includes(ingredientId.toString())
 	}
 
+	const isIngredientSelectedInLocalState = ingredientId => {
+		// Access the state directly using the ingredient ID as the key
+		return checkboxStates[ingredientId.toString()] || false
+	}
+
 	// Handle selection change
 	const onSelectionChange = ingredientId => {
 		if (ingredientId == null) return
@@ -95,29 +100,21 @@ export default function MenusDetails({ menu, ingredients }) {
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		if (!isIngredientInDish) {
-			// Create a new array with the added ingredient
-			const newIngredients = [...lastDishClicked.ingredients, ingredientToAdd]
+		setLastDishClicked(prevDish => {
+			let newIngredients
 
-			// Deeply clone lastDishClicked and update its ingredients
-			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = newIngredients
+			if (!isIngredientInDish) {
+				// Add ingredient to the array
+				newIngredients = [...prevDish.ingredients, ingredientToAdd]
+			} else {
+				// Remove ingredient from the array
+				newIngredients = prevDish.ingredients.filter(
+					item => item.id.toString() !== ingredientId.toString()
+				)
+			}
 
-			// Update the state with the new object
-			setLastDishClicked(newLastDishClicked)
-		} else {
-			// Create a new array without the selected ingredient
-			const newIngredients = lastDishClicked.ingredients.filter(
-				item => item.id.toString() !== ingredientId.toString()
-			)
-
-			// Deeply clone lastDishClicked and update its ingredients
-			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = newIngredients
-
-			// Update the state with the new object
-			setLastDishClicked(newLastDishClicked)
-		}
+			return { ...prevDish, ingredients: newIngredients }
+		})
 	}
 
 	// Handle input change
@@ -130,6 +127,9 @@ export default function MenusDetails({ menu, ingredients }) {
 			...prevStates,
 			[ingredientId]: !prevStates[ingredientId],
 		}))
+
+		// Trigger the updated onSelectionChange function
+		onSelectionChange(ingredientId)
 	}
 
 	useEffect(() => {
@@ -147,18 +147,10 @@ export default function MenusDetails({ menu, ingredients }) {
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
+		setCheckboxStates(
+			lastDishClicked.ingredients.map(item => item.id.toString())
+		)
 	}, [lastDishClicked])
-
-	useEffect(() => {
-		// Initialize the local checkbox states based on the selected keys
-		const initialStates = {}
-		ingredientsFromStore.forEach(ingredient => {
-			initialStates[ingredient.id] = selectedKeys.includes(
-				ingredient.id.toString()
-			)
-		})
-		setCheckboxStates(initialStates)
-	}, [ingredientsFromStore, selectedKeys])
 
 	return (
 		<>
@@ -213,9 +205,9 @@ export default function MenusDetails({ menu, ingredients }) {
 														{ingredientsFromStore.map(ingredient => (
 															<div key={ingredient.id}>
 																<Checkbox
-																	checked={
-																		checkboxStates[ingredient.id] || false
-																	}
+																	isSelected={isIngredientSelectedInLocalState(
+																		ingredient.id
+																	)}
 																	onChange={() =>
 																		handleCheckboxChange(ingredient.id)
 																	}
