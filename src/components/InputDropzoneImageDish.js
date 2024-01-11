@@ -33,11 +33,11 @@ export function InputDropzoneImageDish() {
 							/>
 						</svg>
 						<p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-							<span className="font-semibold">Click to upload</span> or drag and
-							drop
+							<span className="font-semibold">Cliquez</span> ou glissez-déposez
+							une image ici.
 						</p>
 						<p className="text-xs text-gray-500 dark:text-gray-400">
-							PNG, JPG, WEBP up to 1MB
+							PNG, JPG, WEBP jusqu&apos;à 1MB
 						</p>
 					</div>
 					<input id="dropzone-file" type="file" className="hidden" />

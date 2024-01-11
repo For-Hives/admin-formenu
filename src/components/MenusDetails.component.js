@@ -2,12 +2,9 @@
 import React, { useEffect, useState } from 'react'
 import { useMenusStore } from '@/stores/menu.store'
 import {
-	Autocomplete,
-	AutocompleteItem,
 	Button,
 	Checkbox,
 	Chip,
-	Input,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -19,6 +16,7 @@ import { DishDetails } from '@/components/DishDetails'
 import { InputNameDish } from '@/components/InputNameDish'
 import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
 import { InputDescriptionDish } from '@/components/InputDescriptionDish'
+import { InputPriceDish } from '@/components/InputPriceDish'
 
 function InputIngredientsDish({
 	selectedKeys,
@@ -28,7 +26,7 @@ function InputIngredientsDish({
 }) {
 	return (
 		<div
-			className={'flex flex-col gap-1 [&>*]:!transition-none [&>*]:!duration-0'}
+			className={'flex flex-col gap-4 [&>*]:!transition-none [&>*]:!duration-0'}
 		>
 			<h2>Ingrédients</h2>
 			<p>
@@ -169,12 +167,12 @@ export default function MenusDetails({ menu, ingredients }) {
 										>
 											{!isIngredientsUpdateOpen ? (
 												<>
-													<div className={'col-span-6 flex flex-col gap-3'}>
+													<div className={'col-span-6 flex flex-col gap-6'}>
 														<InputNameDish />
 														<InputDescriptionDish />
 														<InputDropzoneImageDish />
 													</div>
-													<div className={'col-span-6 flex flex-col gap-3'}>
+													<div className={'col-span-6 flex flex-col gap-6'}>
 														<InputIngredientsDish
 															ingredientsFromStore={ingredientsFromStore}
 															selectedKeys={selectedKeys}
@@ -186,6 +184,7 @@ export default function MenusDetails({ menu, ingredients }) {
 															openIngredientsUpdate={openIngredientsUpdate}
 															closeIngredientsUpdate={closeIngredientsUpdate}
 														/>
+														<InputPriceDish />
 													</div>
 												</>
 											) : (

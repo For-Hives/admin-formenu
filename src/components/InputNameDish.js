@@ -6,8 +6,10 @@ export function InputNameDish() {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
-				<h2>Quel est le nom de votre plat ?</h2>
-				<p>
+				<h2 className={'font-kanit text-lg font-medium'}>
+					Quel est le nom de votre plat ?
+				</h2>
+				<p className={'text-sm italic'}>
 					Ce sera cet élément qui sera vu de prime abord et qui sera afficher en
 					premier, mettez ce que vous voulez !
 				</p>
@@ -19,7 +21,7 @@ export function InputNameDish() {
 					name="name_dish"
 					type="text"
 					size={'sm'}
-					label="name_dish"
+					label="Nom du plat..."
 					radius={'sm'}
 					variant={'bordered'}
 					color={'primary'}
