@@ -6,8 +6,10 @@ export function InputDescriptionDish() {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
-				<h2>Quelle est la description de votre plat ?</h2>
-				<p>
+				<h2 className={'font-kanit text-lg font-medium'}>
+					Quelle est la description de votre plat ?
+				</h2>
+				<p className={'text-sm italic'}>
 					Elle vous permettra de savoir à quoi correspond votre plat, donner des
 					explications complémentaires, ou bien même l’histoire du plat ! Vous
 					pourrez afficher toutes les informations complémentaires ici.

@@ -4,8 +4,10 @@ export function InputDropzoneImageDish() {
 	return (
 		<div className={'flex flex-col gap-4'}>
 			<div className={'flex flex-col gap-2'}>
-				<h2>Image de présentation du plat</h2>
-				<p>
+				<h2 className={'font-kanit text-lg font-medium'}>
+					Image de présentation du plat
+				</h2>
+				<p className={'text-sm italic'}>
 					Vous pouvez présenter une image de votre plat, elle permettra à vos
 					clients de se trouver plus simplement dans les choix qui lui sont
 					proposés

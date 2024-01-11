@@ -28,8 +28,8 @@ function InputIngredientsDish({
 		<div
 			className={'flex flex-col gap-4 [&>*]:!transition-none [&>*]:!duration-0'}
 		>
-			<h2>Ingrédients</h2>
-			<p>
+			<h2 className={'font-kanit text-lg font-medium'}>Ingrédients</h2>
+			<p className={'text-sm italic'}>
 				Mets les ingrédients qui composes tes plats ici, ils permettrons aux
 				clients de chercher, et retrouver facilement les plats en questions.
 			</p>
