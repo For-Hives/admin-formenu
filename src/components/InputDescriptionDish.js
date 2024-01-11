@@ -19,8 +19,7 @@ export function InputDescriptionDish() {
 				data-cy="description_dish"
 				id="description_dish"
 				name="description_dish"
-				label="Description"
-				placeholder="..."
+				placeholder="Description du plat..."
 				radius={'sm'}
 				size={'sm'}
 				variant={'bordered'}

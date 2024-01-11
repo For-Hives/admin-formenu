@@ -21,7 +21,7 @@ export function InputNameDish() {
 					name="name_dish"
 					type="text"
 					size={'sm'}
-					label="Nom du plat..."
+					placeholder="Nom du plat..."
 					radius={'sm'}
 					variant={'bordered'}
 					color={'primary'}

@@ -21,7 +21,7 @@ export function InputPriceDish() {
 					name="price_dish"
 					type="number"
 					size={'sm'}
-					label="Prix du plat..."
+					placeholder="Prix du plat..."
 					radius={'sm'}
 					variant={'bordered'}
 					color={'primary'}
