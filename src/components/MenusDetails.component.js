@@ -26,13 +26,15 @@ function InputIngredientsDish({
 }) {
 	return (
 		<div
-			className={'flex flex-col gap-4 [&>*]:!transition-none [&>*]:!duration-0'}
+			className={'flex flex-col gap-3 [&>*]:!transition-none [&>*]:!duration-0'}
 		>
-			<h2 className={'font-kanit text-lg font-medium'}>Ingrédients</h2>
-			<p className={'text-sm italic'}>
-				Mets les ingrédients qui composes tes plats ici, ils permettrons aux
-				clients de chercher, et retrouver facilement les plats en questions.
-			</p>
+			<div className={'flex flex-col gap-1'}>
+				<h2 className={'font-kanit text-lg font-medium'}>Ingrédients</h2>
+				<p className={'text-sm italic'}>
+					Mets les ingrédients qui composes tes plats ici, ils permettrons aux
+					clients de chercher, et retrouver facilement les plats en questions.
+				</p>
+			</div>
 			<div className={'flex w-full flex-wrap gap-2'}>
 				{selectedKeys.map(key => {
 					const ingredient = lastDishClicked.ingredients.find(
@@ -49,7 +51,16 @@ function InputIngredientsDish({
 					)
 				})}
 			</div>
-			<Button onClick={openIngredientsUpdate}>Modifier les Ingrédients</Button>
+			<div className={'flex w-full justify-start'}>
+				<Button
+					onClick={openIngredientsUpdate}
+					color={'primary'}
+					className={'no-underline'}
+					startContent={<i className={`fi fi-sr-file-edit icon`}></i>}
+				>
+					Modifier les Ingrédients
+				</Button>
+			</div>
 		</div>
 	)
 }
@@ -213,29 +224,42 @@ export default function MenusDetails({ menu, ingredients }) {
 										{!isIngredientsUpdateOpen ? (
 											<>
 												{/*todo on close event*/}
-												<Button color="danger" variant="flat" onPress={onClose}>
-													Fermer
-												</Button>
-												<Button color="primary" onPress={onClose}>
-													Enregistrer
-												</Button>
-											</>
-										) : (
-											<>
 												<Button
 													color="danger"
 													variant="flat"
-													onPress={closeIngredientsUpdate}
+													onPress={onClose}
+													className={'no-underline'}
+													startContent={
+														<i
+															className={`fi fi-sr-arrow-left icon-button`}
+														></i>
+													}
 												>
-													Revenir en arrière
+													Annuler & fermer
 												</Button>
 												<Button
 													color="primary"
-													onPress={closeIngredientsUpdate}
+													onPress={onClose}
+													className={'no-underline'}
+													startContent={
+														<i className={`fi fi-sr-disk icon-button`}></i>
+													}
 												>
-													Enregistrer les ingrédients
+													Enregistrer & fermer
 												</Button>
 											</>
+										) : (
+											<Button
+												color="primary"
+												variant="flat"
+												onPress={closeIngredientsUpdate}
+												className={'no-underline'}
+												startContent={
+													<i className={`fi fi-sr-arrow-left icon-button`}></i>
+												}
+											>
+												Revenir en arrière
+											</Button>
 										)}
 									</ModalFooter>
 								</>

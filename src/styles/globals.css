@@ -81,6 +81,9 @@ button {
     .icon {
         @apply flex h-[20px] w-[20px] items-center justify-center text-white transition-all;
     }
+    .icon-button {
+        @apply flex h-[20px] w-[20px] items-center justify-center transition-all;
+    }
 }
 
 li[data-hover="true"][data-selected="true"] .custom-icon{
