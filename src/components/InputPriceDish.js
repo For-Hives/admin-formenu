@@ -2,30 +2,30 @@ import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 import React from 'react'
 
-export function InputNameDish() {
+export function InputPriceDish() {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
-				<h2>Quel est le nom de votre plat ?</h2>
+				<h2>Quel est le prix de votre plat ?</h2>
 				<p>
-					Ce sera cet élément qui sera vu de prime abord et qui sera afficher en
-					premier, mettez ce que vous voulez !
+					Ici vous indiquez le prix du plat en question, laissez vide si vous
+					voulez juste l’incorporer dans un menu !
 				</p>
 			</div>
 			<div>
 				<Input
-					data-cy="name_dish"
-					id="name_dish"
-					name="name_dish"
-					type="text"
+					data-cy="price_dish"
+					id="price_dish"
+					name="price_dish"
+					type="number"
 					size={'sm'}
-					label="name_dish"
+					label="price_dish"
 					radius={'sm'}
 					variant={'bordered'}
 					color={'primary'}
 					// isInvalid={!!errors.password}
 					// errorMessage={errors.password?.message}
-					autoComplete="current-password"
+					// autoComplete="current-password"
 					classNames={customInput}
 				/>
 				{/*{...register('password', {*/}
