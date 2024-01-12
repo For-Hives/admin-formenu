@@ -1,69 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { useMenusStore } from '@/stores/menu.store'
-import {
-	Button,
-	Checkbox,
-	Chip,
-	Modal,
-	ModalBody,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	useDisclosure,
-} from '@nextui-org/react'
-import { DishDetails } from '@/components/DishDetails'
-import { InputNameDish } from '@/components/InputNameDish'
-import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
-import { InputDescriptionDish } from '@/components/InputDescriptionDish'
-import { InputPriceDish } from '@/components/InputPriceDish'
-
-function InputIngredientsDish({
-	selectedKeys,
-	lastDishClicked,
-	onSelectionChange,
-	openIngredientsUpdate,
-}) {
-	return (
-		<div
-			className={'flex flex-col gap-3 [&>*]:!transition-none [&>*]:!duration-0'}
-		>
-			<div className={'flex flex-col gap-1'}>
-				<h2 className={'font-kanit text-lg font-medium'}>Ingrédients</h2>
-				<p className={'text-sm italic'}>
-					Mets les ingrédients qui composes tes plats ici, ils permettrons aux
-					clients de chercher, et retrouver facilement les plats en questions.
-				</p>
-			</div>
-			<div className={'flex w-full flex-wrap gap-2'}>
-				{selectedKeys.map(key => {
-					const ingredient = lastDishClicked.ingredients.find(
-						item => item.id.toString() === key
-					)
-					return (
-						<Chip
-							key={key}
-							onClose={() => onSelectionChange(key)}
-							variant="flat"
-						>
-							{ingredient?.name}
-						</Chip>
-					)
-				})}
-			</div>
-			<div className={'flex w-full justify-start'}>
-				<Button
-					onClick={openIngredientsUpdate}
-					color={'primary'}
-					className={'no-underline'}
-					startContent={<i className={`fi fi-sr-file-edit icon`}></i>}
-				>
-					Modifier les Ingrédients
-				</Button>
-			</div>
-		</div>
-	)
-}
+import React, {useEffect, useState} from 'react'
+import {useMenusStore} from '@/stores/menu.store'
+import {Button, Checkbox, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure,} from '@nextui-org/react'
+import {DishDetails} from '@/components/DishDetails'
+import {InputNameDish} from '@/components/InputNameDish'
+import {InputDropzoneImageDish} from '@/components/InputDropzoneImageDish'
+import {InputDescriptionDish} from '@/components/InputDescriptionDish'
+import {InputPriceDish} from '@/components/InputPriceDish'
+import {InputIngredientsDish} from "@/components/InputIngredientsDish";
 
 /**
  * @param {Object} menu - The menu object containing the menu details.
