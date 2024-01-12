@@ -18,23 +18,53 @@ import { InputDescriptionDish } from '@/components/InputDescriptionDish'
 import { InputPriceDish } from '@/components/InputPriceDish'
 import { InputIngredientsDish } from '@/components/InputIngredientsDish'
 import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+const formSchema = z.object({
+	name_dish: z.string().min(1, 'Dish name is required'),
+	description_dish: z.string().min(1, 'Description is required'),
+	price_dish: z
+		.string()
+		.optional()
+		.regex(/^\d+(\.\d{1,2})?$/, 'Invalid price format'),
+	selectedKeys: z.array(z.string()).optional(),
+	image: z.any().optional(),
+})
 
 /**
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
  */
 export default function MenusDetails({ menu, ingredients }) {
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: zodResolver(formSchema),
+	})
+	// initials values
+	const initialIngredients = useMenusStore(state => state.ingredients)
+	const initialMenu = useMenusStore(state => state.menu)
+	const initialLastDishClicked = useMenusStore(state => state.lastDishClicked)
+	const initialSelectedKeys = []
+	const initialInputValue = ''
+	const initialIsIngredientsUpdateOpen = false
+
+	// States
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
 	const menuFromStore = useMenusStore(state => state.menu)
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
+	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
 	const setStore = useMenusStore(state => state.setMenu)
 	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
+	// Modal disclosure
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
 	// State to store the selected keys (IDs) and input value
 	const [selectedKeys, setSelectedKeys] = useState([])
-
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 
@@ -93,6 +123,15 @@ export default function MenusDetails({ menu, ingredients }) {
 		}
 	}, [menu, menuFromStore, setStore])
 
+	const resetAll = () => {
+		setIngredients(initialIngredients)
+		setStore(initialMenu)
+		setLastDishClicked(initialLastDishClicked)
+		setSelectedKeys(initialSelectedKeys)
+		setInputValue(initialInputValue)
+		setIsIngredientsUpdateOpen(initialIsIngredientsUpdateOpen)
+	}
+
 	useEffect(() => {
 		if (Object.keys(ingredientsFromStore).length === 0) {
 			setIngredients(ingredients)
@@ -133,9 +172,21 @@ export default function MenusDetails({ menu, ingredients }) {
 											{!isIngredientsUpdateOpen ? (
 												<>
 													<div className={'col-span-6 flex flex-col gap-6'}>
-														<InputNameDish />
-														<InputDescriptionDish />
-														<InputDropzoneImageDish />
+														<InputNameDish
+															control={control}
+															errors={errors}
+															name={'name_dish'}
+														/>
+														<InputDescriptionDish
+															control={control}
+															errors={errors}
+															name={'description_dish'}
+														/>
+														<InputDropzoneImageDish
+															control={control}
+															errors={errors}
+															name={'image_dish'}
+														/>
 													</div>
 													<div className={'col-span-6 flex flex-col gap-6'}>
 														<InputIngredientsDish
@@ -148,8 +199,15 @@ export default function MenusDetails({ menu, ingredients }) {
 															inputValue={inputValue}
 															openIngredientsUpdate={openIngredientsUpdate}
 															closeIngredientsUpdate={closeIngredientsUpdate}
+															control={control}
+															errors={errors}
+															name={'ingredients_dish'}
 														/>
-														<InputPriceDish />
+														<InputPriceDish
+															control={control}
+															errors={errors}
+															name={'price_dish'}
+														/>
 													</div>
 												</>
 											) : (
@@ -177,11 +235,15 @@ export default function MenusDetails({ menu, ingredients }) {
 									<ModalFooter>
 										{!isIngredientsUpdateOpen ? (
 											<>
-												{/*todo on close event*/}
 												<Button
 													color="danger"
 													variant="flat"
-													onPress={onClose}
+													onPress={() => {
+														// reset
+														resetAll()
+														// close
+														onClose()
+													}}
 													className={'no-underline'}
 													startContent={
 														<i
@@ -193,7 +255,9 @@ export default function MenusDetails({ menu, ingredients }) {
 												</Button>
 												<Button
 													color="primary"
-													onPress={onClose}
+													onPress={() => {
+														handleSubmit(data => console.log(data))()
+													}}
 													className={'no-underline'}
 													startContent={
 														<i className={`fi fi-sr-disk icon-button`}></i>
