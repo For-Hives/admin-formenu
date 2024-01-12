@@ -1,13 +1,23 @@
 'use client'
-import React, {useEffect, useState} from 'react'
-import {useMenusStore} from '@/stores/menu.store'
-import {Button, Checkbox, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure,} from '@nextui-org/react'
-import {DishDetails} from '@/components/DishDetails'
-import {InputNameDish} from '@/components/InputNameDish'
-import {InputDropzoneImageDish} from '@/components/InputDropzoneImageDish'
-import {InputDescriptionDish} from '@/components/InputDescriptionDish'
-import {InputPriceDish} from '@/components/InputPriceDish'
-import {InputIngredientsDish} from "@/components/InputIngredientsDish";
+import React, { useEffect, useState } from 'react'
+import { useMenusStore } from '@/stores/menu.store'
+import {
+	Button,
+	Checkbox,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	useDisclosure,
+} from '@nextui-org/react'
+import { DishDetails } from '@/components/DishDetails'
+import { InputNameDish } from '@/components/InputNameDish'
+import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
+import { InputDescriptionDish } from '@/components/InputDescriptionDish'
+import { InputPriceDish } from '@/components/InputPriceDish'
+import { InputIngredientsDish } from '@/components/InputIngredientsDish'
+import { useForm, Controller } from 'react-hook-form'
 
 /**
  * @param {Object} menu - The menu object containing the menu details.
