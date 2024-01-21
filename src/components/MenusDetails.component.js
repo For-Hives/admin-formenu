@@ -186,8 +186,27 @@ export default function MenusDetails({ menu, ingredients }) {
 						<ModalContent>
 							{onClose => (
 								<>
-									<ModalHeader className="flex flex-col gap-1">
-										Modification du plat
+									<ModalHeader className="flex justify-between gap-1">
+										<h2>Modification du plat</h2>
+										<div className={'flex gap-4'}>
+											<p>
+												{lastDishClicked.activated ? (
+													<div className={'flex gap-2'}>
+														<i
+															className={`fi fi-sr-check icon-button text-green-500`}
+														/>
+														<span>Plat activé</span>
+													</div>
+												) : (
+													<div className={'flex gap-2'}>
+														<i
+															className={`fi fi-sr-x icon-button text-red-500`}
+														/>
+														<span>Plat activé</span>
+													</div>
+												)}
+											</p>
+										</div>
 									</ModalHeader>
 									<ModalBody>
 										<div
