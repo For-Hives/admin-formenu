@@ -27,8 +27,7 @@ const formSchema = z.object({
 		.min(1, 'Le nom du plat est requis.'),
 	description_dish: z
 		.string({ required_error: 'La description du plat est requise.' })
-		.min(1, 'La description du plat est requise.')
-		.optional(),
+		.min(1, 'La description du plat est requise.'),
 	price_dish: z
 		.string({ required_error: 'Le prix du plat est requis.' })
 		.regex(/^\d+(\.\d{1,2})?$/, 'Le prix est invalide.'),
