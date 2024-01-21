@@ -22,8 +22,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 const formSchema = z.object({
-	name_dish: z.string().min(1, 'Le nom du plat est requis.'),
-	description_dish: z.string().min(1, 'La description du plat est requise.'),
+	name_dish: z.string().min(1, 'Le nom du plat est requis.').optional(),
+	description_dish: z
+		.string()
+		.min(1, 'La description du plat est requise.')
+		.optional(),
 	price_dish: z
 		.string()
 		.regex(/^\d+(\.\d{1,2})?$/, 'Le prix est invalide.')

@@ -4,7 +4,6 @@ import React from 'react'
 import { Controller } from 'react-hook-form'
 
 export function InputNameDish({ control, errors, name }) {
-	console.log(errors)
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
@@ -25,6 +24,7 @@ export function InputNameDish({ control, errors, name }) {
 							{...field}
 							data-cy={name}
 							id={name}
+							name={name}
 							type="text"
 							size={'sm'}
 							placeholder="Nom du plat..."
