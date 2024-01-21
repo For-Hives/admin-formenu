@@ -16,7 +16,6 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 	const ingredients = await getIngredients(session)
-	console.log(menu.categories[0].dishes[0])
 
 	return (
 		<>
