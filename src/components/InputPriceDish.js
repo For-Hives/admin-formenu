@@ -1,8 +1,9 @@
 import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 import React from 'react'
+import { Controller } from 'react-hook-form'
 
-export function InputPriceDish() {
+export function InputPriceDish({ control, errors, name }) {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
@@ -15,24 +16,26 @@ export function InputPriceDish() {
 				</p>
 			</div>
 			<div>
-				<Input
-					data-cy="price_dish"
-					id="price_dish"
-					name="price_dish"
-					type="number"
-					size={'sm'}
-					placeholder="Prix du plat..."
-					radius={'sm'}
-					variant={'bordered'}
-					color={'primary'}
-					// isInvalid={!!errors.password}
-					// errorMessage={errors.password?.message}
-					// autoComplete="current-password"
-					classNames={customInput}
+				<Controller
+					name={name}
+					control={control}
+					render={({ field }) => (
+						<Input
+							data-cy="price_dish"
+							id="price_dish"
+							name="price_dish"
+							type="number"
+							size={'sm'}
+							placeholder="Prix du plat..."
+							radius={'sm'}
+							variant={'bordered'}
+							color={'primary'}
+							classNames={customInput}
+							isInvalid={!!errors[name]}
+							errorMessage={errors[name]?.message}
+						/>
+					)}
 				/>
-				{/*{...register('password', {*/}
-				{/*	required: true,*/}
-				{/*})}*/}
 			</div>
 		</div>
 	)

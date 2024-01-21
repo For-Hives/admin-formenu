@@ -33,7 +33,6 @@ export function InputNameDish({ control, errors, name }) {
 							color={'primary'}
 							isInvalid={!!errors[name]}
 							errorMessage={errors[name]?.message}
-							autoComplete="current-password"
 							classNames={customInput}
 						/>
 					)}
