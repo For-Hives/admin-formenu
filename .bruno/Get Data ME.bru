@@ -1,0 +1,20 @@
+meta {
+  name: Get Data ME
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/all-company
+  body: none
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{process.env.NEXT_PUBLIC_API_TOKEN}}
+}
