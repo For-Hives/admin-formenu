@@ -3,7 +3,7 @@ import { customInput } from '@/styles/customConfNextui'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 
-export function InputDescriptionDish({ control, errors, name }) {
+export function InputDescriptionDish({ control, errors, name, value }) {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
@@ -28,6 +28,7 @@ export function InputDescriptionDish({ control, errors, name }) {
 						placeholder="Description du plat..."
 						radius={'sm'}
 						size={'sm'}
+						defaultValue={value}
 						variant={'bordered'}
 						className={'w-full'}
 						classNames={customInput}

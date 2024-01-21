@@ -40,12 +40,21 @@ const formSchema = z.object({
  * @return {JSX.Element} - The JSX element representing the menu details.
  */
 export default function MenusDetails({ menu, ingredients }) {
+	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
+
 	const {
 		control,
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = useForm({
 		resolver: zodResolver(formSchema),
+		defaultValues: {
+			name_dish: lastDishClicked?.name || '', // Ensure lastDishClicked is defined
+			description_dish: lastDishClicked?.description || '',
+			price_dish: lastDishClicked?.price?.toString() || '', // Convert price to string if it's not
+			// Set default values for other fields if necessary
+		},
 	})
 	// initials values
 	const initialIngredients = useMenusStore(state => state.ingredients)
@@ -58,7 +67,6 @@ export default function MenusDetails({ menu, ingredients }) {
 	// States
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
 	const menuFromStore = useMenusStore(state => state.menu)
-	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
 	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
 	const setStore = useMenusStore(state => state.setMenu)
@@ -146,6 +154,18 @@ export default function MenusDetails({ menu, ingredients }) {
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
 		console.log('lastDishClicked', lastDishClicked)
 	}, [lastDishClicked])
+
+	useEffect(() => {
+		// When lastDishClicked updates, reset the form with new default values
+		if (lastDishClicked) {
+			reset({
+				name_dish: lastDishClicked.name,
+				description_dish: lastDishClicked.description,
+				price_dish: lastDishClicked.price?.toString(), // Again, ensure price is a string
+				// Reset other fields if necessary
+			})
+		}
+	}, [lastDishClicked, reset])
 
 	return (
 		<>
