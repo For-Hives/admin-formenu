@@ -8,6 +8,8 @@ import { getDataMe } from '@/services/getData'
 
 export default async function ProfilComponent() {
 	const session = await getServerSession(authOptions)
+	// fixme check up the validity of the session ( if it's not valid, redirect to /auth/signin )
+	// fixme bug here, sometimes the session is set & not valid, and the user is not redirected to /auth/signin
 	if (!session) {
 		redirect('/auth/signin')
 	}
