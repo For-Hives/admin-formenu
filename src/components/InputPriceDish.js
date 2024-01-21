@@ -21,9 +21,10 @@ export function InputPriceDish({ control, errors, name }) {
 					control={control}
 					render={({ field }) => (
 						<Input
-							data-cy="price_dish"
-							id="price_dish"
-							name="price_dish"
+							{...field}
+							data-cy={name}
+							id={name}
+							name={name}
 							type="number"
 							size={'sm'}
 							placeholder="Prix du plat..."
