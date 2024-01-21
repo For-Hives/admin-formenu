@@ -20,6 +20,7 @@ import { InputIngredientsDish } from '@/components/InputIngredientsDish'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 
 const formSchema = z.object({
 	name_dish: z
@@ -186,25 +187,25 @@ export default function MenusDetails({ menu, ingredients }) {
 						<ModalContent>
 							{onClose => (
 								<>
-									<ModalHeader className="flex justify-between gap-1">
-										<h2>Modification du plat</h2>
+									<ModalHeader className="flex justify-between gap-1 pr-14">
+										<h2 className={'font-semibold'}>Modification du plat</h2>
 										<div className={'flex gap-4'}>
 											<p>
-												{lastDishClicked.activated ? (
-													<div className={'flex gap-2'}>
-														<i
-															className={`fi fi-sr-check icon-button text-green-500`}
-														/>
-														<span>Plat activé</span>
-													</div>
-												) : (
-													<div className={'flex gap-2'}>
-														<i
-															className={`fi fi-sr-x icon-button text-red-500`}
-														/>
-														<span>Plat activé</span>
-													</div>
-												)}
+												<div className={'flex items-center gap-4'}>
+													{lastDishClicked.activated ? (
+														<span className={'text-sm font-light'}>
+															Plat activé !
+														</span>
+													) : (
+														<span className={'text-sm font-light'}>
+															Plat désactivé !
+														</span>
+													)}
+													<ToggleDishComponent
+														id={lastDishClicked.id}
+														activated={lastDishClicked.activated}
+													/>
+												</div>
 											</p>
 										</div>
 									</ModalHeader>
