@@ -144,6 +144,7 @@ export default function MenusDetails({ menu, ingredients }) {
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
+		console.log('lastDishClicked', lastDishClicked)
 	}, [lastDishClicked])
 
 	return (
@@ -176,11 +177,13 @@ export default function MenusDetails({ menu, ingredients }) {
 												<>
 													<div className={'col-span-6 flex flex-col gap-6'}>
 														<InputNameDish
+															value={lastDishClicked.name}
 															control={control}
 															errors={errors}
 															name={'name_dish'}
 														/>
 														<InputDescriptionDish
+															value={lastDishClicked.description}
 															control={control}
 															errors={errors}
 															name={'description_dish'}
@@ -207,6 +210,7 @@ export default function MenusDetails({ menu, ingredients }) {
 															name={'ingredients_dish'}
 														/>
 														<InputPriceDish
+															value={lastDishClicked.price}
 															control={control}
 															errors={errors}
 															name={'price_dish'}
