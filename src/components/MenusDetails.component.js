@@ -153,7 +153,6 @@ export default function MenusDetails({ menu, ingredients }) {
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
-		console.log('lastDishClicked', lastDishClicked)
 	}, [lastDishClicked])
 
 	useEffect(() => {
@@ -163,7 +162,7 @@ export default function MenusDetails({ menu, ingredients }) {
 				name_dish: lastDishClicked.name,
 				description_dish: lastDishClicked.description,
 				price_dish: lastDishClicked.price?.toString(), // Again, ensure price is a string
-				// Reset other fields if necessary
+				// todo Reset other fields if necessary
 			})
 		}
 	}, [lastDishClicked, reset])
