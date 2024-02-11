@@ -22,6 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 import Image from 'next/image'
+import { toggleAllergensState } from '@/services/switchElementsActivation'
 
 const formSchema = z.object({
 	name_dish: z
@@ -41,7 +42,12 @@ const formSchema = z.object({
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
  */
-export default function MenusDetails({ menu, ingredients, allergens }) {
+export default function MenusDetails({
+	menu,
+	ingredients,
+	allergens,
+	session,
+}) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
 
 	const {
@@ -97,6 +103,19 @@ export default function MenusDetails({ menu, ingredients, allergens }) {
 
 	const isAllergensSelected = allergensName => {
 		return lastDishClicked[allergensName]
+	}
+
+	const onClickAllergens = allergensName => {
+		// call the api to update the allergens
+		toggleAllergensState(
+			lastDishClicked.id,
+			allergensName,
+			!lastDishClicked[allergensName],
+			session
+		)
+		const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
+		newLastDishClicked[allergensName] = !lastDishClicked[allergensName]
+		setLastDishClicked(newLastDishClicked)
 	}
 
 	// Handle selection change
@@ -308,6 +327,7 @@ export default function MenusDetails({ menu, ingredients, allergens }) {
 													)}
 												</>
 											) : (
+												// ************** ALLERGENS **************
 												<div
 													className={'col-span-12 flex flex-col gap-3 px-20'}
 												>
@@ -315,23 +335,20 @@ export default function MenusDetails({ menu, ingredients, allergens }) {
 														{allergensFromStore.map(allergen => (
 															<div key={allergen.id}>
 																<button
-																	isSelected={isAllergensSelected(allergen.key)}
-																	onChange={() =>
-																		onSelectionChange(allergen.name)
-																	}
+																	onClick={() => onClickAllergens(allergen.key)}
 																	className={
 																		'group relative flex flex-col items-center justify-center gap-2 no-underline'
 																	}
 																>
 																	<div
-																		className={`absolute left-0 top-0 m-2 flex h-[9px] w-[9px] items-center justify-center rounded-full border ${
+																		className={`pointer-events-none absolute left-0 top-0 m-2 flex h-[9px] w-[9px] items-center justify-center rounded-full border ${
 																			isAllergensSelected(allergen.key)
 																				? 'border-white'
 																				: 'border-slate-500'
 																		}`}
 																	>
 																		<div
-																			className={`h-[3px] w-[3px] rounded-full ${
+																			className={`pointer-events-none h-[3px] w-[3px] rounded-full ${
 																				isAllergensSelected(allergen.key)
 																					? 'bg-white'
 																					: 'bg-transparent'
@@ -339,11 +356,11 @@ export default function MenusDetails({ menu, ingredients, allergens }) {
 																		/>
 																	</div>
 																	<div
-																		className={`flex h-[100px] w-[100px] flex-col items-center justify-center gap-2 ${
+																		className={`pointer-events-none flex h-[100px] w-[100px] flex-col items-center justify-center gap-2 ${
 																			isAllergensSelected(allergen.key)
 																				? 'bg-slate-800'
 																				: 'bg-slate-50'
-																		} rounded-lg transition-all hover:bg-slate-800`}
+																		} rounded-lg transition-all group-hover:bg-slate-800`}
 																	>
 																		<Image
 																			src={`/icons/allergens/${allergen.key}.svg`}
