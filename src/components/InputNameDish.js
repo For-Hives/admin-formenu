@@ -1,6 +1,5 @@
 import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
-import React from 'react'
 import { Controller } from 'react-hook-form'
 
 export function InputNameDish({ control, errors, name, value }) {
@@ -16,28 +15,30 @@ export function InputNameDish({ control, errors, name, value }) {
 				</p>
 			</div>
 			<div>
-				<Controller
-					name={name}
-					control={control}
-					render={({ field }) => (
-						<Input
-							{...field}
-							data-cy={name}
-							id={name}
-							name={name}
-							type="text"
-							size={'sm'}
-							defaultValue={value}
-							placeholder="Nom du plat..."
-							radius={'sm'}
-							variant={'bordered'}
-							color={'primary'}
-							isInvalid={!!errors[name]}
-							errorMessage={errors[name]?.message}
-							classNames={customInput}
-						/>
-					)}
-				/>
+				{control && errors && name && value && (
+					<Controller
+						name={name}
+						control={control}
+						render={({ field }) => (
+							<Input
+								{...field}
+								data-cy={name}
+								id={name}
+								name={name}
+								type="text"
+								size={'sm'}
+								defaultValue={value ?? ''}
+								placeholder="Nom du plat..."
+								radius={'sm'}
+								variant={'bordered'}
+								color={'primary'}
+								isInvalid={!!errors[name]}
+								errorMessage={errors[name]?.message}
+								classNames={customInput}
+							/>
+						)}
+					/>
+				)}
 			</div>
 		</div>
 	)
