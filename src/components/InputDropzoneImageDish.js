@@ -1,6 +1,6 @@
-import React from 'react'
+import Image from 'next/image'
 
-export function InputDropzoneImageDish() {
+export function InputDropzoneImageDish({ control, errors, name, value }) {
 	return (
 		<div className={'flex flex-col gap-4'}>
 			<div className={'flex flex-col gap-2'}>
@@ -13,7 +13,17 @@ export function InputDropzoneImageDish() {
 					proposés
 				</p>
 			</div>
-			<div className="flex w-full items-center justify-center rounded-md border border-cyan-900/50 bg-cyan-900/10 p-4">
+			<div className="group relative flex w-full items-center justify-center rounded-md border border-cyan-900/50 bg-cyan-900/10 p-4">
+				{value?.url && (
+					<Image
+						src={value.url}
+						fill={true}
+						alt={value.alternativeText}
+						className={
+							'pointer-events-none z-10 object-cover opacity-100 transition group-hover:opacity-0'
+						}
+					/>
+				)}
 				<label
 					htmlFor="dropzone-file"
 					className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 "

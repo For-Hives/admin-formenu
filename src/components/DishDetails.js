@@ -18,7 +18,7 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 			className="group relative grid w-full grid-cols-12 items-center gap-8 rounded-lg bg-white p-8 px-16 shadow-md hover:shadow-xl"
 		>
 			<Image
-				src="/icons/menu_icon_carte.svg"
+				src="/icons/food-tray.svg"
 				alt={dish.name}
 				width={80}
 				height={80}
@@ -71,30 +71,30 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 				</Link>
 			</div>
 
-			<div className="col-span-11 col-start-2 flex w-full justify-end">
-				<div className={'flex w-full flex-col'}>
-					<h3 className="pb-2">Ingrédients</h3>
-					<ul className="decoration flex w-full list-disc flex-col gap-2">
-						{dish.ingredients.map(ingredient => {
-							return (
-								<li
-									key={ingredient.id}
-									className="flex w-full flex-row items-center justify-between"
-								>
-									<span>
-										{ingredient.name} - {ingredient.id}
-									</span>
-									<ToggleIngredientComponent
-										id={ingredient.id}
-										activated={ingredient.activated}
-										menuId={menuId}
-									/>
-								</li>
-							)
-						})}
-					</ul>
-				</div>
-			</div>
+			{/*<div className="col-span-11 col-start-2 flex w-full justify-end">*/}
+			{/*	<div className={'flex w-full flex-col'}>*/}
+			{/*		<h3 className="pb-2">Ingrédients</h3>*/}
+			{/*		<ul className="decoration flex w-full list-disc flex-col gap-2">*/}
+			{/*			{dish.ingredients.map(ingredient => {*/}
+			{/*				return (*/}
+			{/*					<li*/}
+			{/*						key={ingredient.id}*/}
+			{/*						className="flex w-full flex-row items-center justify-between"*/}
+			{/*					>*/}
+			{/*						<span>*/}
+			{/*							{ingredient.name} - {ingredient.id}*/}
+			{/*						</span>*/}
+			{/*						<ToggleIngredientComponent*/}
+			{/*							id={ingredient.id}*/}
+			{/*							activated={ingredient.activated}*/}
+			{/*							menuId={menuId}*/}
+			{/*						/>*/}
+			{/*					</li>*/}
+			{/*				)*/}
+			{/*			})}*/}
+			{/*		</ul>*/}
+			{/*	</div>*/}
+			{/*</div>*/}
 		</div>
 	)
 }

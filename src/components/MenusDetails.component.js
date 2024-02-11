@@ -228,6 +228,7 @@ export default function MenusDetails({ menu, ingredients }) {
 															name={'description_dish'}
 														/>
 														<InputDropzoneImageDish
+															value={lastDishClicked.image}
 															control={control}
 															errors={errors}
 															name={'image_dish'}
