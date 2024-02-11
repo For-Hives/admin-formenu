@@ -107,12 +107,13 @@ export default function MenusDetails({
 
 	const onClickAllergens = allergensName => {
 		// call the api to update the allergens
-		toggleAllergensState(
-			lastDishClicked.id,
-			allergensName,
-			!lastDishClicked[allergensName],
-			session
-		)
+		// fixme set that function if it's in live with the api ( synchro or not )
+		// toggleAllergensState(
+		// 	lastDishClicked.id,
+		// 	allergensName,
+		// 	!lastDishClicked[allergensName],
+		// 	session
+		// )
 		const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
 		newLastDishClicked[allergensName] = !lastDishClicked[allergensName]
 		setLastDishClicked(newLastDishClicked)
