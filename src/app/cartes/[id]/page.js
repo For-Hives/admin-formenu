@@ -7,6 +7,7 @@ import React from 'react'
 import MenusDetails from '@/components/MenusDetails.component'
 import { getMenu } from '@/services/getMenu'
 import { getIngredients } from '@/services/getIngredients'
+import { allergensList } from '@/services/getAllergens'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
@@ -30,7 +31,11 @@ export default async function Page({ params }) {
 					</span>
 				</div>
 				<div className="flex w-full flex-col gap-8">
-					<MenusDetails menu={menu} ingredients={ingredients} />
+					<MenusDetails
+						menu={menu}
+						ingredients={ingredients}
+						allergens={allergensList}
+					/>
 				</div>
 			</main>
 		</>
