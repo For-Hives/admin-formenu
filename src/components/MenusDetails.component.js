@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useMenusStore } from '@/stores/menu.store'
 import {
 	Button,
@@ -21,6 +21,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
+import Image from 'next/image'
 
 const formSchema = z.object({
 	name_dish: z
@@ -40,7 +41,7 @@ const formSchema = z.object({
  * @param {Object} menu - The menu object containing the menu details.
  * @return {JSX.Element} - The JSX element representing the menu details.
  */
-export default function MenusDetails({ menu, ingredients }) {
+export default function MenusDetails({ menu, ingredients, allergens }) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
 
 	const {
@@ -59,6 +60,7 @@ export default function MenusDetails({ menu, ingredients }) {
 	})
 	// initials values
 	const initialIngredients = useMenusStore(state => state.ingredients)
+	const initialAllergens = useMenusStore(state => state.allergens)
 	const initialMenu = useMenusStore(state => state.menu)
 	const initialLastDishClicked = useMenusStore(state => state.lastDishClicked)
 	const initialSelectedKeys = []
@@ -67,9 +69,11 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	// States
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
+	const allergensFromStore = useMenusStore(state => state.allergens)
 	const menuFromStore = useMenusStore(state => state.menu)
 	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
+	const setAllergens = useMenusStore(state => state.setAllergens)
 	const setStore = useMenusStore(state => state.setMenu)
 	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
 	// Modal disclosure
@@ -79,12 +83,20 @@ export default function MenusDetails({ menu, ingredients }) {
 	const [selectedKeys, setSelectedKeys] = useState([])
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
+	const [isAllergensUpdateOpen, setIsAllergensUpdateOpen] = useState(false)
 
 	const openIngredientsUpdate = () => setIsIngredientsUpdateOpen(true)
 	const closeIngredientsUpdate = () => setIsIngredientsUpdateOpen(false)
 
+	const openAllergensUpdate = () => setIsAllergensUpdateOpen(true)
+	const closeAllergensUpdate = () => setIsAllergensUpdateOpen(false)
+
 	const isIngredientSelected = ingredientId => {
 		return selectedKeys.includes(ingredientId.toString())
+	}
+
+	const isAllergensSelected = allergensName => {
+		return lastDishClicked[allergensName]
 	}
 
 	// Handle selection change
@@ -137,6 +149,7 @@ export default function MenusDetails({ menu, ingredients }) {
 
 	const resetAll = () => {
 		setIngredients(initialIngredients)
+		setAllergens(initialAllergens)
 		setStore(initialMenu)
 		setLastDishClicked(initialLastDishClicked)
 		setSelectedKeys(initialSelectedKeys)
@@ -149,6 +162,12 @@ export default function MenusDetails({ menu, ingredients }) {
 			setIngredients(ingredients)
 		}
 	}, [ingredientsFromStore])
+
+	useEffect(() => {
+		if (Object.keys(allergensFromStore).length === 0) {
+			setAllergens(allergens)
+		}
+	}, [allergensFromStore])
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
@@ -212,66 +231,129 @@ export default function MenusDetails({ menu, ingredients }) {
 										<div
 											className={'grid h-full w-full grid-cols-12 gap-16 p-8'}
 										>
-											{!isIngredientsUpdateOpen ? (
+											{!isAllergensUpdateOpen ? (
 												<>
-													<div className={'col-span-6 flex flex-col gap-6'}>
-														<InputNameDish
-															value={lastDishClicked.name}
-															control={control}
-															errors={errors}
-															name={'name_dish'}
-														/>
-														<InputDescriptionDish
-															value={lastDishClicked.description}
-															control={control}
-															errors={errors}
-															name={'description_dish'}
-														/>
-														<InputDropzoneImageDish
-															value={lastDishClicked.image}
-															control={control}
-															errors={errors}
-															name={'image_dish'}
-														/>
-													</div>
-													<div className={'col-span-6 flex flex-col gap-6'}>
-														<InputIngredientsDish
-															ingredientsFromStore={ingredientsFromStore}
-															selectedKeys={selectedKeys}
-															lastDishClicked={lastDishClicked}
-															isIngredientSelected={isIngredientSelected}
-															onSelectionChange={onSelectionChange}
-															onInputChange={onInputChange}
-															inputValue={inputValue}
-															openIngredientsUpdate={openIngredientsUpdate}
-															closeIngredientsUpdate={closeIngredientsUpdate}
-															control={control}
-															errors={errors}
-															name={'ingredients_dish'}
-														/>
-														<InputPriceDish
-															value={lastDishClicked.price}
-															control={control}
-															errors={errors}
-															name={'price_dish'}
-														/>
-													</div>
+													{!isIngredientsUpdateOpen ? (
+														<>
+															<div className={'col-span-6 flex flex-col gap-6'}>
+																<InputNameDish
+																	value={lastDishClicked.name}
+																	control={control}
+																	errors={errors}
+																	name={'name_dish'}
+																/>
+																<InputDescriptionDish
+																	value={lastDishClicked.description}
+																	control={control}
+																	errors={errors}
+																	name={'description_dish'}
+																/>
+																<InputDropzoneImageDish
+																	value={lastDishClicked.image}
+																	control={control}
+																	errors={errors}
+																	name={'image_dish'}
+																/>
+															</div>
+															<div className={'col-span-6 flex flex-col gap-6'}>
+																<InputIngredientsDish
+																	ingredientsFromStore={ingredientsFromStore}
+																	selectedKeys={selectedKeys}
+																	lastDishClicked={lastDishClicked}
+																	isIngredientSelected={isIngredientSelected}
+																	onSelectionChange={onSelectionChange}
+																	onInputChange={onInputChange}
+																	inputValue={inputValue}
+																	openIngredientsUpdate={openIngredientsUpdate}
+																	closeIngredientsUpdate={
+																		closeIngredientsUpdate
+																	}
+																	control={control}
+																	errors={errors}
+																	name={'ingredients_dish'}
+																/>
+																<InputPriceDish
+																	value={lastDishClicked.price}
+																	control={control}
+																	errors={errors}
+																	name={'price_dish'}
+																/>
+															</div>
+														</>
+													) : (
+														<div className={'col-span-12 flex flex-col gap-3'}>
+															<div className={'grid grid-cols-3 gap-4'}>
+																{ingredientsFromStore.map(ingredient => (
+																	<div key={ingredient.id}>
+																		<Checkbox
+																			isSelected={isIngredientSelected(
+																				ingredient.id
+																			)}
+																			onChange={() =>
+																				onSelectionChange(ingredient.id)
+																			}
+																		>
+																			{ingredient.name}
+																		</Checkbox>
+																	</div>
+																))}
+															</div>
+														</div>
+													)}
 												</>
 											) : (
-												<div className={'col-span-12 flex flex-col gap-3'}>
-													<div className={'grid grid-cols-3 gap-4'}>
-														{ingredientsFromStore.map(ingredient => (
-															<div key={ingredient.id}>
-																<Checkbox
-																	isSelected={isIngredientSelected(
-																		ingredient.id
-																	)}
+												<div
+													className={'col-span-12 flex flex-col gap-3 px-20'}
+												>
+													<div className={'grid grid-cols-7 gap-4'}>
+														{allergensFromStore.map(allergen => (
+															<div key={allergen.id}>
+																<button
+																	isSelected={isAllergensSelected(allergen.key)}
 																	onChange={() =>
-																		onSelectionChange(ingredient.id)
+																		onSelectionChange(allergen.name)
+																	}
+																	className={
+																		'group relative flex flex-col items-center justify-center gap-2 no-underline'
 																	}
 																>
-																	{ingredient.name}
-																</Checkbox>
+																	<div
+																		className={`absolute left-0 top-0 m-2 flex h-[9px] w-[9px] items-center justify-center rounded-full border ${
+																			isAllergensSelected(allergen.key)
+																				? 'border-white'
+																				: 'border-slate-500'
+																		}`}
+																	>
+																		<div
+																			className={`h-[3px] w-[3px] rounded-full ${
+																				isAllergensSelected(allergen.key)
+																					? 'bg-white'
+																					: 'bg-transparent'
+																			}`}
+																		/>
+																	</div>
+																	<div
+																		className={`flex h-[100px] w-[100px] flex-col items-center justify-center gap-2 ${
+																			isAllergensSelected(allergen.key)
+																				? 'bg-slate-800'
+																				: 'bg-slate-50'
+																		} rounded-lg transition-all hover:bg-slate-800`}
+																	>
+																		<Image
+																			src={`/icons/allergens/${allergen.key}.svg`}
+																			width={40}
+																			height={40}
+																			alt={allergen.key}
+																		/>
+																	</div>
+																	<div
+																		className={
+																			'pointer-events-none max-w-[100px] text-center text-sm text-gray-800 no-underline group-hover:underline'
+																		}
+																	>
+																		{allergen.name}
+																	</div>
+																</button>
 															</div>
 														))}
 													</div>
@@ -280,52 +362,101 @@ export default function MenusDetails({ menu, ingredients }) {
 										</div>
 									</ModalBody>
 									<ModalFooter>
-										{!isIngredientsUpdateOpen ? (
-											<>
-												<Button
-													color="danger"
-													variant="flat"
-													onPress={() => {
-														// reset
-														resetAll()
-														// close
-														onClose()
-													}}
-													className={'no-underline'}
-													startContent={
-														<i
-															className={`fi fi-sr-arrow-left icon-button`}
-														></i>
-													}
-												>
-													Annuler & fermer
-												</Button>
-												<Button
-													color="primary"
-													onPress={() => {
-														handleSubmit(data => console.log(data))()
-													}}
-													className={'no-underline'}
-													startContent={
-														<i className={`fi fi-sr-disk icon-button`}></i>
-													}
-												>
-													Enregistrer & fermer
-												</Button>
-											</>
-										) : (
-											<Button
-												color="primary"
-												variant="flat"
-												onPress={closeIngredientsUpdate}
-												className={'no-underline'}
-												startContent={
-													<i className={`fi fi-sr-arrow-left icon-button`}></i>
-												}
-											>
-												Revenir en arrière
-											</Button>
-										)}
+										<div
+											className={
+												'flex h-full w-full items-center justify-between'
+											}
+										>
+											{!isAllergensUpdateOpen ? (
+												!isIngredientsUpdateOpen ? (
+													<>
+														<div>
+															<Button
+																color="primary"
+																variant="flat"
+																onPress={openAllergensUpdate}
+																className={'no-underline'}
+																startContent={
+																	<i
+																		className={`fi fi-br-wheat-slash icon-button`}
+																	></i>
+																}
+															>
+																Modifier les allergènes
+															</Button>
+														</div>
+														<div className={'flex items-center gap-4'}>
+															<Button
+																color="danger"
+																variant="flat"
+																onPress={() => {
+																	// reset
+																	resetAll()
+																	// close
+																	onClose()
+																}}
+																className={'no-underline'}
+																startContent={
+																	<i
+																		className={`fi fi-sr-arrow-left icon-button`}
+																	></i>
+																}
+															>
+																Annuler & fermer
+															</Button>
+															<Button
+																color="primary"
+																onPress={() => {
+																	handleSubmit(data => console.log(data))()
+																}}
+																className={'no-underline'}
+																startContent={
+																	<i
+																		className={`fi fi-sr-disk icon-button`}
+																	></i>
+																}
+															>
+																Enregistrer & fermer
+															</Button>
+														</div>
+													</>
+												) : (
+													<>
+														<div></div>
+														<Button
+															color="primary"
+															variant="flat"
+															onPress={closeIngredientsUpdate}
+															className={'no-underline'}
+															startContent={
+																<i
+																	className={`fi fi-sr-arrow-left icon-button`}
+																></i>
+															}
+														>
+															Revenir en arrière
+														</Button>
+													</>
+												)
+											) : (
+												<>
+													<div></div>
+													<Button
+														color="primary"
+														variant="flat"
+														onPress={closeAllergensUpdate}
+														className={'no-underline'}
+														startContent={
+															<i
+																className={`fi fi-sr-arrow-left icon-button`}
+															></i>
+														}
+													>
+														Revenir en arrière
+													</Button>
+												</>
+											)}
+										</div>
 									</ModalFooter>
 								</>
 							)}
