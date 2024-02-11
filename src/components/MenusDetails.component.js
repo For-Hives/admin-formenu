@@ -206,7 +206,13 @@ export default function MenusDetails({ menu, ingredients, allergens }) {
 							{onClose => (
 								<>
 									<ModalHeader className="flex justify-between gap-1 pr-14">
-										<h2 className={'font-semibold'}>Modification du plat</h2>
+										<h2 className={'font-semibold'}>
+											{isAllergensUpdateOpen
+												? 'Modifier les allergènes'
+												: isIngredientsUpdateOpen
+													? 'Modifier les ingrédients'
+													: `Modifier le plat ${lastDishClicked.name}`}
+										</h2>
 										<div className={'flex gap-4'}>
 											<p>
 												<div className={'flex items-center gap-4'}>
@@ -347,9 +353,11 @@ export default function MenusDetails({ menu, ingredients, allergens }) {
 																		/>
 																	</div>
 																	<div
-																		className={
-																			'pointer-events-none max-w-[100px] text-center text-sm text-gray-800 no-underline group-hover:underline'
-																		}
+																		className={`pointer-events-none max-w-[100px] text-center text-sm text-gray-800 ${
+																			isAllergensSelected(allergen.key)
+																				? 'underline'
+																				: 'no-underline'
+																		} group-hover:underline`}
 																	>
 																		{allergen.name}
 																	</div>
