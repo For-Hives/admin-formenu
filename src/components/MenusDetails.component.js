@@ -2,8 +2,6 @@
 import { useEffect, useState } from 'react'
 import { useMenusStore } from '@/stores/menu.store'
 import {
-	Button,
-	Checkbox,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -12,16 +10,16 @@ import {
 	useDisclosure,
 } from '@nextui-org/react'
 import { DishDetails } from '@/components/DishDetails'
-import { InputNameDish } from '@/components/InputNameDish'
-import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
-import { InputDescriptionDish } from '@/components/InputDescriptionDish'
-import { InputPriceDish } from '@/components/InputPriceDish'
-import { InputIngredientsDish } from '@/components/InputIngredientsDish'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
-import Image from 'next/image'
+import { ModalHeaderContent } from '@/components/ModalDish/ModalHeaderContent'
+import { ModalBodyMainContent } from '@/components/ModalBodyMainContent'
+import { ModalBodyIngredients } from '@/components/ModalBodyIngredients'
+import { ModalBodyAllergens } from '@/components/ModalBodyAllergens'
+import { ModalFooterMainContent } from '@/components/ModalFooterMainContent'
+import { ModalFooterBackIngredients } from '@/components/ModalFooterBackIngredients'
+import { ModalFooterBackAllergens } from '@/components/ModalFooterBackAllergens'
 
 const formSchema = z.object({
 	name_dish: z
@@ -93,16 +91,12 @@ export default function MenusDetails({
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 	const [isAllergensUpdateOpen, setIsAllergensUpdateOpen] = useState(false)
-	const [isDietUpdateOpen, setIsDietUpdateOpen] = useState(false)
 
 	const openIngredientsUpdate = () => setIsIngredientsUpdateOpen(true)
 	const closeIngredientsUpdate = () => setIsIngredientsUpdateOpen(false)
 
 	const openAllergensUpdate = () => setIsAllergensUpdateOpen(true)
 	const closeAllergensUpdate = () => setIsAllergensUpdateOpen(false)
-
-	const openDietUpdate = () => setIsDietUpdateOpen(true)
-	const closeDietUpdate = () => setIsDietUpdateOpen(false)
 
 	const isIngredientSelected = ingredientId => {
 		return selectedKeys.includes(ingredientId.toString())
@@ -117,14 +111,6 @@ export default function MenusDetails({
 	}
 
 	const onClickAllergens = allergensName => {
-		// call the api to update the allergens
-		// fixme set that function if it's in live with the api ( synchro or not )
-		// toggleAllergensState(
-		// 	lastDishClicked.id,
-		// 	allergensName,
-		// 	!lastDishClicked[allergensName],
-		// 	session
-		// )
 		const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
 		newLastDishClicked[allergensName] = !lastDishClicked[allergensName]
 		setLastDishClicked(newLastDishClicked)
@@ -250,32 +236,11 @@ export default function MenusDetails({
 							{onClose => (
 								<>
 									<ModalHeader className="flex justify-between gap-1 pr-14">
-										<h2 className={'font-semibold'}>
-											{isAllergensUpdateOpen
-												? 'Modifier les allergènes'
-												: isIngredientsUpdateOpen
-													? 'Modifier les ingrédients'
-													: `Modifier le plat ${lastDishClicked.name}`}
-										</h2>
-										<div className={'flex gap-4'}>
-											<p>
-												<div className={'flex items-center gap-4'}>
-													{lastDishClicked.activated ? (
-														<span className={'text-sm font-light'}>
-															Plat activé !
-														</span>
-													) : (
-														<span className={'text-sm font-light'}>
-															Plat désactivé !
-														</span>
-													)}
-													<ToggleDishComponent
-														id={lastDishClicked.id}
-														activated={lastDishClicked.activated}
-													/>
-												</div>
-											</p>
-										</div>
+										<ModalHeaderContent
+											allergensUpdateOpen={isAllergensUpdateOpen}
+											ingredientsUpdateOpen={isIngredientsUpdateOpen}
+											lastDishClicked={lastDishClicked}
+										/>
 									</ModalHeader>
 									<ModalBody>
 										<div
@@ -284,130 +249,34 @@ export default function MenusDetails({
 											{!isAllergensUpdateOpen ? (
 												<>
 													{!isIngredientsUpdateOpen ? (
-														<>
-															<div className={'col-span-6 flex flex-col gap-6'}>
-																<InputNameDish
-																	value={lastDishClicked.name}
-																	control={control}
-																	errors={errors}
-																	name={'name_dish'}
-																/>
-																<InputDescriptionDish
-																	value={lastDishClicked.description}
-																	control={control}
-																	errors={errors}
-																	name={'description_dish'}
-																/>
-																<InputDropzoneImageDish
-																	value={lastDishClicked.image}
-																	control={control}
-																	errors={errors}
-																	name={'image_dish'}
-																/>
-															</div>
-															<div className={'col-span-6 flex flex-col gap-6'}>
-																<InputIngredientsDish
-																	ingredientsFromStore={ingredientsFromStore}
-																	selectedKeys={selectedKeys}
-																	lastDishClicked={lastDishClicked}
-																	isIngredientSelected={isIngredientSelected}
-																	onSelectionChange={onSelectionChange}
-																	onInputChange={onInputChange}
-																	inputValue={inputValue}
-																	openIngredientsUpdate={openIngredientsUpdate}
-																	closeIngredientsUpdate={
-																		closeIngredientsUpdate
-																	}
-																	control={control}
-																	errors={errors}
-																	name={'ingredients_dish'}
-																/>
-																<InputPriceDish
-																	value={lastDishClicked.price}
-																	control={control}
-																	errors={errors}
-																	name={'price_dish'}
-																/>
-															</div>
-														</>
+														<ModalBodyMainContent
+															lastDishClicked={lastDishClicked}
+															control={control}
+															errors={errors}
+															ingredientsFromStore={ingredientsFromStore}
+															selectedKeys={selectedKeys}
+															ingredientSelected={isIngredientSelected}
+															onSelectionChange={onSelectionChange}
+															onInputChange={onInputChange}
+															inputValue={inputValue}
+															openIngredientsUpdate={openIngredientsUpdate}
+															closeIngredientsUpdate={closeIngredientsUpdate}
+														/>
 													) : (
-														<div className={'col-span-12 flex flex-col gap-3'}>
-															<div className={'grid grid-cols-3 gap-4'}>
-																{ingredientsFromStore.map(ingredient => (
-																	<div key={ingredient.id}>
-																		<Checkbox
-																			isSelected={isIngredientSelected(
-																				ingredient.id
-																			)}
-																			onChange={() =>
-																				onSelectionChange(ingredient.id)
-																			}
-																		>
-																			{ingredient.name}
-																		</Checkbox>
-																	</div>
-																))}
-															</div>
-														</div>
+														<ModalBodyIngredients
+															isIngredientSelected={isIngredientSelected}
+															ingredientsFromStore={ingredientsFromStore}
+															onSelectionChange={onSelectionChange}
+														/>
 													)}
 												</>
 											) : (
 												// ************** ALLERGENS **************
-												<div
-													className={'col-span-12 flex flex-col gap-3 px-20'}
-												>
-													<div className={'grid grid-cols-7 gap-4'}>
-														{allergensFromStore.map(allergen => (
-															<div key={allergen.id}>
-																<button
-																	onClick={() => onClickAllergens(allergen.key)}
-																	className={
-																		'group relative flex flex-col items-center justify-center gap-2 no-underline'
-																	}
-																>
-																	<div
-																		className={`pointer-events-none absolute left-0 top-0 m-2 flex h-[9px] w-[9px] items-center justify-center rounded-full border ${
-																			isAllergensSelected(allergen.key)
-																				? 'border-white'
-																				: 'border-slate-500'
-																		}`}
-																	>
-																		<div
-																			className={`pointer-events-none h-[3px] w-[3px] rounded-full ${
-																				isAllergensSelected(allergen.key)
-																					? 'bg-white'
-																					: 'bg-transparent'
-																			}`}
-																		/>
-																	</div>
-																	<div
-																		className={`pointer-events-none flex h-[100px] w-[100px] flex-col items-center justify-center gap-2 ${
-																			isAllergensSelected(allergen.key)
-																				? 'bg-slate-800'
-																				: 'bg-slate-50'
-																		} rounded-lg transition-all group-hover:bg-slate-800`}
-																	>
-																		<Image
-																			src={`/icons/allergens/${allergen.key}.svg`}
-																			width={40}
-																			height={40}
-																			alt={allergen.key}
-																		/>
-																	</div>
-																	<div
-																		className={`pointer-events-none max-w-[100px] text-center text-sm text-gray-800 ${
-																			isAllergensSelected(allergen.key)
-																				? 'underline'
-																				: 'no-underline'
-																		} group-hover:underline`}
-																	>
-																		{allergen.name}
-																	</div>
-																</button>
-															</div>
-														))}
-													</div>
-												</div>
+												<ModalBodyAllergens
+													allergensFromStore={allergensFromStore}
+													isAllergensSelected={isAllergensSelected}
+													onClickAllergens={onClickAllergens}
+												/>
 											)}
 										</div>
 									</ModalBody>
@@ -419,125 +288,24 @@ export default function MenusDetails({
 										>
 											{!isAllergensUpdateOpen ? (
 												!isIngredientsUpdateOpen ? (
-													<>
-														<div>
-															<Button
-																color="primary"
-																variant="flat"
-																onPress={openAllergensUpdate}
-																className={'no-underline'}
-																startContent={
-																	<i
-																		className={`fi fi-br-wheat-slash icon-button`}
-																	></i>
-																}
-															>
-																Modifier les allergènes
-															</Button>
-														</div>
-														<div className={'grid grid-cols-3 gap-2'}>
-															{dietsFromStore.map(diet => (
-																<button
-																	key={diet.key}
-																	onClick={() => onClickDiet(diet.key)}
-																	className={`group relative flex flex-col items-center justify-center gap-2 rounded p-2 no-underline ${
-																		isDietSelected(diet.key)
-																			? 'bg-slate-800'
-																			: 'bg-slate-50 opacity-65'
-																	}`}
-																>
-																	<div
-																		className={`pointer-events-none flex flex-col items-center justify-center gap-2`}
-																	>
-																		<Image
-																			src={`/icons/diets/${diet.key}.svg`}
-																			width={30}
-																			height={30}
-																			alt={diet.key}
-																		/>
-																	</div>
-																	<div
-																		className={`pointer-events-none max-w-[100px] text-center text-sm text-gray-800 ${
-																			isDietSelected(diet.key)
-																				? '!text-white underline'
-																				: 'no-underline'
-																		} group-hover:underline`}
-																	>
-																		{diet.name}
-																	</div>
-																</button>
-															))}
-														</div>
-														<div className={'flex items-center gap-4'}>
-															<Button
-																color="danger"
-																variant="flat"
-																onPress={() => {
-																	// reset
-																	resetAll()
-																	// close
-																	onClose()
-																}}
-																className={'no-underline'}
-																startContent={
-																	<i
-																		className={`fi fi-sr-arrow-left icon-button`}
-																	></i>
-																}
-															>
-																Annuler & fermer
-															</Button>
-															<Button
-																color="primary"
-																onPress={() => {
-																	handleSubmit(data => console.log(data))()
-																}}
-																className={'no-underline'}
-																startContent={
-																	<i
-																		className={`fi fi-sr-disk icon-button`}
-																	></i>
-																}
-															>
-																Enregistrer & fermer
-															</Button>
-														</div>
-													</>
+													<ModalFooterMainContent
+														handleSubmit={handleSubmit}
+														onClose={onClose}
+														resetAll={resetAll}
+														dietsFromStore={dietsFromStore}
+														isDietSelected={isDietSelected}
+														onClickDiet={onClickDiet}
+														openAllergensUpdate={openAllergensUpdate}
+													/>
 												) : (
-													<>
-														<div></div>
-														<Button
-															color="primary"
-															variant="flat"
-															onPress={closeIngredientsUpdate}
-															className={'no-underline'}
-															startContent={
-																<i
-																	className={`fi fi-sr-arrow-left icon-button`}
-																></i>
-															}
-														>
-															Revenir en arrière
-														</Button>
-													</>
+													<ModalFooterBackIngredients
+														onPress={closeIngredientsUpdate}
+													/>
 												)
 											) : (
-												<>
-													<div></div>
-													<Button
-														color="primary"
-														variant="flat"
-														onPress={closeAllergensUpdate}
-														className={'no-underline'}
-														startContent={
-															<i
-																className={`fi fi-sr-arrow-left icon-button`}
-															></i>
-														}
-													>
-														Revenir en arrière
-													</Button>
-												</>
+												<ModalFooterBackAllergens
+													onPress={closeAllergensUpdate}
+												/>
 											)}
 										</div>
 									</ModalFooter>
@@ -546,6 +314,7 @@ export default function MenusDetails({
 						</ModalContent>
 					</Modal>
 
+					{/* Title for the classic page */}
 					<h2>
 						→{' '}
 						<span className={'font-playpen_sans font-black italic'}>
@@ -553,6 +322,7 @@ export default function MenusDetails({
 						</span>
 					</h2>
 
+					{/* Description of dishes */}
 					<div className={'flex w-full flex-col gap-8'}>
 						{menuFromStore?.categories?.map(
 							category =>
