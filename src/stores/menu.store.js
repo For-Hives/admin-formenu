@@ -16,4 +16,8 @@ export const useMenusStore = create(set => ({
 	// allergens list
 	allergens: {},
 	setAllergens: allergens => set({ allergens: allergens }),
+
+	// diet list
+	diets: {},
+	setDiets: diets => set({ diets: diets }),
 }))
