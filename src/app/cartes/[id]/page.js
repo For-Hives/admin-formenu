@@ -8,6 +8,7 @@ import MenusDetails from '@/components/MenusDetails.component'
 import { getMenu } from '@/services/getMenu'
 import { getIngredients } from '@/services/getIngredients'
 import { allergensList } from '@/services/getAllergens'
+import { dietsList } from '@/services/getDiets'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
@@ -35,6 +36,7 @@ export default async function Page({ params }) {
 						menu={menu}
 						ingredients={ingredients}
 						allergens={allergensList}
+						diets={dietsList}
 						session={session}
 					/>
 				</div>
