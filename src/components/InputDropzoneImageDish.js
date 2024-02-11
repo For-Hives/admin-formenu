@@ -18,7 +18,7 @@ export function InputDropzoneImageDish({ control, errors, name, value }) {
 					<Image
 						src={value.url}
 						fill={true}
-						alt={value.alternativeText}
+						alt={value.alternativeText ?? 'présentation'}
 						className={
 							'pointer-events-none z-10 object-cover opacity-100 transition group-hover:opacity-0'
 						}
