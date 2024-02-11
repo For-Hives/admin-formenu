@@ -17,12 +17,11 @@ import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
 import { InputDescriptionDish } from '@/components/InputDescriptionDish'
 import { InputPriceDish } from '@/components/InputPriceDish'
 import { InputIngredientsDish } from '@/components/InputIngredientsDish'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 import Image from 'next/image'
-import { toggleAllergensState } from '@/services/switchElementsActivation'
 
 const formSchema = z.object({
 	name_dish: z
@@ -46,6 +45,7 @@ export default function MenusDetails({
 	menu,
 	ingredients,
 	allergens,
+	diets,
 	session,
 }) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
@@ -67,6 +67,7 @@ export default function MenusDetails({
 	// initials values
 	const initialIngredients = useMenusStore(state => state.ingredients)
 	const initialAllergens = useMenusStore(state => state.allergens)
+	const initialDiets = useMenusStore(state => state.diets)
 	const initialMenu = useMenusStore(state => state.menu)
 	const initialLastDishClicked = useMenusStore(state => state.lastDishClicked)
 	const initialSelectedKeys = []
@@ -76,10 +77,12 @@ export default function MenusDetails({
 	// States
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
 	const allergensFromStore = useMenusStore(state => state.allergens)
+	const dietsFromStore = useMenusStore(state => state.diets)
 	const menuFromStore = useMenusStore(state => state.menu)
 	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
 	const setAllergens = useMenusStore(state => state.setAllergens)
+	const setDiets = useMenusStore(state => state.setDiets)
 	const setStore = useMenusStore(state => state.setMenu)
 	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
 	// Modal disclosure
@@ -90,6 +93,7 @@ export default function MenusDetails({
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 	const [isAllergensUpdateOpen, setIsAllergensUpdateOpen] = useState(false)
+	const [isDietUpdateOpen, setIsDietUpdateOpen] = useState(false)
 
 	const openIngredientsUpdate = () => setIsIngredientsUpdateOpen(true)
 	const closeIngredientsUpdate = () => setIsIngredientsUpdateOpen(false)
@@ -97,12 +101,19 @@ export default function MenusDetails({
 	const openAllergensUpdate = () => setIsAllergensUpdateOpen(true)
 	const closeAllergensUpdate = () => setIsAllergensUpdateOpen(false)
 
+	const openDietUpdate = () => setIsDietUpdateOpen(true)
+	const closeDietUpdate = () => setIsDietUpdateOpen(false)
+
 	const isIngredientSelected = ingredientId => {
 		return selectedKeys.includes(ingredientId.toString())
 	}
 
 	const isAllergensSelected = allergensName => {
 		return lastDishClicked[allergensName]
+	}
+
+	const isDietSelected = dietName => {
+		return lastDishClicked[dietName]
 	}
 
 	const onClickAllergens = allergensName => {
@@ -116,6 +127,12 @@ export default function MenusDetails({
 		// )
 		const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
 		newLastDishClicked[allergensName] = !lastDishClicked[allergensName]
+		setLastDishClicked(newLastDishClicked)
+	}
+
+	const onClickDiet = dietName => {
+		const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
+		newLastDishClicked[dietName] = !lastDishClicked[dietName]
 		setLastDishClicked(newLastDishClicked)
 	}
 
@@ -170,6 +187,7 @@ export default function MenusDetails({
 	const resetAll = () => {
 		setIngredients(initialIngredients)
 		setAllergens(initialAllergens)
+		setDiets(initialDiets)
 		setStore(initialMenu)
 		setLastDishClicked(initialLastDishClicked)
 		setSelectedKeys(initialSelectedKeys)
@@ -188,6 +206,12 @@ export default function MenusDetails({
 			setAllergens(allergens)
 		}
 	}, [allergensFromStore])
+
+	useEffect(() => {
+		if (Object.keys(dietsFromStore).length === 0) {
+			setDiets(diets)
+		}
+	}, [dietsFromStore])
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
@@ -410,6 +434,39 @@ export default function MenusDetails({
 															>
 																Modifier les allergènes
 															</Button>
+														</div>
+														<div className={'grid grid-cols-3 gap-2'}>
+															{dietsFromStore.map(diet => (
+																<button
+																	key={diet.key}
+																	onClick={() => onClickDiet(diet.key)}
+																	className={`group relative flex flex-col items-center justify-center gap-2 rounded p-2 no-underline ${
+																		isDietSelected(diet.key)
+																			? 'bg-slate-800'
+																			: 'bg-slate-50 opacity-65'
+																	}`}
+																>
+																	<div
+																		className={`pointer-events-none flex flex-col items-center justify-center gap-2`}
+																	>
+																		<Image
+																			src={`/icons/diets/${diet.key}.svg`}
+																			width={30}
+																			height={30}
+																			alt={diet.key}
+																		/>
+																	</div>
+																	<div
+																		className={`pointer-events-none max-w-[100px] text-center text-sm text-gray-800 ${
+																			isDietSelected(diet.key)
+																				? '!text-white underline'
+																				: 'no-underline'
+																		} group-hover:underline`}
+																	>
+																		{diet.name}
+																	</div>
+																</button>
+															))}
 														</div>
 														<div className={'flex items-center gap-4'}>
 															<Button
