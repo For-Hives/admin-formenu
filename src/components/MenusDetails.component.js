@@ -14,12 +14,12 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ModalHeaderContent } from '@/components/ModalDish/ModalHeaderContent'
-import { ModalBodyMainContent } from '@/components/ModalBodyMainContent'
-import { ModalBodyIngredients } from '@/components/ModalBodyIngredients'
-import { ModalBodyAllergens } from '@/components/ModalBodyAllergens'
-import { ModalFooterMainContent } from '@/components/ModalFooterMainContent'
-import { ModalFooterBackIngredients } from '@/components/ModalFooterBackIngredients'
-import { ModalFooterBackAllergens } from '@/components/ModalFooterBackAllergens'
+import { ModalBodyMainContent } from '@/components/ModalDish/ModalBodyMainContent'
+import { ModalBodyIngredients } from '@/components/ModalDish/ModalBodyIngredients'
+import { ModalBodyAllergens } from '@/components/ModalDish/ModalBodyAllergens'
+import { ModalFooterMainContent } from '@/components/ModalDish/ModalFooterMainContent'
+import { ModalFooterBackIngredients } from '@/components/ModalDish/ModalFooterBackIngredients'
+import { ModalFooterBackAllergens } from '@/components/ModalDish/ModalFooterBackAllergens'
 
 const formSchema = z.object({
 	name_dish: z
