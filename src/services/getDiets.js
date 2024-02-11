@@ -1,16 +1,5 @@
-export const allergensList = [
-	{ key: 'is_allergen_eggs', name: 'Oeufs' },
-	{ key: 'is_allergen_fishes', name: 'Poissons' },
-	{ key: 'is_allergen_shellfishes', name: 'Crustacés' },
-	{ key: 'is_allergen_peanuts', name: 'Arachides' },
-	{ key: 'is_allergen_soybeans', name: 'Soja' },
-	{ key: 'is_allergen_milk', name: 'Lait' },
-	{ key: 'is_allergen_nuts', name: 'Fruits à coque' },
-	{ key: 'is_allergen_celery', name: 'Céleri' },
-	{ key: 'is_allergen_mustard', name: 'Moutarde' },
-	{ key: 'is_allergen_sesams', name: 'Graines de sésame' },
-	{ key: 'is_allergen_sulphurous_anhydre', name: 'Anhydride sulfureux' },
-	{ key: 'is_allergen_lupins', name: 'Lupin' },
-	{ key: 'is_allergen_mollusks', name: 'Mollusques' },
-	{ key: 'is_allergen_gluten', name: 'Gluten' },
+export const dietsList = [
+	{ key: 'is_vegan', name: 'Végan' },
+	{ key: 'is_vegetarian', name: 'Végétarien' },
+	{ key: 'is_pescatarian', name: 'Pescétarien' },
 ]
