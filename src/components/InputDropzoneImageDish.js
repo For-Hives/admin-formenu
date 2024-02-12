@@ -1,6 +1,39 @@
+'use client'
 import Image from 'next/image'
+import { useState } from 'react'
+import { uploadFile } from '@/services/getData'
 
-export function InputDropzoneImageDish({ control, errors, name, value }) {
+export function InputDropzoneImageDish({
+	control,
+	errors,
+	name,
+	uploadedImage,
+	setUploadedImage,
+	session,
+}) {
+	const [uploading, setUploading] = useState(false)
+
+	const handleFileChange = async event => {
+		const file = event.target.files[0]
+		if (!file) return
+
+		try {
+			const { data, response } = await uploadFile(session, file)
+			if (response.ok) {
+				// Assuming the first file in the array is the one we're interested in
+				const uploadedFile = data[0]
+				setUploadedImage(uploadedFile) // Update the parent component state or handle however you prefer
+				console.log('Upload successful', uploadedFile)
+			} else {
+				console.error('Upload failed', data)
+			}
+		} catch (e) {
+			console.error(e)
+		} finally {
+			setUploading(false)
+		}
+	}
+
 	return (
 		<div className={'flex flex-col gap-4'}>
 			<div className={'flex flex-col gap-2'}>
@@ -14,11 +47,11 @@ export function InputDropzoneImageDish({ control, errors, name, value }) {
 				</p>
 			</div>
 			<div className="group relative flex w-full items-center justify-center rounded-md border border-cyan-900/50 bg-cyan-900/10 p-4">
-				{value?.url && (
+				{uploadedImage?.url && (
 					<Image
-						src={value.url}
+						src={uploadedImage.url}
 						fill={true}
-						alt={value.alternativeText ?? 'présentation'}
+						alt={uploadedImage.alternativeText ?? 'présentation'}
 						className={
 							'pointer-events-none z-10 object-cover opacity-100 transition group-hover:opacity-0'
 						}
@@ -52,7 +85,12 @@ export function InputDropzoneImageDish({ control, errors, name, value }) {
 							PNG, JPG, WEBP jusqu&apos;à 1MB
 						</p>
 					</div>
-					<input id="dropzone-file" type="file" className="hidden" />
+					<input
+						id="dropzone-file"
+						type="file"
+						className="hidden"
+						onChange={handleFileChange}
+					/>
 				</label>
 			</div>
 		</div>
