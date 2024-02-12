@@ -21,10 +21,12 @@ export function ModalBodyMainContent(props) {
 					name={'description_dish'}
 				/>
 				<InputDropzoneImageDish
-					value={props.lastDishClicked.image}
 					control={props.control}
 					errors={props.errors}
 					name={'image_dish'}
+					session={props.session}
+					uploadedImage={props.uploadedImage}
+					setUploadedImage={props.setUploadedImage}
 				/>
 			</div>
 			<div className={'col-span-6 flex flex-col gap-6'}>
