@@ -91,6 +91,7 @@ export default function MenusDetails({
 	const [inputValue, setInputValue] = useState('')
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 	const [isAllergensUpdateOpen, setIsAllergensUpdateOpen] = useState(false)
+	const [uploadedImage, setUploadedImage] = useState(null)
 
 	const openIngredientsUpdate = () => setIsIngredientsUpdateOpen(true)
 	const closeIngredientsUpdate = () => setIsIngredientsUpdateOpen(false)
@@ -176,6 +177,7 @@ export default function MenusDetails({
 		setDiets(initialDiets)
 		setStore(initialMenu)
 		setLastDishClicked(initialLastDishClicked)
+		setUploadedImage(initialLastDishClicked.image)
 		setSelectedKeys(initialSelectedKeys)
 		setInputValue(initialInputValue)
 		setIsIngredientsUpdateOpen(initialIsIngredientsUpdateOpen)
@@ -202,6 +204,7 @@ export default function MenusDetails({
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
+		setUploadedImage(lastDishClicked.image)
 	}, [lastDishClicked])
 
 	useEffect(() => {
@@ -261,6 +264,9 @@ export default function MenusDetails({
 															inputValue={inputValue}
 															openIngredientsUpdate={openIngredientsUpdate}
 															closeIngredientsUpdate={closeIngredientsUpdate}
+															session={session}
+															uploadedImage={uploadedImage}
+															setUploadedImage={setUploadedImage}
 														/>
 													) : (
 														<ModalBodyIngredients
