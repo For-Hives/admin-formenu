@@ -9,6 +9,7 @@ export function ModalFooterMainContent({
 	resetAll,
 	onClose,
 	handleSubmit,
+	onSubmit,
 }) {
 	return (
 		<>
@@ -74,7 +75,9 @@ export function ModalFooterMainContent({
 				<Button
 					color="primary"
 					onPress={() => {
-						handleSubmit(data => console.log(data))()
+						handleSubmit(data => {
+							onSubmit(data)
+						})()
 					}}
 					className={'no-underline'}
 					startContent={<i className={`fi fi-sr-disk icon-button`}></i>}

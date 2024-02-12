@@ -20,6 +20,7 @@ import { ModalBodyAllergens } from '@/components/ModalDish/ModalBodyAllergens'
 import { ModalFooterMainContent } from '@/components/ModalDish/ModalFooterMainContent'
 import { ModalFooterBackIngredients } from '@/components/ModalDish/ModalFooterBackIngredients'
 import { ModalFooterBackAllergens } from '@/components/ModalDish/ModalFooterBackAllergens'
+import { postDishes } from '@/services/postDish'
 
 const formSchema = z.object({
 	name_dish: z
@@ -84,7 +85,7 @@ export default function MenusDetails({
 	const setStore = useMenusStore(state => state.setMenu)
 	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
 	// Modal disclosure
-	const { isOpen, onOpen, onOpenChange } = useDisclosure()
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
 	// State to store the selected keys (IDs) and input value
 	const [selectedKeys, setSelectedKeys] = useState([])
@@ -163,6 +164,41 @@ export default function MenusDetails({
 	// Handle input change
 	const onInputChange = value => {
 		setInputValue(value)
+	}
+
+	// Handle form submission
+	const onSubmit = data => {
+		// Update lastDishClicked directly since its reference is not used elsewhere before the update
+		let updatedLastDishClicked = {
+			...lastDishClicked,
+			name: data.name_dish,
+			description: data.description_dish,
+			price: parseFloat(data.price_dish),
+			image: uploadedImage, // Assuming uploadedImage is already in the desired format
+		}
+
+		postDishes(updatedLastDishClicked.id, updatedLastDishClicked, session).then(
+			() => {
+				setLastDishClicked(updatedLastDishClicked)
+
+				// Efficiently update menuFromStore without deep cloning
+				const updatedMenuFromStore = { ...menuFromStore }
+				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
+					category => ({
+						...category,
+						dishes: category.dishes.map(dish => {
+							if (dish.id === updatedLastDishClicked.id) {
+								return updatedLastDishClicked
+							}
+							return dish
+						}),
+					})
+				)
+
+				setStore(updatedMenuFromStore)
+				onClose()
+			}
+		)
 	}
 
 	useEffect(() => {
@@ -296,6 +332,7 @@ export default function MenusDetails({
 												!isIngredientsUpdateOpen ? (
 													<ModalFooterMainContent
 														handleSubmit={handleSubmit}
+														onSubmit={onSubmit}
 														onClose={onClose}
 														resetAll={resetAll}
 														dietsFromStore={dietsFromStore}

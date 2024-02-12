@@ -283,23 +283,3 @@ export async function getDataMe(session) {
 	}
 	return await response.json()
 }
-
-export async function uploadFile(session, file) {
-	console.log('session', session)
-	console.log('jwt', session.jwt)
-	const formData = new FormData()
-	formData.append('files', file)
-
-	let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/upload`, {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${session.jwt}`,
-		},
-		body: formData,
-	})
-	if (!response.ok) {
-		throw new Error('Failed to upload file')
-	}
-	const data = await response.json()
-	return { data, response }
-}
