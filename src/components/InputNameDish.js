@@ -1,20 +1,10 @@
-'use client'
 import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 import { Controller } from 'react-hook-form'
-import { useEffect, useState } from 'react'
 
-export function InputNameDish({ control, errors, name = '', value = '' }) {
-	const [nameInput, setNameInput] = useState(name ?? '')
-	const [valueInput, setValueInput] = useState(value ?? '')
-
-	useEffect(() => {
-		setNameInput(name)
-	}, [nameInput, name])
-
-	useEffect(() => {
-		setValueInput(value)
-	}, [valueInput, value])
+export function InputNameDish({ control, errors, name, value }) {
+	// Initialize directly with props, no need for separate state if just passing through
+	// Removed useState hooks for nameInput and valueInput
 
 	return (
 		<div className={'flex flex-col gap-3'}>
@@ -29,23 +19,22 @@ export function InputNameDish({ control, errors, name = '', value = '' }) {
 			</div>
 			<div>
 				<Controller
-					name={nameInput}
+					name={name ?? ''}
 					control={control}
+					defaultValue={value ?? ''} // Use Controller's defaultValue for initial form value
 					render={({ field }) => (
 						<Input
 							{...field}
-							data-cy={nameInput}
-							id={nameInput}
-							name={nameInput}
+							data-cy={name}
+							id={name}
 							type="text"
-							size={'sm'}
-							defaultValue={valueInput}
+							size="sm"
 							placeholder="Nom du plat..."
-							radius={'sm'}
-							variant={'bordered'}
-							color={'primary'}
-							isInvalid={!!errors[nameInput]}
-							errorMessage={errors[nameInput]?.message}
+							radius="sm"
+							variant="bordered"
+							color="primary"
+							isInvalid={!!errors[name]}
+							errorMessage={errors[name]?.message}
 							classNames={customInput}
 						/>
 					)}
