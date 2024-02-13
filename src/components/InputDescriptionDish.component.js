@@ -2,7 +2,12 @@ import { Textarea } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 import { Controller } from 'react-hook-form'
 
-export function InputDescriptionDish({ control, errors, name, value }) {
+export function InputDescriptionDishComponent({
+	control,
+	errors,
+	name,
+	value,
+}) {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>

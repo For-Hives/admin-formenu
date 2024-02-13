@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { uploadFile } from '@/services/uploadFile'
 
-export function InputDropzoneImageDish({
+export function InputDropzoneImageDishComponent({
 	control,
 	errors,
 	name,

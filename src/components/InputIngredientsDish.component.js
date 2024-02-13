@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Chip } from '@nextui-org/react'
 
-export function InputIngredientsDish({
+export function InputIngredientsDishComponent({
 	selectedKeys,
 	lastDishClicked,
 	onSelectionChange,

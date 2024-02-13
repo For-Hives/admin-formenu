@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export function ModalBodyAllergens({
+export function ModalBodyAllergensComponent({
 	allergensFromStore,
 	isAllergensSelected,
 	onClickAllergens,

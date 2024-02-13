@@ -1,7 +1,7 @@
 import { Button } from '@nextui-org/react'
 import Image from 'next/image'
 
-export function ModalFooterMainContent({
+export function ModalFooterMainContentComponent({
 	openAllergensUpdate,
 	dietsFromStore,
 	onClickDiet,

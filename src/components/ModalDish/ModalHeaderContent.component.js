@@ -1,6 +1,6 @@
 import ToggleDishComponent from '@/components/Toggle/ToggleDish.component'
 
-export function ModalHeaderContent(props) {
+export function ModalHeaderContentComponent(props) {
 	return (
 		<>
 			<h2 className={'font-semibold'}>

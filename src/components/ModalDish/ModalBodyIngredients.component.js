@@ -1,6 +1,6 @@
 import { Checkbox } from '@nextui-org/react'
 
-export function ModalBodyIngredients({
+export function ModalBodyIngredientsComponent({
 	ingredientsFromStore,
 	isIngredientSelected,
 	onSelectionChange,

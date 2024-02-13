@@ -1,26 +1,26 @@
-import { InputNameDish } from '@/components/InputNameDish'
-import { InputDescriptionDish } from '@/components/InputDescriptionDish'
-import { InputDropzoneImageDish } from '@/components/InputDropzoneImageDish'
-import { InputIngredientsDish } from '@/components/InputIngredientsDish'
-import { InputPriceDish } from '@/components/InputPriceDish'
+import { InputNameDishComponent } from '@/components/InputNameDish.component'
+import { InputDescriptionDishComponent } from '@/components/InputDescriptionDish.component'
+import { InputDropzoneImageDishComponent } from '@/components/InputDropzoneImageDish.component'
+import { InputIngredientsDishComponent } from '@/components/InputIngredientsDish.component'
+import { InputPriceDishComponent } from '@/components/InputPriceDish.component'
 
-export function ModalBodyMainContent(props) {
+export function ModalBodyMainContentComponent(props) {
 	return (
 		<>
 			<div className={'col-span-6 flex flex-col gap-6'}>
-				<InputNameDish
+				<InputNameDishComponent
 					value={props.lastDishClicked.name}
 					control={props.control}
 					errors={props.errors}
 					name={'name_dish'}
 				/>
-				<InputDescriptionDish
+				<InputDescriptionDishComponent
 					value={props.lastDishClicked.description}
 					control={props.control}
 					errors={props.errors}
 					name={'description_dish'}
 				/>
-				<InputDropzoneImageDish
+				<InputDropzoneImageDishComponent
 					control={props.control}
 					errors={props.errors}
 					name={'image_dish'}
@@ -30,7 +30,7 @@ export function ModalBodyMainContent(props) {
 				/>
 			</div>
 			<div className={'col-span-6 flex flex-col gap-6'}>
-				<InputIngredientsDish
+				<InputIngredientsDishComponent
 					ingredientsFromStore={props.ingredientsFromStore}
 					selectedKeys={props.selectedKeys}
 					lastDishClicked={props.lastDishClicked}
@@ -44,7 +44,7 @@ export function ModalBodyMainContent(props) {
 					errors={props.errors}
 					name={'ingredients_dish'}
 				/>
-				<InputPriceDish
+				<InputPriceDishComponent
 					value={props.lastDishClicked.price}
 					control={props.control}
 					errors={props.errors}

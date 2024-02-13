@@ -10,17 +10,17 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from '@nextui-org/react'
-import { DishDetails } from '@/components/DishDetails'
+import { DishDetailsComponent } from '@/components/DishDetails.component'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ModalHeaderContent } from '@/components/ModalDish/ModalHeaderContent'
-import { ModalBodyMainContent } from '@/components/ModalDish/ModalBodyMainContent'
-import { ModalBodyIngredients } from '@/components/ModalDish/ModalBodyIngredients'
-import { ModalBodyAllergens } from '@/components/ModalDish/ModalBodyAllergens'
-import { ModalFooterMainContent } from '@/components/ModalDish/ModalFooterMainContent'
-import { ModalFooterBackIngredients } from '@/components/ModalDish/ModalFooterBackIngredients'
-import { ModalFooterBackAllergens } from '@/components/ModalDish/ModalFooterBackAllergens'
+import { ModalHeaderContentComponent } from '@/components/ModalDish/ModalHeaderContent.component'
+import { ModalBodyMainContentComponent } from '@/components/ModalDish/ModalBodyMainContent.component'
+import { ModalBodyIngredientsComponent } from '@/components/ModalDish/ModalBodyIngredients.component'
+import { ModalBodyAllergensComponent } from '@/components/ModalDish/ModalBodyAllergens.component'
+import { ModalFooterMainContentComponent } from '@/components/ModalDish/ModalFooterMainContent.component'
+import { ModalFooterBackIngredientsComponent } from '@/components/ModalDish/ModalFooterBackIngredients.component'
+import { ModalFooterBackAllergensComponent } from '@/components/ModalDish/ModalFooterBackAllergens.component'
 import { postDishes } from '@/services/postDish'
 
 const formSchema = z.object({
@@ -282,7 +282,7 @@ export default function MenusDetails({
 							{onClose => (
 								<>
 									<ModalHeader className="flex justify-between gap-1 pr-14">
-										<ModalHeaderContent
+										<ModalHeaderContentComponent
 											allergensUpdateOpen={isAllergensUpdateOpen}
 											ingredientsUpdateOpen={isIngredientsUpdateOpen}
 											lastDishClicked={lastDishClicked}
@@ -295,7 +295,7 @@ export default function MenusDetails({
 											{!isAllergensUpdateOpen ? (
 												<>
 													{!isIngredientsUpdateOpen ? (
-														<ModalBodyMainContent
+														<ModalBodyMainContentComponent
 															lastDishClicked={lastDishClicked}
 															control={control}
 															errors={errors}
@@ -312,7 +312,7 @@ export default function MenusDetails({
 															setUploadedImage={setUploadedImage}
 														/>
 													) : (
-														<ModalBodyIngredients
+														<ModalBodyIngredientsComponent
 															isIngredientSelected={isIngredientSelected}
 															ingredientsFromStore={ingredientsFromStore}
 															onSelectionChange={onSelectionChange}
@@ -321,7 +321,7 @@ export default function MenusDetails({
 												</>
 											) : (
 												// ************** ALLERGENS **************
-												<ModalBodyAllergens
+												<ModalBodyAllergensComponent
 													allergensFromStore={allergensFromStore}
 													isAllergensSelected={isAllergensSelected}
 													onClickAllergens={onClickAllergens}
@@ -337,7 +337,7 @@ export default function MenusDetails({
 										>
 											{!isAllergensUpdateOpen ? (
 												!isIngredientsUpdateOpen ? (
-													<ModalFooterMainContent
+													<ModalFooterMainContentComponent
 														handleSubmit={handleSubmit}
 														onSubmit={onSubmit}
 														onClose={onClose}
@@ -348,12 +348,12 @@ export default function MenusDetails({
 														openAllergensUpdate={openAllergensUpdate}
 													/>
 												) : (
-													<ModalFooterBackIngredients
+													<ModalFooterBackIngredientsComponent
 														onPress={closeIngredientsUpdate}
 													/>
 												)
 											) : (
-												<ModalFooterBackAllergens
+												<ModalFooterBackAllergensComponent
 													onPress={closeAllergensUpdate}
 												/>
 											)}
@@ -384,7 +384,7 @@ export default function MenusDetails({
 								category?.dishes &&
 								category?.dishes.map(dish => (
 									<div key={dish.id} className={'h-full w-full'}>
-										<DishDetails
+										<DishDetailsComponent
 											dish={dish}
 											menuId={menuFromStore?.id}
 											onOpen={onOpen}

@@ -11,7 +11,12 @@ import React from 'react'
  * @param {function} onOpen - The function to be called when the link is clicked.
  * @returns {JSX.Element} The rendered dish details component.
  */
-export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
+export function DishDetailsComponent({
+	dish,
+	menuId,
+	onOpen,
+	setLastDishClicked,
+}) {
 	return (
 		<div
 			key={dish.id}
@@ -53,6 +58,7 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 					onClick={() => {
 						onOpen()
 						setLastDishClicked(dish)
+						console.log(dish)
 					}}
 					className={
 						'relative flex h-[60px] w-[60px] items-center justify-center overflow-hidden'
@@ -70,31 +76,6 @@ export function DishDetails({ dish, menuId, onOpen, setLastDishClicked }) {
 					/>
 				</Link>
 			</div>
-
-			{/*<div className="col-span-11 col-start-2 flex w-full justify-end">*/}
-			{/*	<div className={'flex w-full flex-col'}>*/}
-			{/*		<h3 className="pb-2">Ingrédients</h3>*/}
-			{/*		<ul className="decoration flex w-full list-disc flex-col gap-2">*/}
-			{/*			{dish.ingredients.map(ingredient => {*/}
-			{/*				return (*/}
-			{/*					<li*/}
-			{/*						key={ingredient.id}*/}
-			{/*						className="flex w-full flex-row items-center justify-between"*/}
-			{/*					>*/}
-			{/*						<span>*/}
-			{/*							{ingredient.name} - {ingredient.id}*/}
-			{/*						</span>*/}
-			{/*						<ToggleIngredientComponent*/}
-			{/*							id={ingredient.id}*/}
-			{/*							activated={ingredient.activated}*/}
-			{/*							menuId={menuId}*/}
-			{/*						/>*/}
-			{/*					</li>*/}
-			{/*				)*/}
-			{/*			})}*/}
-			{/*		</ul>*/}
-			{/*	</div>*/}
-			{/*</div>*/}
 		</div>
 	)
 }
