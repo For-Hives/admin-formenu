@@ -25,7 +25,7 @@ export const base_dish = {
 	available_date_start: null,
 	available_date_end: null,
 	is_pescetarian: null,
-	ingredients: null,
+	ingredients: [],
 	image: null,
 	type_dish: {
 		id: 5,

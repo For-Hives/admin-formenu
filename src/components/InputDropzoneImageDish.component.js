@@ -18,8 +18,8 @@ export function InputDropzoneImageDishComponent({
 		if (!file) return
 
 		try {
-			const { data, response } = await uploadFile(session, file)
-			if (response.ok) {
+			const { data, res } = await uploadFile(session, file)
+			if (res.ok) {
 				// Assuming the first file in the array is the one we're interested in
 				const uploadedFile = data[0]
 				setUploadedImage(uploadedFile) // Update the parent component state or handle however you prefer

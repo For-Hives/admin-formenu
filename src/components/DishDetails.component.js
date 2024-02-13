@@ -16,6 +16,7 @@ export function DishDetailsComponent({
 	menuId,
 	onOpen,
 	setLastDishClicked,
+	setIsAddMode,
 }) {
 	return (
 		<div
@@ -58,7 +59,7 @@ export function DishDetailsComponent({
 					onClick={() => {
 						onOpen()
 						setLastDishClicked(dish)
-						console.log(dish)
+						setIsAddMode(false)
 					}}
 					className={
 						'relative flex h-[60px] w-[60px] items-center justify-center overflow-hidden'

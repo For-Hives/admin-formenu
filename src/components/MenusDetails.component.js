@@ -22,6 +22,7 @@ import { ModalFooterMainContentComponent } from '@/components/ModalDish/ModalFoo
 import { ModalFooterBackIngredientsComponent } from '@/components/ModalDish/ModalFooterBackIngredients.component'
 import { ModalFooterBackAllergensComponent } from '@/components/ModalDish/ModalFooterBackAllergens.component'
 import { postDishes } from '@/services/postDish'
+import { putDishes } from '@/services/putDish'
 
 const formSchema = z.object({
 	name_dish: z
@@ -64,6 +65,8 @@ export default function MenusDetails({
 			// Set default values for other fields if necessary
 		},
 	})
+	const [isAddMode, setIsAddMode] = useState(false)
+
 	// initials values
 	const initialIngredients = useMenusStore(state => state.ingredients)
 	const initialAllergens = useMenusStore(state => state.allergens)
@@ -133,29 +136,36 @@ export default function MenusDetails({
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		const isIngredientInDish = lastDishClicked?.ingredients?.some(
+		// Ensure lastDishClicked.ingredients is initialized as an array if it's undefined
+		const ingredientsList = lastDishClicked.ingredients || []
+
+		const isIngredientInDish = ingredientsList.some(
 			item => item.id.toString() === ingredientId.toString()
 		)
 
 		if (!isIngredientInDish) {
 			// Create a new array with the added ingredient
-			const newIngredients = [...lastDishClicked.ingredients, ingredientToAdd]
+			const newIngredients = [...ingredientsList, ingredientToAdd]
 
 			// Deeply clone lastDishClicked and update its ingredients
-			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = newIngredients
+			const newLastDishClicked = {
+				...lastDishClicked,
+				ingredients: newIngredients,
+			}
 
 			// Update the state with the new object
 			setLastDishClicked(newLastDishClicked)
 		} else {
 			// Create a new array without the selected ingredient
-			const newIngredients = lastDishClicked?.ingredients.filter(
+			const newIngredients = ingredientsList.filter(
 				item => item.id.toString() !== ingredientId.toString()
 			)
 
 			// Deeply clone lastDishClicked and update its ingredients
-			const newLastDishClicked = JSON.parse(JSON.stringify(lastDishClicked))
-			newLastDishClicked.ingredients = newIngredients
+			const newLastDishClicked = {
+				...lastDishClicked,
+				ingredients: newIngredients,
+			}
 
 			// Update the state with the new object
 			setLastDishClicked(newLastDishClicked)
@@ -178,8 +188,31 @@ export default function MenusDetails({
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
 
-		postDishes(updatedLastDishClicked.id, updatedLastDishClicked, session).then(
-			() => {
+		// if isAddMode is true, then we are adding a new dish
+		if (isAddMode) {
+			// Add the new dish to the database and the store
+			postDishes(updatedLastDishClicked, session).then(() => {
+				setLastDishClicked(updatedLastDishClicked)
+
+				// Efficiently update menuFromStore without deep cloning
+				const updatedMenuFromStore = { ...menuFromStore }
+				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
+					category => ({
+						...category,
+						dishes: [...category.dishes, updatedLastDishClicked],
+					})
+				)
+
+				setStore(updatedMenuFromStore)
+				onClose()
+			})
+		} else {
+			// Update the dish in the database and the store
+			putDishes(
+				updatedLastDishClicked.id,
+				updatedLastDishClicked,
+				session
+			).then(() => {
 				setLastDishClicked(updatedLastDishClicked)
 
 				// Efficiently update menuFromStore without deep cloning
@@ -198,11 +231,12 @@ export default function MenusDetails({
 
 				setStore(updatedMenuFromStore)
 				onClose()
-			}
-		)
+			})
+		}
 	}
 
 	const onClickAddDish = () => {
+		setIsAddMode(true)
 		resetAll()
 		setLastDishClicked({})
 		onOpen()
@@ -400,6 +434,7 @@ export default function MenusDetails({
 											menuId={menuFromStore?.id}
 											onOpen={onOpen}
 											setLastDishClicked={setLastDishClicked}
+											setIsAddMode={setIsAddMode}
 										/>
 									</div>
 								))
