@@ -3,7 +3,10 @@ import { customInput } from '@/styles/customConfNextui'
 import React from 'react'
 import { Controller } from 'react-hook-form'
 
-export function InputPriceDish({ control, errors, name, value }) {
+export function InputPriceDish({ control, errors, name = '', value = '' }) {
+	console.log('InputPriceDish')
+	console.log('name', name)
+	console.log('value', value)
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
@@ -17,15 +20,15 @@ export function InputPriceDish({ control, errors, name, value }) {
 			</div>
 			<div>
 				<Controller
-					name={name}
+					name={name ?? ''}
 					control={control}
 					render={({ field }) => (
 						<Input
 							{...field}
-							data-cy={name}
-							id={name}
-							name={name}
-							defaultValue={value}
+							data-cy={name ?? ''}
+							id={name ?? ''}
+							name={name ?? ''}
+							defaultValue={value ?? ''}
 							type="number"
 							size={'sm'}
 							placeholder="Prix du plat..."

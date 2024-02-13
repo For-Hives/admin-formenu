@@ -1,8 +1,21 @@
+'use client'
 import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 import { Controller } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 
-export function InputNameDish({ control, errors, name, value }) {
+export function InputNameDish({ control, errors, name = '', value = '' }) {
+	const [nameInput, setNameInput] = useState(name ?? '')
+	const [valueInput, setValueInput] = useState(value ?? '')
+
+	useEffect(() => {
+		setNameInput(name)
+	}, [nameInput, name])
+
+	useEffect(() => {
+		setValueInput(value)
+	}, [valueInput, value])
+
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
@@ -15,30 +28,28 @@ export function InputNameDish({ control, errors, name, value }) {
 				</p>
 			</div>
 			<div>
-				{control && errors && name && value && (
-					<Controller
-						name={name}
-						control={control}
-						render={({ field }) => (
-							<Input
-								{...field}
-								data-cy={name}
-								id={name}
-								name={name}
-								type="text"
-								size={'sm'}
-								defaultValue={value ?? ''}
-								placeholder="Nom du plat..."
-								radius={'sm'}
-								variant={'bordered'}
-								color={'primary'}
-								isInvalid={!!errors[name]}
-								errorMessage={errors[name]?.message}
-								classNames={customInput}
-							/>
-						)}
-					/>
-				)}
+				<Controller
+					name={nameInput}
+					control={control}
+					render={({ field }) => (
+						<Input
+							{...field}
+							data-cy={nameInput}
+							id={nameInput}
+							name={nameInput}
+							type="text"
+							size={'sm'}
+							defaultValue={valueInput}
+							placeholder="Nom du plat..."
+							radius={'sm'}
+							variant={'bordered'}
+							color={'primary'}
+							isInvalid={!!errors[nameInput]}
+							errorMessage={errors[nameInput]?.message}
+							classNames={customInput}
+						/>
+					)}
+				/>
 			</div>
 		</div>
 	)
