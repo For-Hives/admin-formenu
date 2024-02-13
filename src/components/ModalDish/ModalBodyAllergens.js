@@ -8,8 +8,8 @@ export function ModalBodyAllergens({
 	return (
 		<div className={'col-span-12 flex flex-col gap-3 px-20'}>
 			<div className={'grid grid-cols-7 gap-4'}>
-				{allergensFromStore.map(allergen => (
-					<div key={allergen.id}>
+				{allergensFromStore.map((allergen, index) => (
+					<div key={index}>
 						<button
 							onClick={() => onClickAllergens(allergen.key)}
 							className={
