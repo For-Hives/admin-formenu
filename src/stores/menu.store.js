@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 
 export const useMenusStore = create(set => ({
+	session: {},
+	setSession: session => set({ session: session }),
+
 	menu: {},
 	setMenu: menu => set({ menu: menu }),
 

@@ -50,6 +50,8 @@ export default function MenusDetails({
 	session,
 }) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
+	const sessionFromStore = useMenusStore(state => state.session)
+	const setSession = useMenusStore(state => state.setSession)
 
 	const {
 		control,
@@ -188,10 +190,11 @@ export default function MenusDetails({
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
 
+		console.log(sessionFromStore)
 		// if isAddMode is true, then we are adding a new dish
 		if (isAddMode) {
 			// Add the new dish to the database and the store
-			postDishes(updatedLastDishClicked, session).then(() => {
+			postDishes(updatedLastDishClicked, sessionFromStore).then(() => {
 				setLastDishClicked(updatedLastDishClicked)
 
 				// Efficiently update menuFromStore without deep cloning
@@ -211,7 +214,7 @@ export default function MenusDetails({
 			putDishes(
 				updatedLastDishClicked.id,
 				updatedLastDishClicked,
-				session
+				sessionFromStore
 			).then(() => {
 				setLastDishClicked(updatedLastDishClicked)
 
@@ -307,6 +310,10 @@ export default function MenusDetails({
 		}
 	}, [lastDishClicked, reset])
 
+	useEffect(() => {
+		setSession(session)
+	}, [])
+
 	return (
 		<>
 			{!menuFromStore ? (
@@ -352,7 +359,7 @@ export default function MenusDetails({
 															inputValue={inputValue}
 															openIngredientsUpdate={openIngredientsUpdate}
 															closeIngredientsUpdate={closeIngredientsUpdate}
-															session={session}
+															session={sessionFromStore}
 															uploadedImage={uploadedImage}
 															setUploadedImage={setUploadedImage}
 														/>

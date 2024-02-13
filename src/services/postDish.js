@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 
-export async function postDishes(id, dish, session) {
+export async function postDishes(dish, session) {
 	console.log(session)
 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dishes`, {
 		method: 'POST',
