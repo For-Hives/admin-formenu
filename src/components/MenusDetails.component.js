@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useMenusStore } from '@/stores/menu.store'
 import {
+	Button,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -201,11 +202,11 @@ export default function MenusDetails({
 		)
 	}
 
-	useEffect(() => {
-		if (menuFromStore.id !== menu.id) {
-			setStore(menu)
-		}
-	}, [menu, menuFromStore, setStore])
+	const onClickAddDish = () => {
+		console.log('Add dish')
+		setLastDishClicked({})
+		onOpen()
+	}
 
 	const resetAll = () => {
 		setIngredients(initialIngredients)
@@ -218,6 +219,12 @@ export default function MenusDetails({
 		setInputValue(initialInputValue)
 		setIsIngredientsUpdateOpen(initialIsIngredientsUpdateOpen)
 	}
+
+	useEffect(() => {
+		if (menuFromStore.id !== menu.id) {
+			setStore(menu)
+		}
+	}, [menu, menuFromStore, setStore])
 
 	useEffect(() => {
 		if (Object.keys(ingredientsFromStore).length === 0) {
@@ -357,6 +364,11 @@ export default function MenusDetails({
 						</ModalContent>
 					</Modal>
 
+					<div className={'absolute right-0 top-0 m-8'}>
+						<Button onClick={onClickAddDish} variant={'primary'}>
+							onClickAddDish
+						</Button>
+					</div>
 					{/* Title for the classic page */}
 					<h2>
 						→{' '}
