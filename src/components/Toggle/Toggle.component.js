@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { cn, Switch } from '@nextui-org/react'
 import { useMenusStore } from '@/stores/menu.store'
 
-function ToggleComponent({ id, activated = true, onUpdate }) {
+function ToggleComponent({ id, activated, onUpdate }) {
 	const [isSelected, setIsSelected] = useState(activated ?? true)
 	const menuFromStore = useMenusStore(state => state.menu)
 

@@ -133,7 +133,7 @@ export default function MenusDetails({
 			item => item.id.toString() === ingredientId.toString()
 		)
 
-		const isIngredientInDish = lastDishClicked.ingredients.some(
+		const isIngredientInDish = lastDishClicked?.ingredients?.some(
 			item => item.id.toString() === ingredientId.toString()
 		)
 
@@ -149,7 +149,7 @@ export default function MenusDetails({
 			setLastDishClicked(newLastDishClicked)
 		} else {
 			// Create a new array without the selected ingredient
-			const newIngredients = lastDishClicked.ingredients.filter(
+			const newIngredients = lastDishClicked?.ingredients.filter(
 				item => item.id.toString() !== ingredientId.toString()
 			)
 
@@ -203,21 +203,32 @@ export default function MenusDetails({
 	}
 
 	const onClickAddDish = () => {
-		console.log('Add dish')
+		resetAll()
 		setLastDishClicked({})
 		onOpen()
 	}
 
+	/**
+	 * Cancel & reset
+	 */
 	const resetAll = () => {
 		setIngredients(initialIngredients)
 		setAllergens(initialAllergens)
 		setDiets(initialDiets)
 		setStore(initialMenu)
 		setLastDishClicked(initialLastDishClicked)
-		setUploadedImage(initialLastDishClicked.image)
+		setUploadedImage(null)
 		setSelectedKeys(initialSelectedKeys)
 		setInputValue(initialInputValue)
 		setIsIngredientsUpdateOpen(initialIsIngredientsUpdateOpen)
+		reset(
+			{
+				name_dish: '',
+				description_dish: '',
+				price_dish: '',
+			},
+			{ keepValues: false }
+		)
 	}
 
 	useEffect(() => {

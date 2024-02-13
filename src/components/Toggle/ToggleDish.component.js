@@ -24,5 +24,7 @@ export default function ToggleDishComponent({ id, activated }) {
 		setStore(newMenu)
 		await toggleDishState(id, checked, session)
 	}
-	return <ToggleComponent id={id} activated={activated} onUpdate={updateDish} />
+	return (
+		<ToggleComponent id={id} activated={!!activated} onUpdate={updateDish} />
+	)
 }

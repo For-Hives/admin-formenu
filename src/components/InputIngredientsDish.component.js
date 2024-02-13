@@ -19,8 +19,14 @@ export function InputIngredientsDishComponent({
 				</p>
 			</div>
 			<div className={'flex w-full flex-wrap gap-2'}>
+				{selectedKeys.length === 0 && (
+					<p className={'text-sm italic'}>
+						{' '}
+						{`Aucun ingrédient n'est sélectionné pour le moment.`}
+					</p>
+				)}
 				{selectedKeys.map(key => {
-					const ingredient = lastDishClicked.ingredients.find(
+					const ingredient = lastDishClicked.ingredients?.find(
 						item => item.id.toString() === key
 					)
 					return (

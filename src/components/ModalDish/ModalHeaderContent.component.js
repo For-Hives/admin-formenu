@@ -8,12 +8,16 @@ export function ModalHeaderContentComponent(props) {
 					? 'Modifier les allergènes'
 					: props.ingredientsUpdateOpen
 						? 'Modifier les ingrédients'
-						: `Modifier le plat ${props.lastDishClicked.name}`}
+						: `${
+								props.lastDishClicked.name
+									? 'Modifier le plat ' + props.lastDishClicked.name
+									: 'Créer un nouveau plat'
+							} `}
 			</h2>
 			<div className={'flex gap-4'}>
 				<div>
 					<div className={'flex items-center gap-4'}>
-						{props.lastDishClicked.activated ? (
+						{!!props.lastDishClicked.activated ? (
 							<span className={'text-sm font-light'}>Plat activé !</span>
 						) : (
 							<span className={'text-sm font-light'}>Plat désactivé !</span>
