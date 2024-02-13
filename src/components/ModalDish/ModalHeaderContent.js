@@ -11,7 +11,7 @@ export function ModalHeaderContent(props) {
 						: `Modifier le plat ${props.lastDishClicked.name}`}
 			</h2>
 			<div className={'flex gap-4'}>
-				<p>
+				<div>
 					<div className={'flex items-center gap-4'}>
 						{props.lastDishClicked.activated ? (
 							<span className={'text-sm font-light'}>Plat activé !</span>
@@ -23,7 +23,7 @@ export function ModalHeaderContent(props) {
 							activated={props.lastDishClicked.activated}
 						/>
 					</div>
-				</p>
+				</div>
 			</div>
 		</>
 	)
