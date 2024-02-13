@@ -1,14 +1,8 @@
 import { Textarea } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
-import React from 'react'
 import { Controller } from 'react-hook-form'
 
-export function InputDescriptionDish({
-	control,
-	errors,
-	name = '',
-	value = '',
-}) {
+export function InputDescriptionDish({ control, errors, name, value }) {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
@@ -22,22 +16,21 @@ export function InputDescriptionDish({
 				</p>
 			</div>
 			<Controller
-				name={name}
+				name={name ?? ''}
 				control={control}
+				defaultValue={value ?? ''} // Use Controller's defaultValue for initial value
 				render={({ field }) => (
 					<Textarea
 						{...field}
 						data-cy={name}
 						id={name}
-						name={name}
 						placeholder="Description du plat..."
-						radius={'sm'}
-						size={'sm'}
-						defaultValue={value}
-						variant={'bordered'}
+						radius="sm"
+						size="sm"
+						variant="bordered"
 						className={'w-full'}
 						classNames={customInput}
-						color={'primary'}
+						color="primary"
 						isInvalid={!!errors[name]}
 						errorMessage={errors[name]?.message}
 					/>

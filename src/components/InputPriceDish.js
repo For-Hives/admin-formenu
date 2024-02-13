@@ -1,6 +1,5 @@
 import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
-import React from 'react'
 import { Controller } from 'react-hook-form'
 
 export function InputPriceDish({ control, errors, name, value }) {
