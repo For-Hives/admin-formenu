@@ -48,6 +48,7 @@ export default function MenusDetails({
 	allergens,
 	diets,
 	session,
+	categoryId,
 }) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
 	const sessionFromStore = useMenusStore(state => state.session)
@@ -70,6 +71,8 @@ export default function MenusDetails({
 	const [isAddMode, setIsAddMode] = useState(false)
 
 	// initials values
+	// todo the same functionnality than the ingredients state, but with categories, and update the menu with the good categories
+	// use the category params : categoryId & filter on the menu object , then set the new dish with the correct category ( and set it in the correct way in the store)
 	const initialIngredients = useMenusStore(state => state.ingredients)
 	const initialAllergens = useMenusStore(state => state.allergens)
 	const initialDiets = useMenusStore(state => state.diets)
@@ -190,13 +193,13 @@ export default function MenusDetails({
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
 
-		console.log(sessionFromStore)
 		// if isAddMode is true, then we are adding a new dish
 		if (isAddMode) {
 			// Add the new dish to the database and the store
 			postDishes(updatedLastDishClicked, sessionFromStore).then(() => {
 				setLastDishClicked(updatedLastDishClicked)
 
+				console.log('updatedMenuFromStore', menuFromStore)
 				// Efficiently update menuFromStore without deep cloning
 				const updatedMenuFromStore = { ...menuFromStore }
 				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
@@ -205,6 +208,7 @@ export default function MenusDetails({
 						dishes: [...category.dishes, updatedLastDishClicked],
 					})
 				)
+				console.log(updatedMenuFromStore)
 
 				setStore(updatedMenuFromStore)
 				onClose()
@@ -294,13 +298,15 @@ export default function MenusDetails({
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
-		setSelectedKeys(lastDishClicked.ingredients.map(item => item.id.toString()))
-		setUploadedImage(lastDishClicked.image)
+		setSelectedKeys(
+			lastDishClicked?.ingredients?.map(item => item.id.toString()) || []
+		)
+		setUploadedImage(lastDishClicked?.image)
 	}, [lastDishClicked])
 
 	useEffect(() => {
 		// When lastDishClicked updates, reset the form with new default values
-		if (lastDishClicked) {
+		if (lastDishClicked && !isAddMode) {
 			reset({
 				name_dish: lastDishClicked.name,
 				description_dish: lastDishClicked.description,
