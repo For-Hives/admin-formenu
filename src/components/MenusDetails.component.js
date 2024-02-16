@@ -22,7 +22,7 @@ import { ModalFooterMainContentComponent } from '@/components/ModalDish/ModalFoo
 import { ModalFooterBackComponent } from '@/components/ModalDish/ModalFooterBack.component'
 import { postDishes } from '@/services/postDish'
 import { putDishes } from '@/services/putDish'
-import { ModalBodyCategoriesComponent } from '@/components/ModalBodyCategoriesComponent'
+import { ModalBodyCategoriesComponent } from '@/components/ModalBodyCategories.component'
 
 const formSchema = z.object({
 	name_dish: z
@@ -135,6 +135,12 @@ export default function MenusDetails({
 	}
 
 	const isCategoriesSelected = categoryId => {
+		// console.log('categoryId', categoryId)
+		// console.log('selectedCategories', selectedCategories)
+		// console.log(
+		// 	'selectedCategories.includes(categoryId.toString())',
+		// 	selectedCategories.includes(categoryId.toString())
+		// )
 		return selectedCategories.includes(categoryId.toString())
 	}
 
@@ -377,6 +383,18 @@ export default function MenusDetails({
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedIngredients(
 			lastDishClicked?.ingredients?.map(item => item.id.toString()) || []
+		)
+		console.log(
+			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
+		)
+		console.log(lastDishClicked)
+		console.log(lastDishClicked?.categories)
+		console.log(lastDishClicked?.categories?.map(item => item.id.toString()))
+		console.log(
+			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
+		)
+		setSelectedCategories(
+			lastDishClicked?.categories?.map(item => item.id.toString()) || []
 		)
 		setUploadedImage(lastDishClicked?.image)
 	}, [lastDishClicked])
