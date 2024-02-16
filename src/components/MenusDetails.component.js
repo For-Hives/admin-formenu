@@ -196,18 +196,22 @@ export default function MenusDetails({
 
 	// Handle selection change for categories
 	const onSelectionChangeCategories = categoryId => {
+		console.log('categoryId', categoryId)
 		if (categoryId == null) return
 
 		const categoryToAdd = categories.find(
 			item => item.id.toString() === categoryId.toString()
 		)
+		console.log('categoryToAdd', categoryToAdd)
 
 		// Ensure lastDishClicked.categories is initialized as an array if it's undefined
 		const categoriesList = lastDishClicked.categories || []
+		console.log('categoriesList', categoriesList)
 
 		const isCategoryInDish = categoriesList.some(
 			item => item.id.toString() === categoryId.toString()
 		)
+		console.log('isCategoryInDish', isCategoryInDish)
 
 		if (!isCategoryInDish) {
 			// Create a new array with the added category
@@ -260,7 +264,6 @@ export default function MenusDetails({
 			postDishes(updatedLastDishClicked, sessionFromStore).then(() => {
 				setLastDishClicked(updatedLastDishClicked)
 
-				console.log('updatedMenuFromStore', menuFromStore)
 				// Efficiently update menuFromStore without deep cloning
 				const updatedMenuFromStore = { ...menuFromStore }
 				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
@@ -269,7 +272,6 @@ export default function MenusDetails({
 						dishes: [...category.dishes, updatedLastDishClicked],
 					})
 				)
-				console.log(updatedMenuFromStore)
 
 				setStore(updatedMenuFromStore)
 				onClose()
@@ -451,6 +453,7 @@ export default function MenusDetails({
 																	setUploadedImage={setUploadedImage}
 																/>
 															) : (
+																// ************** INGREDIENTS **************
 																<ModalBodyIngredientsComponent
 																	isIngredientSelected={isIngredientSelected}
 																	ingredientsFromStore={ingredientsFromStore}
@@ -470,6 +473,7 @@ export default function MenusDetails({
 													)}
 												</>
 											) : (
+												// ************** CATEGORIES **************
 												<ModalBodyCategoriesComponent
 													onSelectionChange={onSelectionChangeCategories}
 													categoriesFromStore={categoriesFromStore}

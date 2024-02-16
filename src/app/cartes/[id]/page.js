@@ -40,7 +40,7 @@ export default async function Page({ params }) {
 						allergens={allergensList}
 						diets={dietsList}
 						session={session}
-						categories={categories}
+						categories={categories?.data}
 						categoryId={params.id}
 					/>
 				</div>
