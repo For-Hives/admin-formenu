@@ -23,6 +23,7 @@ import { ModalFooterBackIngredientsComponent } from '@/components/ModalDish/Moda
 import { ModalFooterBackAllergensComponent } from '@/components/ModalDish/ModalFooterBackAllergens.component'
 import { postDishes } from '@/services/postDish'
 import { putDishes } from '@/services/putDish'
+import { ModalBodyCategoriesComponent } from '@/components/ModalBodyCategoriesComponent'
 
 const formSchema = z.object({
 	name_dish: z
@@ -425,39 +426,55 @@ export default function MenusDetails({
 										<div
 											className={'grid h-full w-full grid-cols-12 gap-16 p-8'}
 										>
-											{!isAllergensUpdateOpen ? (
+											{!isCategoriesUpdateOpen ? (
 												<>
-													{!isIngredientsUpdateOpen ? (
-														<ModalBodyMainContentComponent
-															lastDishClicked={lastDishClicked}
-															control={control}
-															errors={errors}
-															ingredientsFromStore={ingredientsFromStore}
-															selectedKeys={selectedIngredients}
-															ingredientSelected={isIngredientSelected}
-															onSelectionChange={onSelectionChangeIngredients}
-															onInputChange={onInputChange}
-															inputValue={inputValue}
-															openIngredientsUpdate={openIngredientsUpdate}
-															closeIngredientsUpdate={closeIngredientsUpdate}
-															session={sessionFromStore}
-															uploadedImage={uploadedImage}
-															setUploadedImage={setUploadedImage}
-														/>
+													{!isAllergensUpdateOpen ? (
+														<>
+															{!isIngredientsUpdateOpen ? (
+																<ModalBodyMainContentComponent
+																	lastDishClicked={lastDishClicked}
+																	control={control}
+																	errors={errors}
+																	ingredientsFromStore={ingredientsFromStore}
+																	selectedKeys={selectedIngredients}
+																	ingredientSelected={isIngredientSelected}
+																	onSelectionChange={
+																		onSelectionChangeIngredients
+																	}
+																	onInputChange={onInputChange}
+																	inputValue={inputValue}
+																	openIngredientsUpdate={openIngredientsUpdate}
+																	closeIngredientsUpdate={
+																		closeIngredientsUpdate
+																	}
+																	session={sessionFromStore}
+																	uploadedImage={uploadedImage}
+																	setUploadedImage={setUploadedImage}
+																/>
+															) : (
+																<ModalBodyIngredientsComponent
+																	isIngredientSelected={isIngredientSelected}
+																	ingredientsFromStore={ingredientsFromStore}
+																	onSelectionChange={
+																		onSelectionChangeIngredients
+																	}
+																/>
+															)}
+														</>
 													) : (
-														<ModalBodyIngredientsComponent
-															isIngredientSelected={isIngredientSelected}
-															ingredientsFromStore={ingredientsFromStore}
-															onSelectionChange={onSelectionChangeIngredients}
+														// ************** ALLERGENS **************
+														<ModalBodyAllergensComponent
+															allergensFromStore={allergensFromStore}
+															isAllergensSelected={isAllergensSelected}
+															onClickAllergens={onClickAllergens}
 														/>
 													)}
 												</>
 											) : (
-												// ************** ALLERGENS **************
-												<ModalBodyAllergensComponent
-													allergensFromStore={allergensFromStore}
-													isAllergensSelected={isAllergensSelected}
-													onClickAllergens={onClickAllergens}
+												<ModalBodyCategoriesComponent
+													onSelectionChange={onSelectionChangeCategories}
+													categoriesFromStore={categoriesFromStore}
+													isCategorySelected={isCategoriesSelected}
 												/>
 											)}
 										</div>
@@ -479,6 +496,7 @@ export default function MenusDetails({
 														isDietSelected={isDietSelected}
 														onClickDiet={onClickDiet}
 														openAllergensUpdate={openAllergensUpdate}
+														openCategoriesUpdate={openCategoriesUpdate}
 													/>
 												) : (
 													<ModalFooterBackIngredientsComponent
