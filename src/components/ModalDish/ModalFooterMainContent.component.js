@@ -10,10 +10,11 @@ export function ModalFooterMainContentComponent({
 	onClose,
 	handleSubmit,
 	onSubmit,
+	openCategoriesUpdate,
 }) {
 	return (
 		<>
-			<div>
+			<div className={'flex items-center gap-2'}>
 				<Button
 					color="primary"
 					variant="flat"
@@ -22,6 +23,15 @@ export function ModalFooterMainContentComponent({
 					startContent={<i className={`fi fi-br-wheat-slash icon-button`}></i>}
 				>
 					Modifier les allergènes
+				</Button>
+				<Button
+					color="primary"
+					variant="flat"
+					onPress={openCategoriesUpdate}
+					className={'no-underline'}
+					startContent={<i className={`fi fi-br-folder icon-button`}></i>}
+				>
+					Modifier les categories
 				</Button>
 			</div>
 			<div className={'grid grid-cols-3 gap-2'}>
