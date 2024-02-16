@@ -23,4 +23,12 @@ export const useMenusStore = create(set => ({
 	// diet list
 	diets: {},
 	setDiets: diets => set({ diets: diets }),
+
+	// category
+	category: {},
+	setCategory: category => set({ category: category }),
+
+	// categories
+	categories: {},
+	setCategories: categories => set({ categories: categories }),
 }))
