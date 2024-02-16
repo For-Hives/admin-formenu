@@ -9,6 +9,7 @@ import { getMenu } from '@/services/getMenu'
 import { getIngredients } from '@/services/getIngredients'
 import { allergensList } from '@/services/getAllergens'
 import { dietsList } from '@/services/getDiets'
+import { getCategories } from '@/services/getCategories'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)

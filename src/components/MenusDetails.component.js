@@ -104,10 +104,13 @@ export default function MenusDetails({
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
 	// State to store the selected keys (IDs) and input value
-	const [selectedKeys, setSelectedKeys] = useState([])
+	const [selectedIngredients, setSelectedIngredients] = useState([])
+	const [selectedCategories, setSelectedCategories] = useState([])
 	const [inputValue, setInputValue] = useState('')
+
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 	const [isAllergensUpdateOpen, setIsAllergensUpdateOpen] = useState(false)
+	const [isCategoriesUpdateOpen, setIsCategoriesUpdateOpen] = useState(false)
 	const [uploadedImage, setUploadedImage] = useState(null)
 
 	const openIngredientsUpdate = () => setIsIngredientsUpdateOpen(true)
@@ -116,8 +119,11 @@ export default function MenusDetails({
 	const openAllergensUpdate = () => setIsAllergensUpdateOpen(true)
 	const closeAllergensUpdate = () => setIsAllergensUpdateOpen(false)
 
+	const openCategoriesUpdate = () => setIsCategoriesUpdateOpen(true)
+	const closeCategoriesUpdate = () => setIsCategoriesUpdateOpen(false)
+
 	const isIngredientSelected = ingredientId => {
-		return selectedKeys.includes(ingredientId.toString())
+		return selectedIngredients.includes(ingredientId.toString())
 	}
 
 	const isAllergensSelected = allergensName => {
@@ -126,6 +132,10 @@ export default function MenusDetails({
 
 	const isDietSelected = dietName => {
 		return lastDishClicked[dietName]
+	}
+
+	const isCategoriesSelected = categoryId => {
+		return selectedCategories.includes(categoryId.toString())
 	}
 
 	const onClickAllergens = allergensName => {
@@ -141,7 +151,7 @@ export default function MenusDetails({
 	}
 
 	// Handle selection change
-	const onSelectionChange = ingredientId => {
+	const onSelectionChangeIngredients = ingredientId => {
 		if (ingredientId == null) return
 
 		const ingredientToAdd = ingredients.find(
@@ -177,6 +187,50 @@ export default function MenusDetails({
 			const newLastDishClicked = {
 				...lastDishClicked,
 				ingredients: newIngredients,
+			}
+
+			// Update the state with the new object
+			setLastDishClicked(newLastDishClicked)
+		}
+	}
+
+	// Handle selection change for categories
+	const onSelectionChangeCategories = categoryId => {
+		if (categoryId == null) return
+
+		const categoryToAdd = categories.find(
+			item => item.id.toString() === categoryId.toString()
+		)
+
+		// Ensure lastDishClicked.categories is initialized as an array if it's undefined
+		const categoriesList = lastDishClicked.categories || []
+
+		const isCategoryInDish = categoriesList.some(
+			item => item.id.toString() === categoryId.toString()
+		)
+
+		if (!isCategoryInDish) {
+			// Create a new array with the added category
+			const newCategories = [...categoriesList, categoryToAdd]
+
+			// Deeply clone lastDishClicked and update its categories
+			const newLastDishClicked = {
+				...lastDishClicked,
+				categories: newCategories,
+			}
+
+			// Update the state with the new object
+			setLastDishClicked(newLastDishClicked)
+		} else {
+			// Create a new array without the selected category
+			const newCategories = categoriesList.filter(
+				item => item.id.toString() !== categoryId.toString()
+			)
+
+			// Deeply clone lastDishClicked and update its categories
+			const newLastDishClicked = {
+				...lastDishClicked,
+				categories: newCategories,
 			}
 
 			// Update the state with the new object
@@ -261,13 +315,14 @@ export default function MenusDetails({
 	 */
 	const resetAll = () => {
 		setIngredients(initialIngredients)
+		setCategories(initialCategories)
 		setCategory(initialCategory)
 		setAllergens(initialAllergens)
 		setDiets(initialDiets)
 		setStore(initialMenu)
 		setLastDishClicked(initialLastDishClicked)
 		setUploadedImage(null)
-		setSelectedKeys(initialSelectedKeys)
+		setSelectedIngredients(initialSelectedKeys)
 		setInputValue(initialInputValue)
 		setIsIngredientsUpdateOpen(initialIsIngredientsUpdateOpen)
 		reset(
@@ -308,11 +363,17 @@ export default function MenusDetails({
 		if (Object.keys(categoryFromStore).length === 0) {
 			setCategory(categoryId)
 		}
-	}, [])
+	}, [categoryFromStore])
+
+	useEffect(() => {
+		if (Object.keys(categoriesFromStore).length === 0) {
+			setCategories(categories)
+		}
+	}, [categoriesFromStore])
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
-		setSelectedKeys(
+		setSelectedIngredients(
 			lastDishClicked?.ingredients?.map(item => item.id.toString()) || []
 		)
 		setUploadedImage(lastDishClicked?.image)
@@ -372,9 +433,9 @@ export default function MenusDetails({
 															control={control}
 															errors={errors}
 															ingredientsFromStore={ingredientsFromStore}
-															selectedKeys={selectedKeys}
+															selectedKeys={selectedIngredients}
 															ingredientSelected={isIngredientSelected}
-															onSelectionChange={onSelectionChange}
+															onSelectionChange={onSelectionChangeIngredients}
 															onInputChange={onInputChange}
 															inputValue={inputValue}
 															openIngredientsUpdate={openIngredientsUpdate}
@@ -387,7 +448,7 @@ export default function MenusDetails({
 														<ModalBodyIngredientsComponent
 															isIngredientSelected={isIngredientSelected}
 															ingredientsFromStore={ingredientsFromStore}
-															onSelectionChange={onSelectionChange}
+															onSelectionChange={onSelectionChangeIngredients}
 														/>
 													)}
 												</>
