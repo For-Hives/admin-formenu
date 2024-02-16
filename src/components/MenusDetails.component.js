@@ -48,6 +48,7 @@ export default function MenusDetails({
 	allergens,
 	diets,
 	session,
+	categories,
 	categoryId,
 }) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
@@ -74,6 +75,8 @@ export default function MenusDetails({
 	// todo the same functionnality than the ingredients state, but with categories, and update the menu with the good categories
 	// use the category params : categoryId & filter on the menu object , then set the new dish with the correct category ( and set it in the correct way in the store)
 	const initialIngredients = useMenusStore(state => state.ingredients)
+	const initialCategory = useMenusStore(state => state.category)
+	const initialCategories = useMenusStore(state => state.categories)
 	const initialAllergens = useMenusStore(state => state.allergens)
 	const initialDiets = useMenusStore(state => state.diets)
 	const initialMenu = useMenusStore(state => state.menu)
@@ -84,11 +87,15 @@ export default function MenusDetails({
 
 	// States
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
+	const categoryFromStore = useMenusStore(state => state.category)
+	const categoriesFromStore = useMenusStore(state => state.categories)
 	const allergensFromStore = useMenusStore(state => state.allergens)
 	const dietsFromStore = useMenusStore(state => state.diets)
 	const menuFromStore = useMenusStore(state => state.menu)
 	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
+	const setCategory = useMenusStore(state => state.setCategory)
+	const setCategories = useMenusStore(state => state.setCategories)
 	const setAllergens = useMenusStore(state => state.setAllergens)
 	const setDiets = useMenusStore(state => state.setDiets)
 	const setStore = useMenusStore(state => state.setMenu)
@@ -254,6 +261,7 @@ export default function MenusDetails({
 	 */
 	const resetAll = () => {
 		setIngredients(initialIngredients)
+		setCategory(initialCategory)
 		setAllergens(initialAllergens)
 		setDiets(initialDiets)
 		setStore(initialMenu)
@@ -295,6 +303,12 @@ export default function MenusDetails({
 			setDiets(diets)
 		}
 	}, [dietsFromStore])
+
+	useEffect(() => {
+		if (Object.keys(categoryFromStore).length === 0) {
+			setCategory(categoryId)
+		}
+	}, [])
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
