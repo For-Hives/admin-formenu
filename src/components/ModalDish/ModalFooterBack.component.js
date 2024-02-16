@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/react'
 
-export function ModalFooterBackAllergensComponent(props) {
+export function ModalFooterBackComponent(props) {
 	return (
 		<>
 			<div></div>
