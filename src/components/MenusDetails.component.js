@@ -19,8 +19,7 @@ import { ModalBodyMainContentComponent } from '@/components/ModalDish/ModalBodyM
 import { ModalBodyIngredientsComponent } from '@/components/ModalDish/ModalBodyIngredients.component'
 import { ModalBodyAllergensComponent } from '@/components/ModalDish/ModalBodyAllergens.component'
 import { ModalFooterMainContentComponent } from '@/components/ModalDish/ModalFooterMainContent.component'
-import { ModalFooterBackIngredientsComponent } from '@/components/ModalDish/ModalFooterBackIngredients.component'
-import { ModalFooterBackAllergensComponent } from '@/components/ModalDish/ModalFooterBackAllergens.component'
+import { ModalFooterBackComponent } from '@/components/ModalDish/ModalFooterBack.component'
 import { postDishes } from '@/services/postDish'
 import { putDishes } from '@/services/putDish'
 import { ModalBodyCategoriesComponent } from '@/components/ModalBodyCategoriesComponent'
@@ -485,29 +484,38 @@ export default function MenusDetails({
 												'flex h-full w-full items-center justify-between'
 											}
 										>
-											{!isAllergensUpdateOpen ? (
-												!isIngredientsUpdateOpen ? (
-													<ModalFooterMainContentComponent
-														handleSubmit={handleSubmit}
-														onSubmit={onSubmit}
-														onClose={onClose}
-														resetAll={resetAll}
-														dietsFromStore={dietsFromStore}
-														isDietSelected={isDietSelected}
-														onClickDiet={onClickDiet}
-														openAllergensUpdate={openAllergensUpdate}
-														openCategoriesUpdate={openCategoriesUpdate}
-													/>
+											{
+												// ************** FOOTER **************
+												!isCategoriesUpdateOpen ? (
+													!isAllergensUpdateOpen ? (
+														!isIngredientsUpdateOpen ? (
+															<ModalFooterMainContentComponent
+																handleSubmit={handleSubmit}
+																onSubmit={onSubmit}
+																onClose={onClose}
+																resetAll={resetAll}
+																dietsFromStore={dietsFromStore}
+																isDietSelected={isDietSelected}
+																onClickDiet={onClickDiet}
+																openAllergensUpdate={openAllergensUpdate}
+																openCategoriesUpdate={openCategoriesUpdate}
+															/>
+														) : (
+															<ModalFooterBackComponent
+																onPress={closeIngredientsUpdate}
+															/>
+														)
+													) : (
+														<ModalFooterBackComponent
+															onPress={closeAllergensUpdate}
+														/>
+													)
 												) : (
-													<ModalFooterBackIngredientsComponent
-														onPress={closeIngredientsUpdate}
+													<ModalFooterBackComponent
+														onPress={closeCategoriesUpdate}
 													/>
 												)
-											) : (
-												<ModalFooterBackAllergensComponent
-													onPress={closeAllergensUpdate}
-												/>
-											)}
+											}
 										</div>
 									</ModalFooter>
 								</>
