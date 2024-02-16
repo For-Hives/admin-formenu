@@ -18,6 +18,7 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 	const ingredients = await getIngredients(session)
+	const categories = await getCategories(session)
 
 	return (
 		<>
@@ -38,6 +39,8 @@ export default async function Page({ params }) {
 						allergens={allergensList}
 						diets={dietsList}
 						session={session}
+						categories={categories}
+						categoryId={params.id}
 					/>
 				</div>
 			</main>
