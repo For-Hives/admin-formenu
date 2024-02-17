@@ -65,7 +65,8 @@ export default function MenusDetails({
 		defaultValues: {
 			name_dish: lastDishClicked?.name || '', // Ensure lastDishClicked is defined
 			description_dish: lastDishClicked?.description || '',
-			price_dish: lastDishClicked?.price?.toString() || '', // Convert price to string if it's not
+			price_dish: lastDishClicked?.price?.toString() || '',
+			category: lastDishClicked?.category?.id?.toString() || '',
 			// Set default values for other fields if necessary
 		},
 	})
@@ -75,7 +76,6 @@ export default function MenusDetails({
 	// todo the same functionnality than the ingredients state, but with categories, and update the menu with the good categories
 	// use the category params : categoryId & filter on the menu object , then set the new dish with the correct category ( and set it in the correct way in the store)
 	const initialIngredients = useMenusStore(state => state.ingredients)
-	const initialCategory = useMenusStore(state => state.category)
 	const initialCategories = useMenusStore(state => state.categories)
 	const initialAllergens = useMenusStore(state => state.allergens)
 	const initialDiets = useMenusStore(state => state.diets)
@@ -87,14 +87,12 @@ export default function MenusDetails({
 
 	// States
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
-	const categoryFromStore = useMenusStore(state => state.category)
 	const categoriesFromStore = useMenusStore(state => state.categories)
 	const allergensFromStore = useMenusStore(state => state.allergens)
 	const dietsFromStore = useMenusStore(state => state.diets)
 	const menuFromStore = useMenusStore(state => state.menu)
 	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
-	const setCategory = useMenusStore(state => state.setCategory)
 	const setCategories = useMenusStore(state => state.setCategories)
 	const setAllergens = useMenusStore(state => state.setAllergens)
 	const setDiets = useMenusStore(state => state.setDiets)
@@ -105,12 +103,10 @@ export default function MenusDetails({
 
 	// State to store the selected keys (IDs) and input value
 	const [selectedIngredients, setSelectedIngredients] = useState([])
-	const [selectedCategories, setSelectedCategories] = useState([])
 	const [inputValue, setInputValue] = useState('')
 
 	const [isIngredientsUpdateOpen, setIsIngredientsUpdateOpen] = useState(false)
 	const [isAllergensUpdateOpen, setIsAllergensUpdateOpen] = useState(false)
-	const [isCategoriesUpdateOpen, setIsCategoriesUpdateOpen] = useState(false)
 	const [uploadedImage, setUploadedImage] = useState(null)
 
 	const openIngredientsUpdate = () => setIsIngredientsUpdateOpen(true)
@@ -118,9 +114,6 @@ export default function MenusDetails({
 
 	const openAllergensUpdate = () => setIsAllergensUpdateOpen(true)
 	const closeAllergensUpdate = () => setIsAllergensUpdateOpen(false)
-
-	const openCategoriesUpdate = () => setIsCategoriesUpdateOpen(true)
-	const closeCategoriesUpdate = () => setIsCategoriesUpdateOpen(false)
 
 	const isIngredientSelected = ingredientId => {
 		return selectedIngredients.includes(ingredientId.toString())
@@ -132,16 +125,6 @@ export default function MenusDetails({
 
 	const isDietSelected = dietName => {
 		return lastDishClicked[dietName]
-	}
-
-	const isCategoriesSelected = categoryId => {
-		// console.log('categoryId', categoryId)
-		// console.log('selectedCategories', selectedCategories)
-		// console.log(
-		// 	'selectedCategories.includes(categoryId.toString())',
-		// 	selectedCategories.includes(categoryId.toString())
-		// )
-		return selectedCategories.includes(categoryId.toString())
 	}
 
 	const onClickAllergens = allergensName => {
@@ -193,54 +176,6 @@ export default function MenusDetails({
 			const newLastDishClicked = {
 				...lastDishClicked,
 				ingredients: newIngredients,
-			}
-
-			// Update the state with the new object
-			setLastDishClicked(newLastDishClicked)
-		}
-	}
-
-	// Handle selection change for categories
-	const onSelectionChangeCategories = categoryId => {
-		console.log('categoryId', categoryId)
-		if (categoryId == null) return
-
-		const categoryToAdd = categories.find(
-			item => item.id.toString() === categoryId.toString()
-		)
-		console.log('categoryToAdd', categoryToAdd)
-
-		// Ensure lastDishClicked.categories is initialized as an array if it's undefined
-		const categoriesList = lastDishClicked.categories || []
-		console.log('categoriesList', categoriesList)
-
-		const isCategoryInDish = categoriesList.some(
-			item => item.id.toString() === categoryId.toString()
-		)
-		console.log('isCategoryInDish', isCategoryInDish)
-
-		if (!isCategoryInDish) {
-			// Create a new array with the added category
-			const newCategories = [...categoriesList, categoryToAdd]
-
-			// Deeply clone lastDishClicked and update its categories
-			const newLastDishClicked = {
-				...lastDishClicked,
-				categories: newCategories,
-			}
-
-			// Update the state with the new object
-			setLastDishClicked(newLastDishClicked)
-		} else {
-			// Create a new array without the selected category
-			const newCategories = categoriesList.filter(
-				item => item.id.toString() !== categoryId.toString()
-			)
-
-			// Deeply clone lastDishClicked and update its categories
-			const newLastDishClicked = {
-				...lastDishClicked,
-				categories: newCategories,
 			}
 
 			// Update the state with the new object
@@ -324,7 +259,6 @@ export default function MenusDetails({
 	const resetAll = () => {
 		setIngredients(initialIngredients)
 		setCategories(initialCategories)
-		setCategory(initialCategory)
 		setAllergens(initialAllergens)
 		setDiets(initialDiets)
 		setStore(initialMenu)
@@ -338,6 +272,7 @@ export default function MenusDetails({
 				name_dish: '',
 				description_dish: '',
 				price_dish: '',
+				category: '',
 			},
 			{ keepValues: false }
 		)
@@ -368,12 +303,6 @@ export default function MenusDetails({
 	}, [dietsFromStore])
 
 	useEffect(() => {
-		if (Object.keys(categoryFromStore).length === 0) {
-			setCategory(categoryId)
-		}
-	}, [categoryFromStore])
-
-	useEffect(() => {
 		if (Object.keys(categoriesFromStore).length === 0) {
 			setCategories(categories)
 		}
@@ -389,13 +318,9 @@ export default function MenusDetails({
 		)
 		// todo : changer le fait d'avoir des catégories à séléctionner par une seule catégorie à selectionner ( dropdown select )
 		console.log(lastDishClicked)
-		console.log(lastDishClicked?.categories)
-		console.log(lastDishClicked?.categories?.map(item => item.id.toString()))
+		console.log(lastDishClicked?.category)
 		console.log(
 			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
-		)
-		setSelectedCategories(
-			lastDishClicked?.categories?.map(item => item.id.toString()) || []
 		)
 		setUploadedImage(lastDishClicked?.image)
 	}, [lastDishClicked])
@@ -406,7 +331,8 @@ export default function MenusDetails({
 			reset({
 				name_dish: lastDishClicked.name,
 				description_dish: lastDishClicked.description,
-				price_dish: lastDishClicked.price?.toString(), // Again, ensure price is a string
+				price_dish: lastDishClicked.price?.toString(),
+				category: lastDishClicked.category?.id?.toString(),
 				// todo Reset other fields if necessary
 			})
 		}
@@ -446,57 +372,40 @@ export default function MenusDetails({
 										<div
 											className={'grid h-full w-full grid-cols-12 gap-16 p-8'}
 										>
-											{!isCategoriesUpdateOpen ? (
+											{!isAllergensUpdateOpen ? (
 												<>
-													{!isAllergensUpdateOpen ? (
-														<>
-															{!isIngredientsUpdateOpen ? (
-																<ModalBodyMainContentComponent
-																	lastDishClicked={lastDishClicked}
-																	control={control}
-																	errors={errors}
-																	ingredientsFromStore={ingredientsFromStore}
-																	selectedKeys={selectedIngredients}
-																	ingredientSelected={isIngredientSelected}
-																	onSelectionChange={
-																		onSelectionChangeIngredients
-																	}
-																	onInputChange={onInputChange}
-																	inputValue={inputValue}
-																	openIngredientsUpdate={openIngredientsUpdate}
-																	closeIngredientsUpdate={
-																		closeIngredientsUpdate
-																	}
-																	session={sessionFromStore}
-																	uploadedImage={uploadedImage}
-																	setUploadedImage={setUploadedImage}
-																/>
-															) : (
-																// ************** INGREDIENTS **************
-																<ModalBodyIngredientsComponent
-																	isIngredientSelected={isIngredientSelected}
-																	ingredientsFromStore={ingredientsFromStore}
-																	onSelectionChange={
-																		onSelectionChangeIngredients
-																	}
-																/>
-															)}
-														</>
+													{!isIngredientsUpdateOpen ? (
+														<ModalBodyMainContentComponent
+															lastDishClicked={lastDishClicked}
+															control={control}
+															errors={errors}
+															ingredientsFromStore={ingredientsFromStore}
+															selectedKeys={selectedIngredients}
+															ingredientSelected={isIngredientSelected}
+															onSelectionChange={onSelectionChangeIngredients}
+															onInputChange={onInputChange}
+															inputValue={inputValue}
+															openIngredientsUpdate={openIngredientsUpdate}
+															closeIngredientsUpdate={closeIngredientsUpdate}
+															session={sessionFromStore}
+															uploadedImage={uploadedImage}
+															setUploadedImage={setUploadedImage}
+														/>
 													) : (
-														// ************** ALLERGENS **************
-														<ModalBodyAllergensComponent
-															allergensFromStore={allergensFromStore}
-															isAllergensSelected={isAllergensSelected}
-															onClickAllergens={onClickAllergens}
+														// ************** INGREDIENTS **************
+														<ModalBodyIngredientsComponent
+															isIngredientSelected={isIngredientSelected}
+															ingredientsFromStore={ingredientsFromStore}
+															onSelectionChange={onSelectionChangeIngredients}
 														/>
 													)}
 												</>
 											) : (
-												// ************** CATEGORIES **************
-												<ModalBodyCategoriesComponent
-													onSelectionChange={onSelectionChangeCategories}
-													categoriesFromStore={categoriesFromStore}
-													isCategorySelected={isCategoriesSelected}
+												// ************** ALLERGENS **************
+												<ModalBodyAllergensComponent
+													allergensFromStore={allergensFromStore}
+													isAllergensSelected={isAllergensSelected}
+													onClickAllergens={onClickAllergens}
 												/>
 											)}
 										</div>
@@ -509,33 +418,27 @@ export default function MenusDetails({
 										>
 											{
 												// ************** FOOTER **************
-												!isCategoriesUpdateOpen ? (
-													!isAllergensUpdateOpen ? (
-														!isIngredientsUpdateOpen ? (
-															<ModalFooterMainContentComponent
-																handleSubmit={handleSubmit}
-																onSubmit={onSubmit}
-																onClose={onClose}
-																resetAll={resetAll}
-																dietsFromStore={dietsFromStore}
-																isDietSelected={isDietSelected}
-																onClickDiet={onClickDiet}
-																openAllergensUpdate={openAllergensUpdate}
-																openCategoriesUpdate={openCategoriesUpdate}
-															/>
-														) : (
-															<ModalFooterBackComponent
-																onPress={closeIngredientsUpdate}
-															/>
-														)
+												!isAllergensUpdateOpen ? (
+													!isIngredientsUpdateOpen ? (
+														<ModalFooterMainContentComponent
+															handleSubmit={handleSubmit}
+															onSubmit={onSubmit}
+															onClose={onClose}
+															resetAll={resetAll}
+															dietsFromStore={dietsFromStore}
+															isDietSelected={isDietSelected}
+															onClickDiet={onClickDiet}
+															openAllergensUpdate={openAllergensUpdate}
+															openCategoriesUpdate={openCategoriesUpdate}
+														/>
 													) : (
 														<ModalFooterBackComponent
-															onPress={closeAllergensUpdate}
+															onPress={closeIngredientsUpdate}
 														/>
 													)
 												) : (
 													<ModalFooterBackComponent
-														onPress={closeCategoriesUpdate}
+														onPress={closeAllergensUpdate}
 													/>
 												)
 											}
