@@ -387,6 +387,7 @@ export default function MenusDetails({
 		console.log(
 			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
 		)
+		// todo : changer le fait d'avoir des catégories à séléctionner par une seule catégorie à selectionner ( dropdown select )
 		console.log(lastDishClicked)
 		console.log(lastDishClicked?.categories)
 		console.log(lastDishClicked?.categories?.map(item => item.id.toString()))
