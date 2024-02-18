@@ -8,6 +8,8 @@ module.exports = {
 		'./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
 	],
 	safelist: [
+		'!no-underline',
+		'!text-gray-700',
 		{
 			pattern: /font-(kanit|playpen_sans)/,
 		},

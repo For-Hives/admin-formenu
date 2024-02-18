@@ -109,3 +109,8 @@ li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon::before{
 li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon::after{
     display: none;
 }
+
+.text-foreground-500{
+    --tw-text-opacity: 1 !important;
+    color: rgb(55 65 81 / var(--tw-text-opacity)) !important;
+}
