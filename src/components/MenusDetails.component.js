@@ -34,6 +34,7 @@ const formSchema = z.object({
 	price_dish: z
 		.string({ required_error: 'Le prix du plat est requis.' })
 		.regex(/^\d+(\.\d{1,2})?$/, 'Le prix est invalide.'),
+	category: z.string({ required_error: 'La catégorie du plat est requise.' }),
 	// selectedKeys: z.array(z.string()).optional(),
 	// image: z.any().optional(),
 })
@@ -390,6 +391,8 @@ export default function MenusDetails({
 															session={sessionFromStore}
 															uploadedImage={uploadedImage}
 															setUploadedImage={setUploadedImage}
+															categoryId={categoryId}
+															categoriesFromStore={categoriesFromStore}
 														/>
 													) : (
 														// ************** INGREDIENTS **************
@@ -429,7 +432,6 @@ export default function MenusDetails({
 															isDietSelected={isDietSelected}
 															onClickDiet={onClickDiet}
 															openAllergensUpdate={openAllergensUpdate}
-															openCategoriesUpdate={openCategoriesUpdate}
 														/>
 													) : (
 														<ModalFooterBackComponent
