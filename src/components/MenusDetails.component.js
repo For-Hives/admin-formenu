@@ -69,6 +69,7 @@ export default function MenusDetails({
 			description_dish: lastDishClicked?.description || '',
 			price_dish: lastDishClicked?.price?.toString() || '',
 			category_dish: lastDishClicked?.category?.id?.toString() || '',
+			type_dish: lastDishClicked?.type_dish?.id?.toString() || '',
 			// Set default values for other fields if necessary
 		},
 	})
@@ -79,6 +80,7 @@ export default function MenusDetails({
 	// use the category params : categoryId & filter on the menu object , then set the new dish with the correct category ( and set it in the correct way in the store)
 	const initialIngredients = useMenusStore(state => state.ingredients)
 	const initialCategories = useMenusStore(state => state.categories)
+	const initialTypeDishes = useMenusStore(state => state.typeDishes)
 	const initialAllergens = useMenusStore(state => state.allergens)
 	const initialDiets = useMenusStore(state => state.diets)
 	const initialMenu = useMenusStore(state => state.menu)
@@ -91,12 +93,14 @@ export default function MenusDetails({
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
 	const categoriesFromStore = useMenusStore(state => state.categories)
 	const allergensFromStore = useMenusStore(state => state.allergens)
+	const typesDishesFromStore = useMenusStore(state => state.typeDishes)
 	const dietsFromStore = useMenusStore(state => state.diets)
 	const menuFromStore = useMenusStore(state => state.menu)
 	// Setters
 	const setIngredients = useMenusStore(state => state.setIngredients)
 	const setCategories = useMenusStore(state => state.setCategories)
 	const setAllergens = useMenusStore(state => state.setAllergens)
+	const setTypesDishes = useMenusStore(state => state.setTypesDishes)
 	const setDiets = useMenusStore(state => state.setDiets)
 	const setStore = useMenusStore(state => state.setMenu)
 	const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
@@ -201,6 +205,9 @@ export default function MenusDetails({
 			category: categoriesFromStore.find(
 				category => category.id.toString() === data.category_dish
 			),
+			type_dish: typesDishesFromStore.find(
+				typeDish => typeDish.id.toString() === data.type_dish
+			),
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
 
@@ -268,6 +275,7 @@ export default function MenusDetails({
 		setDiets(initialDiets)
 		setStore(initialMenu)
 		setLastDishClicked(initialLastDishClicked)
+		setTypesDishes(initialTypeDishes)
 		setUploadedImage(null)
 		setSelectedIngredients(initialSelectedKeys)
 		setInputValue(initialInputValue)
@@ -278,6 +286,7 @@ export default function MenusDetails({
 				description_dish: '',
 				price_dish: '',
 				category_dish: '',
+				type_dish: '',
 			},
 			{ keepValues: false }
 		)
@@ -329,6 +338,7 @@ export default function MenusDetails({
 		// todo : changer le fait d'avoir des catégories à séléctionner par une seule catégorie à selectionner ( dropdown select )
 		console.log(lastDishClicked)
 		console.log(lastDishClicked?.category)
+		console.log(lastDishClicked?.type_dish)
 		console.log(
 			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
 		)
@@ -343,6 +353,7 @@ export default function MenusDetails({
 				description_dish: lastDishClicked.description,
 				price_dish: lastDishClicked.price?.toString(),
 				category_dish: lastDishClicked.category?.id?.toString(),
+				type_dish: lastDishClicked.type_dish?.id?.toString(),
 				// todo Reset other fields if necessary
 			})
 		}
@@ -402,6 +413,7 @@ export default function MenusDetails({
 															setUploadedImage={setUploadedImage}
 															categoryId={categoryId}
 															categoriesFromStore={categoriesFromStore}
+															typesDishesFromStore={typesDishesFromStore}
 														/>
 													) : (
 														// ************** INGREDIENTS **************
