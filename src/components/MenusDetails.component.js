@@ -22,7 +22,6 @@ import { ModalFooterMainContentComponent } from '@/components/ModalDish/ModalFoo
 import { ModalFooterBackComponent } from '@/components/ModalDish/ModalFooterBack.component'
 import { postDishes } from '@/services/postDish'
 import { putDishes } from '@/services/putDish'
-import { ModalBodyCategoriesComponent } from '@/components/ModalBodyCategories.component'
 
 const formSchema = z.object({
 	name_dish: z
@@ -34,7 +33,9 @@ const formSchema = z.object({
 	price_dish: z
 		.string({ required_error: 'Le prix du plat est requis.' })
 		.regex(/^\d+(\.\d{1,2})?$/, 'Le prix est invalide.'),
-	category: z.string({ required_error: 'La catégorie du plat est requise.' }),
+	category_dish: z.string({
+		required_error: 'La catégorie du plat est requise.',
+	}),
 	// selectedKeys: z.array(z.string()).optional(),
 	// image: z.any().optional(),
 })
@@ -67,7 +68,7 @@ export default function MenusDetails({
 			name_dish: lastDishClicked?.name || '', // Ensure lastDishClicked is defined
 			description_dish: lastDishClicked?.description || '',
 			price_dish: lastDishClicked?.price?.toString() || '',
-			category: lastDishClicked?.category?.id?.toString() || '',
+			category_dish: lastDishClicked?.category?.id?.toString() || '',
 			// Set default values for other fields if necessary
 		},
 	})
@@ -197,6 +198,9 @@ export default function MenusDetails({
 			name: data.name_dish,
 			description: data.description_dish,
 			price: parseFloat(data.price_dish),
+			category: categoriesFromStore.find(
+				category => category.id.toString() === data.category_dish
+			),
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
 
@@ -273,7 +277,7 @@ export default function MenusDetails({
 				name_dish: '',
 				description_dish: '',
 				price_dish: '',
-				category: '',
+				category_dish: '',
 			},
 			{ keepValues: false }
 		)
@@ -338,7 +342,7 @@ export default function MenusDetails({
 				name_dish: lastDishClicked.name,
 				description_dish: lastDishClicked.description,
 				price_dish: lastDishClicked.price?.toString(),
-				category: lastDishClicked.category?.id?.toString(),
+				category_dish: lastDishClicked.category?.id?.toString(),
 				// todo Reset other fields if necessary
 			})
 		}

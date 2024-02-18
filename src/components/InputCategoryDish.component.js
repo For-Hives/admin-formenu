@@ -27,7 +27,7 @@ export function InputCategoryDishComponent({
 				<Controller
 					name={name ?? ''}
 					control={control}
-					defaultValue={value.toString() ?? ''}
+					defaultValue={value.toString()}
 					render={({ field }) => (
 						<Select
 							{...field}
@@ -36,6 +36,7 @@ export function InputCategoryDishComponent({
 							classNames={customInput}
 							color="primary"
 							variant="bordered"
+							selectedKeys={field.value.toString()}
 							radius="sm"
 							data-cy={name}
 							id={name}
@@ -46,7 +47,7 @@ export function InputCategoryDishComponent({
 						>
 							{categories?.length > 0 &&
 								categories.map(category => (
-									<SelectItem key={category.id} value={category.id}>
+									<SelectItem key={category.id} value={category.id.toString()}>
 										{category.attributes.name}
 									</SelectItem>
 								))}
