@@ -27,16 +27,16 @@ export function InputCategoryDishComponent({
 				<Controller
 					name={name ?? ''}
 					control={control}
-					defaultValue={value ?? ''}
+					defaultValue={value.toString() ?? ''}
 					render={({ field }) => (
 						<Select
 							{...field}
+							aria-label="Catégorie du plat"
 							placeholder="Catégorie du plat..."
 							classNames={customInput}
 							color="primary"
 							variant="bordered"
 							radius="sm"
-							selectedKeys={value.toString()}
 							data-cy={name}
 							id={name}
 							name={name}

@@ -10,6 +10,7 @@ import { getIngredients } from '@/services/getIngredients'
 import { allergensList } from '@/services/getAllergens'
 import { dietsList } from '@/services/getDiets'
 import { getCategories } from '@/services/getCategories'
+import { getCategoriesFilteredByDepth } from '@/services/getCategoriesFilteredByDepth'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
@@ -19,7 +20,7 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 	const ingredients = await getIngredients(session)
-	const categories = await getCategories(session)
+	const categories = await getCategoriesFilteredByDepth(session, 1)
 
 	return (
 		<>

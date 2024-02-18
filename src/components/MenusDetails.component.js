@@ -304,7 +304,12 @@ export default function MenusDetails({
 	}, [dietsFromStore])
 
 	useEffect(() => {
-		if (Object.keys(categoriesFromStore).length === 0) {
+		console.log('categories', categories)
+		console.log('categoriesFromStore', categoriesFromStore)
+		if (
+			Object.keys(categoriesFromStore).length === 0 &&
+			categories !== undefined
+		) {
 			setCategories(categories)
 		}
 	}, [categoriesFromStore])
