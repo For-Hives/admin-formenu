@@ -6,6 +6,7 @@ import { InputPriceDishComponent } from '@/components/InputPriceDish.component'
 import { InputCategoryDishComponent } from '@/components/InputCategoryDish.component'
 
 export function ModalBodyMainContentComponent(props) {
+	console.log('props value category', props.lastDishClicked.category)
 	return (
 		<>
 			<div className={'col-span-6 flex flex-col gap-6'}>
@@ -52,10 +53,12 @@ export function ModalBodyMainContentComponent(props) {
 					name={'price_dish'}
 				/>
 				<InputCategoryDishComponent
-					value={props.lastDishClicked.category}
+					value={props.lastDishClicked.category.id}
 					control={props.control}
 					errors={props.errors}
 					name={'category_dish'}
+					category={props.categoryId}
+					categories={props.categoriesFromStore}
 				/>
 			</div>
 		</>
