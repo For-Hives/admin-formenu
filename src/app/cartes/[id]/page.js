@@ -11,6 +11,7 @@ import { allergensList } from '@/services/getAllergens'
 import { dietsList } from '@/services/getDiets'
 import { getCategories } from '@/services/getCategories'
 import { getCategoriesFilteredByDepth } from '@/services/getCategoriesFilteredByDepth'
+import { getTypeDishes } from '@/services/getTypeDishes'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
@@ -20,6 +21,7 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 	const ingredients = await getIngredients(session)
+	const typedishes = await getTypeDishes(session)
 	const categories = await getCategoriesFilteredByDepth(session, 1)
 
 	return (
@@ -43,6 +45,7 @@ export default async function Page({ params }) {
 						session={session}
 						categories={categories?.data}
 						categoryId={params.id}
+						typedishes={typedishes}
 					/>
 				</div>
 			</main>
