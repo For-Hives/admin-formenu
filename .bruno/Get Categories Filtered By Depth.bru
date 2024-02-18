@@ -1,0 +1,26 @@
+meta {
+  name: Get Categories Filtered By Depth
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories?filters[depth][$eq]=1&filters[company][name][$eq]=Les pieds dans l'eau
+  body: none
+  auth: bearer
+}
+
+query {
+  filters[depth][$eq]: 1
+  filters[company][name][$eq]: Les pieds dans l'eau
+  ~populate: company
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{process.env.NEXT_PUBLIC_API_TOKEN}}
+}
