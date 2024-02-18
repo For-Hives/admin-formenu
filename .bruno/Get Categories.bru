@@ -1,17 +1,13 @@
 meta {
   name: Get Categories
   type: http
-  seq: 7
+  seq: 4
 }
 
 get {
-  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/content-website?populate=deep
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories
   body: none
   auth: bearer
-}
-
-query {
-  populate: deep
 }
 
 headers {

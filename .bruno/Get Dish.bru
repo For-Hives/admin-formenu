@@ -1,17 +1,13 @@
 meta {
   name: Get Dish
   type: http
-  seq: 6
+  seq: 3
 }
 
 get {
-  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/content-website?populate=deep
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/dishes
   body: none
   auth: bearer
-}
-
-query {
-  populate: deep
 }
 
 headers {
