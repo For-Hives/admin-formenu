@@ -15,4 +15,13 @@ export const customInput = {
 		'group-data-[focused=true]:bg-gray-200',
 		'!cursor-text',
 	],
+	trigger: [
+		'shadow-none',
+		'border',
+		'border-cyan-900/25',
+		'bg-gray-50',
+		'hover:bg-gray-100',
+		'group-data-[focused=true]:bg-gray-200',
+		'!cursor-text',
+	],
 }
