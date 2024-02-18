@@ -24,15 +24,6 @@ export function ModalFooterMainContentComponent({
 				>
 					Modifier les allergènes
 				</Button>
-				<Button
-					color="primary"
-					variant="flat"
-					onPress={openCategoriesUpdate}
-					className={'no-underline'}
-					startContent={<i className={`fi fi-br-folder icon-button`}></i>}
-				>
-					Modifier les categories
-				</Button>
 			</div>
 			<div className={'grid grid-cols-3 gap-2'}>
 				{dietsFromStore.map(diet => (
