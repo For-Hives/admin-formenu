@@ -22,7 +22,6 @@ export default async function Page({ params }) {
 	const menu = await getMenu(idMenu, session)
 	const ingredients = await getIngredients(session)
 	const typeDishes = await getTypeDishes(session)
-	console.log('typeDishes', typeDishes)
 	const categories = await getCategoriesFilteredByDepth(session, 1)
 
 	return (

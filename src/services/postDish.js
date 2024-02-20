@@ -3,11 +3,7 @@ import { getDataMe } from './getData'
 
 export async function postDishes(dish, session) {
 	const resUser = await getDataMe(session)
-	console.log('resUSer', resUser)
-
-	console.log('dish in post', dish)
 	// add company from the actual user if not exist in the dish object
-	console.log('session', session)
 	dish = {
 		...dish,
 		company: resUser.company,

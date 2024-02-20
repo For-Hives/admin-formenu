@@ -1,8 +1,6 @@
 import { toast } from 'react-toastify'
 
 export async function uploadFile(session, file) {
-	console.log('session', session)
-	console.log('jwt', session.jwt)
 	const formData = new FormData()
 	formData.append('files', file)
 

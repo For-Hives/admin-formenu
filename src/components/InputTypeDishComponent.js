@@ -9,8 +9,6 @@ export function InputTypeDishComponent({
 	value,
 	typeDish,
 }) {
-	console.log('value type dish', value)
-	console.log('value types dishes', typeDish)
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>

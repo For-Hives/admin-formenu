@@ -212,14 +212,6 @@ export default function MenusDetails({
 			),
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
-		console.log('**** updated ****', updatedLastDishClicked)
-		console.log('**** data.type_dish ****', data.type_dish)
-		console.log(
-			'**** updated typeDishesFromStore ****',
-			typeDishesFromStore.find(
-				typeDish => typeDish.id.toString() === data.type_dish.toString()
-			)
-		)
 
 		// if isAddMode is true, then we are adding a new dish
 		if (isAddMode) {
@@ -327,8 +319,6 @@ export default function MenusDetails({
 	}, [dietsFromStore])
 
 	useEffect(() => {
-		console.log('categories', categories)
-		console.log('categoriesFromStore', categoriesFromStore)
 		if (
 			Object.keys(categoriesFromStore).length === 0 &&
 			categories !== undefined
@@ -338,7 +328,6 @@ export default function MenusDetails({
 	}, [categoriesFromStore])
 
 	useEffect(() => {
-		console.log('typesDishes', typeDishes)
 		if (
 			Object.keys(typeDishesFromStore).length === 0 &&
 			typeDishes !== undefined
@@ -351,16 +340,6 @@ export default function MenusDetails({
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedIngredients(
 			lastDishClicked?.ingredients?.map(item => item.id.toString()) || []
-		)
-		console.log(
-			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
-		)
-		// todo : changer le fait d'avoir des catégories à séléctionner par une seule catégorie à selectionner ( dropdown select )
-		console.log(lastDishClicked)
-		console.log(lastDishClicked?.category)
-		console.log(lastDishClicked?.type_dish)
-		console.log(
-			'/////////////////////////////////////// ************************************** ///////////////////////////////////////'
 		)
 		setUploadedImage(lastDishClicked?.image)
 	}, [lastDishClicked])

@@ -23,9 +23,6 @@ export function InputDropzoneImageDishComponent({
 				// Assuming the first file in the array is the one we're interested in
 				const uploadedFile = data[0]
 				setUploadedImage(uploadedFile) // Update the parent component state or handle however you prefer
-				console.log('Upload successful', uploadedFile)
-			} else {
-				console.error('Upload failed', data)
 			}
 		} catch (e) {
 			console.error(e)

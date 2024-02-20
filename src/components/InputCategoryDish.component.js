@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form'
-import { Input, Select, SelectItem } from '@nextui-org/react'
+import { Select, SelectItem } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 
 export function InputCategoryDishComponent({
@@ -7,10 +7,8 @@ export function InputCategoryDishComponent({
 	errors,
 	name,
 	value,
-	category,
 	categories,
 }) {
-	console.log('value', value)
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>

@@ -57,7 +57,6 @@ export function ModalBodyMainContentComponent(props) {
 					control={props.control}
 					errors={props.errors}
 					name={'category_dish'}
-					category={props.categoryId}
 					categories={props.categoriesFromStore}
 				/>
 				<InputTypeDishComponent
