@@ -25,7 +25,7 @@ export function InputCategoryDishComponent({
 				<Controller
 					name={name ?? ''}
 					control={control}
-					defaultValue={value.toString()}
+					defaultValue={!!value ? value.toString() : ''}
 					render={({ field }) => (
 						<Select
 							{...field}

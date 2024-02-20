@@ -24,7 +24,7 @@ export function InputTypeDishComponent({
 				<Controller
 					name={name ?? ''}
 					control={control}
-					defaultValue={value.toString()}
+					defaultValue={!!value ? value.toString() : ''}
 					render={({ field }) => (
 						<Select
 							{...field}
@@ -54,7 +54,6 @@ export function InputTypeDishComponent({
 						</Select>
 					)}
 				/>
-				<span>{value.type_dish}</span>
 			</div>
 		</div>
 	)

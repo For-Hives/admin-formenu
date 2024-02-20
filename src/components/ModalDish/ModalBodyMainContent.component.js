@@ -47,20 +47,20 @@ export function ModalBodyMainContentComponent(props) {
 					name={'ingredients_dish'}
 				/>
 				<InputPriceDishComponent
-					value={props.lastDishClicked.price}
+					value={props.lastDishClicked?.price}
 					control={props.control}
 					errors={props.errors}
 					name={'price_dish'}
 				/>
 				<InputCategoryDishComponent
-					value={props.lastDishClicked.category.id}
+					value={props.lastDishClicked?.category?.id}
 					control={props.control}
 					errors={props.errors}
 					name={'category_dish'}
 					categories={props.categoriesFromStore}
 				/>
 				<InputTypeDishComponent
-					value={props.lastDishClicked.type_dish.id}
+					value={props.lastDishClicked?.type_dish?.id}
 					control={props.control}
 					errors={props.errors}
 					name={'type_dish'}
