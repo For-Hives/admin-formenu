@@ -4,7 +4,7 @@ import { InputDropzoneImageDishComponent } from '@/components/InputDropzoneImage
 import { InputIngredientsDishComponent } from '@/components/InputIngredientsDish.component'
 import { InputPriceDishComponent } from '@/components/InputPriceDish.component'
 import { InputCategoryDishComponent } from '@/components/InputCategoryDish.component'
-import { InputTypeDishComponent } from '@/components/ModalDish/InputTypeDishComponent'
+import { InputTypeDishComponent } from '@/components/InputTypeDishComponent'
 
 export function ModalBodyMainContentComponent(props) {
 	return (
@@ -65,7 +65,7 @@ export function ModalBodyMainContentComponent(props) {
 					control={props.control}
 					errors={props.errors}
 					name={'type_dish'}
-					typeDish={props.typesDishesFromStore}
+					typeDish={props.typeDishesFromStore}
 				/>
 			</div>
 		</>

@@ -54,7 +54,6 @@ export function InputCategoryDishComponent({
 						</Select>
 					)}
 				/>
-				<span>{value.id}</span>
 			</div>
 		</div>
 	)

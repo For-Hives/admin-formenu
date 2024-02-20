@@ -21,7 +21,8 @@ export default async function Page({ params }) {
 	const idMenu = params.id
 	const menu = await getMenu(idMenu, session)
 	const ingredients = await getIngredients(session)
-	const typedishes = await getTypeDishes(session)
+	const typeDishes = await getTypeDishes(session)
+	console.log('typeDishes', typeDishes)
 	const categories = await getCategoriesFilteredByDepth(session, 1)
 
 	return (
@@ -45,7 +46,7 @@ export default async function Page({ params }) {
 						session={session}
 						categories={categories?.data}
 						categoryId={params.id}
-						typedishes={typedishes}
+						typeDishes={typeDishes?.data}
 					/>
 				</div>
 			</main>

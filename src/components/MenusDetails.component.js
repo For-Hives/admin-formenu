@@ -52,6 +52,7 @@ export default function MenusDetails({
 	session,
 	categories,
 	categoryId,
+	typeDishes,
 }) {
 	const lastDishClicked = useMenusStore(state => state.lastDishClicked)
 	const sessionFromStore = useMenusStore(state => state.session)
@@ -93,7 +94,7 @@ export default function MenusDetails({
 	const ingredientsFromStore = useMenusStore(state => state.ingredients)
 	const categoriesFromStore = useMenusStore(state => state.categories)
 	const allergensFromStore = useMenusStore(state => state.allergens)
-	const typesDishesFromStore = useMenusStore(state => state.typeDishes)
+	const typeDishesFromStore = useMenusStore(state => state.typeDishes)
 	const dietsFromStore = useMenusStore(state => state.diets)
 	const menuFromStore = useMenusStore(state => state.menu)
 	// Setters
@@ -205,7 +206,7 @@ export default function MenusDetails({
 			category: categoriesFromStore.find(
 				category => category.id.toString() === data.category_dish
 			),
-			type_dish: typesDishesFromStore.find(
+			type_dish: typeDishesFromStore.find(
 				typeDish => typeDish.id.toString() === data.type_dish
 			),
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
@@ -328,6 +329,16 @@ export default function MenusDetails({
 	}, [categoriesFromStore])
 
 	useEffect(() => {
+		console.log('typesDishes', typeDishes)
+		if (
+			Object.keys(typeDishesFromStore).length === 0 &&
+			typeDishes !== undefined
+		) {
+			setTypeDishes(typeDishes)
+		}
+	}, [typeDishesFromStore])
+
+	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
 		setSelectedIngredients(
 			lastDishClicked?.ingredients?.map(item => item.id.toString()) || []
@@ -413,7 +424,7 @@ export default function MenusDetails({
 															setUploadedImage={setUploadedImage}
 															categoryId={categoryId}
 															categoriesFromStore={categoriesFromStore}
-															typesDishesFromStore={typesDishesFromStore}
+															typeDishesFromStore={typeDishesFromStore}
 														/>
 													) : (
 														// ************** INGREDIENTS **************
