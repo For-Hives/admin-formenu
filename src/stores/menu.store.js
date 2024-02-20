@@ -31,4 +31,8 @@ export const useMenusStore = create(set => ({
 	// categories
 	categories: {},
 	setCategories: categories => set({ categories: categories }),
+
+	// type_dish
+	typeDishes: {},
+	setTypeDishes: typeDishes => set({ typeDishes: typeDishes }),
 }))
