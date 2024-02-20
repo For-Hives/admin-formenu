@@ -36,6 +36,7 @@ const formSchema = z.object({
 	category_dish: z.string({
 		required_error: 'La catégorie du plat est requise.',
 	}),
+	type_dish: z.string({ required_error: 'Le type du plat est requis.' }),
 	// selectedKeys: z.array(z.string()).optional(),
 	// image: z.any().optional(),
 })
@@ -204,13 +205,21 @@ export default function MenusDetails({
 			description: data.description_dish,
 			price: parseFloat(data.price_dish),
 			category: categoriesFromStore.find(
-				category => category.id.toString() === data.category_dish
+				category => category.id.toString() === data.category_dish.toString()
 			),
 			type_dish: typeDishesFromStore.find(
-				typeDish => typeDish.id.toString() === data.type_dish
+				typeDish => typeDish.id.toString() === data.type_dish.toString()
 			),
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
+		console.log('**** updated ****', updatedLastDishClicked)
+		console.log('**** data.type_dish ****', data.type_dish)
+		console.log(
+			'**** updated typeDishesFromStore ****',
+			typeDishesFromStore.find(
+				typeDish => typeDish.id.toString() === data.type_dish.toString()
+			)
+		)
 
 		// if isAddMode is true, then we are adding a new dish
 		if (isAddMode) {
@@ -365,7 +374,6 @@ export default function MenusDetails({
 				price_dish: lastDishClicked.price?.toString(),
 				category_dish: lastDishClicked.category?.id?.toString(),
 				type_dish: lastDishClicked.type_dish?.id?.toString(),
-				// todo Reset other fields if necessary
 			})
 		}
 	}, [lastDishClicked, reset])
