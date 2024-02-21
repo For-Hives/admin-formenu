@@ -213,12 +213,17 @@ export default function MenusDetails({
 			image: uploadedImage, // Assuming uploadedImage is already in the desired format
 		}
 
+		console.log('******************* on submit ******************************')
+		console.log('updatedLastDishClicked', updatedLastDishClicked)
+
 		// if isAddMode is true, then we are adding a new dish
 		if (isAddMode) {
 			// Add the new dish to the database and the store
-			postDishes(updatedLastDishClicked, sessionFromStore).then(() => {
+			postDishes(updatedLastDishClicked, sessionFromStore).then(res => {
+				console.log('res', res)
 				setLastDishClicked(updatedLastDishClicked)
 
+				console.log('Menu from store', menuFromStore)
 				// Efficiently update menuFromStore without deep cloning
 				const updatedMenuFromStore = { ...menuFromStore }
 				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
@@ -227,6 +232,8 @@ export default function MenusDetails({
 						dishes: [...category.dishes, updatedLastDishClicked],
 					})
 				)
+
+				console.log('updatedMenuFromStore', updatedMenuFromStore)
 
 				setStore(updatedMenuFromStore)
 				onClose()
@@ -341,7 +348,6 @@ export default function MenusDetails({
 		setSelectedIngredients(
 			lastDishClicked?.ingredients?.map(item => item.id.toString()) || []
 		)
-		setUploadedImage(lastDishClicked?.image)
 	}, [lastDishClicked])
 
 	useEffect(() => {

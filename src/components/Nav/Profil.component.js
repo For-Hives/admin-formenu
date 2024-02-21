@@ -30,9 +30,11 @@ export default async function ProfilComponent() {
 				/>
 				<div className="flex flex-col">
 					<span className="text-sm text-slate-50">
-						{user.lastname.toUpperCase()} {user.firstname}
+						{user?.lastname?.toUpperCase()} {user?.firstname}
 					</span>
-					<span className="text-xs text-slate-50/80">{user.company.name}</span>
+					<span className="text-xs text-slate-50/80">
+						{user?.company?.name}
+					</span>
 				</div>
 				<div href="/profil">
 					<i className="fi fi-rr-menu-dots-vertical icon text-lg"></i>
