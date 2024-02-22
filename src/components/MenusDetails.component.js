@@ -221,6 +221,14 @@ export default function MenusDetails({
 			// Add the new dish to the database and the store
 			postDishes(updatedLastDishClicked, sessionFromStore).then(res => {
 				console.log('res', res)
+				// copy updatedLastDishClicked onto res, fusion of both objects
+				updatedLastDishClicked = {
+					...res.data.attributes,
+					...updatedLastDishClicked,
+					id: res.data.id,
+				}
+				console.log('updatedLastDishClicked', updatedLastDishClicked)
+
 				setLastDishClicked(updatedLastDishClicked)
 
 				console.log('Menu from store', menuFromStore)
@@ -234,6 +242,11 @@ export default function MenusDetails({
 				)
 
 				console.log('updatedMenuFromStore', updatedMenuFromStore)
+				console.log('menuFromStore', menuFromStore)
+				console.log(
+					'updatedMenuFromStore.categories',
+					updatedMenuFromStore.categories
+				)
 
 				setStore(updatedMenuFromStore)
 				onClose()
@@ -261,7 +274,9 @@ export default function MenusDetails({
 					})
 				)
 
-				setStore(updatedMenuFromStore)
+				// deep copy of the updatedMenuFromStore
+				const copy = JSON.parse(JSON.stringify(updatedMenuFromStore))
+				setStore(copy)
 				onClose()
 			})
 		}
