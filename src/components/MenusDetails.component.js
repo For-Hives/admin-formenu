@@ -235,10 +235,16 @@ export default function MenusDetails({
 				// Efficiently update menuFromStore without deep cloning
 				const updatedMenuFromStore = { ...menuFromStore }
 				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
-					category => ({
-						...category,
-						dishes: [...category.dishes, updatedLastDishClicked],
-					})
+					category => {
+						if (category.id === updatedLastDishClicked.category.id) {
+							return {
+								...category,
+								dishes: [...category.dishes, updatedLastDishClicked],
+							}
+						} else {
+							return category
+						}
+					}
 				)
 
 				console.log('updatedMenuFromStore', updatedMenuFromStore)
@@ -510,7 +516,10 @@ export default function MenusDetails({
 							category =>
 								category?.dishes &&
 								category?.dishes.map(dish => (
-									<div key={dish.id} className={'h-full w-full'}>
+									<div
+										key={`category${category.id}dish${dish.id}`}
+										className={'h-full w-full'}
+									>
 										<DishDetailsComponent
 											dish={dish}
 											menuId={menuFromStore?.id}
