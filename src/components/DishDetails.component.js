@@ -17,6 +17,7 @@ export function DishDetailsComponent({
 	onOpen,
 	setLastDishClicked,
 	setIsAddMode,
+	onOpendelete,
 }) {
 	return (
 		<div
@@ -53,7 +54,7 @@ export function DishDetailsComponent({
 				<ToggleDishComponent id={dish.id} activated={dish.activated} />
 			</div>
 
-			<div className="absolute right-0 top-0 z-10 p-[10px]">
+			<div className="absolute -top-4 right-0 z-10 flex items-center justify-start gap-0 p-[10px]">
 				<Link
 					type={'button'}
 					onClick={() => {
@@ -68,6 +69,26 @@ export function DishDetailsComponent({
 					<Image
 						src="/icons/change.svg"
 						alt="icone crayon"
+						width={40}
+						height={40}
+						className={
+							'absolute left-[100px] top-1/2 h-[40px] w-[40px] -translate-x-1/2 ' +
+							'-translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150 group-hover:left-1/2'
+						}
+					/>
+				</Link>
+				<Link
+					type={'button'}
+					onClick={() => {
+						onOpendelete(dish.id)
+					}}
+					className={
+						'relative flex h-[60px] w-[60px] items-center justify-center overflow-hidden'
+					}
+				>
+					<Image
+						src="/icons/change.svg"
+						alt="icone delete"
 						width={40}
 						height={40}
 						className={

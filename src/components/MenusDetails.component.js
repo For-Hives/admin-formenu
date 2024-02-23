@@ -22,6 +22,7 @@ import { ModalFooterMainContentComponent } from '@/components/ModalDish/ModalFoo
 import { ModalFooterBackComponent } from '@/components/ModalDish/ModalFooterBack.component'
 import { postDishes } from '@/services/postDish'
 import { putDishes } from '@/services/putDish'
+import { deleteDish } from '@/services/deleteDish'
 
 const formSchema = z.object({
 	name_dish: z
@@ -322,6 +323,22 @@ export default function MenusDetails({
 		)
 	}
 
+	const onOpendelete = id => {
+		deleteDish(id, sessionFromStore).then(() => {
+			const updatedMenuFromStore = { ...menuFromStore }
+			updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
+				category => ({
+					...category,
+					dishes: category.dishes.filter(dish => dish.id !== id),
+				})
+			)
+
+			// deep copy of the updatedMenuFromStore
+			const copy = JSON.parse(JSON.stringify(updatedMenuFromStore))
+			setStore(copy)
+		})
+	}
+
 	useEffect(() => {
 		if (menuFromStore.id !== menu.id) {
 			setStore(menu)
@@ -526,6 +543,7 @@ export default function MenusDetails({
 											onOpen={onOpen}
 											setLastDishClicked={setLastDishClicked}
 											setIsAddMode={setIsAddMode}
+											onOpendelete={onOpendelete}
 										/>
 									</div>
 								))

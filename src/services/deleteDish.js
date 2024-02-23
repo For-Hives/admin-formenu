@@ -1,19 +1,16 @@
 import { toast } from 'react-toastify'
 
-export async function putDishes(id, dish, session) {
+export async function deleteDish(id, session) {
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/dishes/${id}`,
 		{
-			method: 'PUT',
+			method: 'DELETE',
 			headers: {
 				// 	token
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
 				Authorization: `Bearer ${session.jwt}`,
 			},
-			body: JSON.stringify({
-				data: dish,
-			}),
 		}
 	)
 
@@ -24,7 +21,7 @@ export async function putDishes(id, dish, session) {
 			toastId: 'toast-alert',
 		})
 	} else {
-		toast('Plat modifié avec succès', {
+		toast('Plat supprimé avec succès', {
 			type: 'success',
 			icon: '👌',
 			toastId: 'toast-alert',
