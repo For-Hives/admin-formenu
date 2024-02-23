@@ -31,6 +31,7 @@ export async function toggleDishState(id, activated, session) {
 			type: 'success',
 			icon: '👌',
 			toastId: 'toast-alert',
+			position: 'top-left',
 		})
 	}
 	return res.json()

@@ -12,7 +12,7 @@ function ToggleComponent({ id, activated, onUpdate }) {
 	}, [menuFromStore])
 
 	const handleChange = async checked => {
-		setIsSelected(checked)
+		setIsSelected(!isSelected)
 		if (onUpdate) {
 			await onUpdate(id, checked)
 		}
