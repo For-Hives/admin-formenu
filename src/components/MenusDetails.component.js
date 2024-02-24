@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useMenusStore } from '@/stores/menu.store'
 import {
 	Button,
+	Link,
 	Modal,
 	ModalBody,
 	ModalContent,
@@ -23,6 +24,7 @@ import { ModalFooterBackComponent } from '@/components/ModalDish/ModalFooterBack
 import { postDishes } from '@/services/postDish'
 import { putDishes } from '@/services/putDish'
 import { deleteDish } from '@/services/deleteDish'
+import Image from 'next/image'
 
 const formSchema = z.object({
 	name_dish: z
@@ -515,9 +517,26 @@ export default function MenusDetails({
 					</Modal>
 
 					<div className={'absolute right-0 top-0 m-8'}>
-						<Button onClick={onClickAddDish} variant={'primary'}>
-							onClickAddDish
-						</Button>
+						<Link
+							type={'button'}
+							onClick={() => {
+								onClickAddDish()
+							}}
+							className={
+								'relative flex h-[60px] w-[60px] cursor-pointer items-center justify-center overflow-hidden'
+							}
+						>
+							<Image
+								src="/icons/add.svg"
+								alt="icon add"
+								width={40}
+								height={40}
+								className={
+									'absolute top-1/2 h-[40px] w-[40px] -translate-x-1/2 ' +
+									'left-1/2 -translate-y-1/2 transform transition-all hover:brightness-110 hover:saturate-150'
+								}
+							/>
+						</Link>
 					</div>
 					{/* Title for the classic page */}
 					<h2>
@@ -540,7 +559,7 @@ export default function MenusDetails({
 										<DishDetailsComponent
 											dish={dish}
 											menuId={menuFromStore?.id}
-											onOpen={onOpen}
+											onOpenModalEdit={onOpen}
 											setLastDishClicked={setLastDishClicked}
 											setIsAddMode={setIsAddMode}
 											onOpendelete={onOpendelete}
