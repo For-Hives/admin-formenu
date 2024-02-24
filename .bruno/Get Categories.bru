@@ -1,11 +1,11 @@
 meta {
-  name: Menu
+  name: Get Categories
   type: http
-  seq: 3
+  seq: 4
 }
 
 get {
-  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/all-company
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories
   body: none
   auth: bearer
 }

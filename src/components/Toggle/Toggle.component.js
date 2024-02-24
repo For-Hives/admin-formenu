@@ -12,7 +12,7 @@ function ToggleComponent({ id, activated, onUpdate }) {
 	}, [menuFromStore])
 
 	const handleChange = async checked => {
-		setIsSelected(checked)
+		setIsSelected(!isSelected)
 		if (onUpdate) {
 			await onUpdate(id, checked)
 		}
@@ -33,8 +33,8 @@ function ToggleComponent({ id, activated, onUpdate }) {
 					'group-data-[selected=true]:ml-[59px]'
 				),
 			}}
-			startContent={<p>&nbsp;&nbsp;&nbsp;activé</p>}
-			endContent={<p>désactivé&nbsp;</p>}
+			startContent={<span>&nbsp;&nbsp;&nbsp;activé</span>}
+			endContent={<span>désactivé&nbsp;</span>}
 		/>
 	)
 }

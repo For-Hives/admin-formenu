@@ -8,9 +8,6 @@
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
-    transition: opacity,
-    z-index,
-    color ease-in-out 0.3s;
 }
 
 body {
@@ -84,4 +81,36 @@ button {
     .icon {
         @apply flex h-[20px] w-[20px] items-center justify-center text-white transition-all;
     }
+    .icon-button {
+        @apply flex h-[20px] w-[20px] items-center justify-center transition-all;
+    }
+}
+
+li[data-hover="true"][data-selected="true"] .custom-icon{
+    inset: 0 !important;
+}
+
+li[data-hover="true"][data-selected="true"] .custom-icon::before{
+    display: none;
+}
+
+li[data-hover="true"][data-selected="true"] .custom-icon::after{
+    display: none;
+}
+
+li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon{
+    inset: 0 !important;
+}
+
+li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon::before{
+    display: none;
+}
+
+li[data-hover="true"] .custom-box[data-selected="true"] .custom-icon::after{
+    display: none;
+}
+
+.text-foreground-500{
+    --tw-text-opacity: 1 !important;
+    color: rgb(55 65 81 / var(--tw-text-opacity)) !important;
 }

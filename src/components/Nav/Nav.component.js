@@ -1,4 +1,3 @@
-import React from 'react'
 import Image from 'next/image'
 import ProfilComponent from '@/components/Nav/Profil.component'
 import LogoutButtonComponent from '@/components/Nav/LogoutButton.component'
@@ -12,9 +11,27 @@ const menuItems = [
 		enabled: true,
 	},
 	{
-		href: '/mes-menus',
+		href: '/cartes',
 		flaticon: 'fi fi-rr-folder-open',
 		text: 'Mes menus',
+		enabled: false,
+	},
+	{
+		href: '/categories',
+		flaticon: 'fi fi-rr-folder-tree',
+		text: 'Mes catégories',
+		enabled: false,
+	},
+	{
+		href: '/ingrédients',
+		flaticon: 'fi fi-rr-pan-frying',
+		text: 'Mes ingrédients',
+		enabled: false,
+	},
+	{
+		href: '/plats',
+		flaticon: 'fi fi-rr-room-service',
+		text: 'Mes plats',
 		enabled: false,
 	},
 	{
