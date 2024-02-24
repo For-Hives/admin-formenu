@@ -431,6 +431,7 @@ export default function MenusDetails({
 											allergensUpdateOpen={isAllergensUpdateOpen}
 											ingredientsUpdateOpen={isIngredientsUpdateOpen}
 											lastDishClicked={lastDishClicked}
+											isAddMode={isAddMode}
 										/>
 									</ModalHeader>
 									<ModalBody>

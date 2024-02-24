@@ -14,21 +14,23 @@ export function ModalHeaderContentComponent(props) {
 									: 'Créer un nouveau plat'
 							} `}
 			</h2>
-			<div className={'flex gap-4'}>
-				<div>
-					<div className={'flex items-center gap-4'}>
-						{!!props.lastDishClicked.activated ? (
-							<span className={'text-sm font-light'}>Plat activé !</span>
-						) : (
-							<span className={'text-sm font-light'}>Plat désactivé !</span>
-						)}
-						<ToggleDishComponent
-							id={props.lastDishClicked.id}
-							activated={props.lastDishClicked.activated}
-						/>
+			{!props.isAddMode && (
+				<div className={'flex gap-4'}>
+					<div>
+						<div className={'flex items-center gap-4'}>
+							{!!props.lastDishClicked.activated ? (
+								<span className={'text-sm font-light'}>Plat activé !</span>
+							) : (
+								<span className={'text-sm font-light'}>Plat désactivé !</span>
+							)}
+							<ToggleDishComponent
+								id={props.lastDishClicked.id}
+								activated={props.lastDishClicked.activated}
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 		</>
 	)
 }
