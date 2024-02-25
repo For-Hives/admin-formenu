@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import {
@@ -13,7 +13,16 @@ import {
 	ModalContent,
 	ModalFooter,
 	ModalBody,
+	useDisclosure,
 } from '@nextui-org/react'
+import { PlusIcon } from '@/components/IconsJSX/PlusIcon'
+import { InputNameDishComponent } from '@/components/Dish/ModalDish/InputNameDish.component'
+import { InputDescriptionDishComponent } from '@/components/Dish/ModalDish/InputDescriptionDish.component'
+import { InputDropzoneImageDishComponent } from '@/components/Dish/ModalDish/InputDropzoneImageDish.component'
+import { customInput } from '@/styles/customConfNextui'
+import { InputNameIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputNameIngredient.component'
+import { InputActivatedIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputActivatedIngredient.component'
+import { InputDateIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputDateIngredient.component'
 // import { postIngredient, putIngredient, deleteIngredient } from '@/services/ingredientService' // Remplacez ceci par vos fonctions de service réelles
 
 const ingredientSchema = z.object({
@@ -24,15 +33,15 @@ const ingredientSchema = z.object({
 })
 
 export function IngredientsModal({ ingredientToEdit }) {
-	const { isOpen, open, close } = useModal()
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+
 	const isAddMode = !ingredientToEdit
 
 	const {
-		register,
+		control,
 		handleSubmit,
-		setValue,
-		reset,
 		formState: { errors },
+		reset,
 	} = useForm({
 		resolver: zodResolver(ingredientSchema),
 		defaultValues: {
@@ -42,6 +51,8 @@ export function IngredientsModal({ ingredientToEdit }) {
 			available_date_end: '',
 		},
 	})
+
+	const [value, setValue] = useState(ingredientToEdit)
 
 	// Set form default values when in edit mode
 	useEffect(() => {
@@ -81,62 +92,79 @@ export function IngredientsModal({ ingredientToEdit }) {
 
 	return (
 		<>
-			<Button auto flat color="primary" onClick={open}>
-				{isAddMode ? 'Ajouter un ingrédient' : 'Modifier l’ingrédient'}
+			<Button
+				auto
+				color="primary"
+				endContent={<PlusIcon />}
+				onClick={() => {
+					console.log('onOpen')
+					onOpen()
+				}}
+			>
+				{`Ajout d'ingrédient`}
 			</Button>
 
-			<Modal open={isOpen} onClose={close} width="600px">
-				<ModalHeader>
-					{isAddMode ? 'Ajouter un nouvel ingrédient' : 'Modifier l’ingrédient'}
-				</ModalHeader>
-				<ModalBody>
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<Input
-							clearable
-							bordered
-							fullWidth
-							color="primary"
-							size="lg"
-							placeholder="Nom de l'ingrédient"
-							{...register('name')}
-							helperColor="error"
-							helperText={errors.name?.message}
-						/>
-						<Input
-							clearable
-							bordered
-							fullWidth
-							color="primary"
-							size="lg"
-							type="date"
-							placeholder="Date de disponibilité de début"
-							{...register('available_date_start')}
-						/>
-						<Input
-							clearable
-							bordered
-							fullWidth
-							color="primary"
-							size="lg"
-							type="date"
-							placeholder="Date de disponibilité de fin"
-							{...register('available_date_end')}
-						/>
-						<Button auto type="submit" className="mt-4">
-							{isAddMode ? 'Ajouter' : 'Modifier'}
-						</Button>
-						{!isAddMode && (
-							<Button
-								auto
-								color="error"
-								className="mt-4"
-								onClick={handleDelete}
-							>
-								Supprimer
-							</Button>
-						)}
-					</form>
-				</ModalBody>
+			<Modal
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
+				scrollBehavior="inside"
+				classNames={{
+					base: '!w-[70vw] max-w-[70vw]',
+					header: 'border-b-[1px] border-[#f0f9ff]',
+					footer: 'border-t-[1px] border-[#f0f9ff]',
+				}}
+			>
+				<ModalContent>
+					{onClose => (
+						<>
+							<ModalHeader>
+								{isAddMode
+									? 'Ajouter un nouvel ingrédient'
+									: 'Modifier l’ingrédient'}
+							</ModalHeader>
+							<ModalBody>
+								<div className={'grid h-full w-full grid-cols-12 gap-16 p-8'}>
+									<div className={'col-span-7 flex flex-col gap-6'}>
+										<InputNameIngredientComponent
+											control={control}
+											errors={errors}
+											name={'ingredientName'}
+											value={ingredientToEdit?.name}
+										/>
+										<InputActivatedIngredientComponent
+											control={control}
+											errors={errors}
+											name={'ingredientActivated'}
+											value={ingredientToEdit?.activated}
+											isAddMode={isAddMode}
+										/>
+									</div>
+									<div className={'col-span-5 flex flex-col gap-6'}>
+										<InputDateIngredientComponent
+											control={control}
+											errors={errors}
+											name={'ingredientAvailableDateStart'}
+											value={ingredientToEdit?.available_date_start}
+											title={"Date de début d'activation de l'ingrédient"}
+										/>
+										<InputDateIngredientComponent
+											control={control}
+											errors={errors}
+											name={'ingredientAvailableDateEnd'}
+											value={ingredientToEdit?.available_date_end}
+											title={"Date de fin d'activation de l'ingrédient"}
+										/>
+									</div>
+								</div>
+							</ModalBody>
+							<ModalFooter>
+								<Button auto color="primary" onClick={handleSubmit(onSubmit)}>
+									{isAddMode ? 'Ajouter' : 'Modifier'}
+								</Button>
+							</ModalFooter>
+						</>
+					)}
+				</ModalContent>
 			</Modal>
 		</>
 	)

@@ -1,17 +1,24 @@
-import { Input, Switch } from '@nextui-org/react'
-import { customInput } from '@/styles/customConfNextui'
+'use client'
+import { Switch } from '@nextui-org/react'
 import { Controller } from 'react-hook-form'
+import { useState } from 'react'
 
-export function InputNameIngredientComponent({ control, errors, name, value }) {
+export function InputActivatedIngredientComponent({
+	control,
+	errors,
+	name,
+	value,
+	isAddMode,
+}) {
 	// Initialize directly with props, no need for separate state if just passing through
 	// Removed useState hooks for nameInput and valueInput
-	const [isSelected, setIsSelected] = React.useState(true)
+	const [isSelected, setIsSelected] = useState(!!value)
 
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
 				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est le nom de votre ingrédient ?
+					{`L'ingrédient est il activé ?`}
 				</h2>
 			</div>
 			<div>
@@ -20,27 +27,19 @@ export function InputNameIngredientComponent({ control, errors, name, value }) {
 					control={control}
 					defaultValue={value ?? ''} // Use Controller's defaultValue for initial form value
 					render={({ field }) => (
-						// <Input
-						// 	{...field}
-						// 	data-cy={name}
-						// 	id={name}
-						// 	type="text"
-						// 	size="sm"
-						// 	placeholder="Nom de l'ingrédient..."
-						// 	radius="sm"
-						// 	variant="bordered"
-						// 	color="primary"
-						// 	isInvalid={!!errors[name]}
-						// 	errorMessage={errors[name]?.message}
-						// 	classNames={customInput}
-						// />
 						<div className="flex flex-col gap-2">
-							<Switch isSelected={isSelected} onValueChange={setIsSelected}>
-								Airplane mode
+							<Switch
+								{...field}
+								isDisabled={isAddMode}
+								data-cy={name}
+								id={name}
+								isSelected={isSelected}
+								onValueChange={setIsSelected}
+							>
+								<p className="text-small text-default-500">
+									Activé: {isSelected ? 'oui' : 'non'}
+								</p>
 							</Switch>
-							<p className="text-small text-default-500">
-								Selected: {isSelected ? 'true' : 'false'}
-							</p>
 						</div>
 					)}
 				/>

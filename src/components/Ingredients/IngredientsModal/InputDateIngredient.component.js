@@ -2,16 +2,20 @@ import { Input } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 import { Controller } from 'react-hook-form'
 
-export function InputNameIngredientComponent({ control, errors, name, value }) {
+export function InputDateIngredientComponent({
+	control,
+	errors,
+	name,
+	value,
+	title,
+}) {
 	// Initialize directly with props, no need for separate state if just passing through
 	// Removed useState hooks for nameInput and valueInput
 
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
-				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est le nom de votre ingrédient ?
-				</h2>
+				<h2 className={'font-kanit text-lg font-medium'}>{title}</h2>
 			</div>
 			<div>
 				<Controller
@@ -23,9 +27,9 @@ export function InputNameIngredientComponent({ control, errors, name, value }) {
 							{...field}
 							data-cy={name}
 							id={name}
-							type="text"
+							type="date"
 							size="sm"
-							placeholder="Nom de l'ingrédient..."
+							placeholder={`${title}...`}
 							radius="sm"
 							variant="bordered"
 							color="primary"

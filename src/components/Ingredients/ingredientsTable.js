@@ -12,12 +12,12 @@ import {
 	Pagination,
 	Tooltip,
 } from '@nextui-org/react'
-import { PlusIcon } from '../IconsJSX/PlusIcon'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsIngredients } from '@/components/Ingredients/data'
+import { IngredientsModal } from '@/components/Ingredients/IngredientsModal/IngredientsModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
@@ -43,6 +43,8 @@ export function IngredientsTable({ ingredients }) {
 	const [page, setPage] = useState(1)
 
 	const hasSearchFilter = Boolean(filterValue)
+
+	const [ingredientToEdit, setIngredientToEdit] = useState(null)
 
 	const headerColumns = useMemo(() => {
 		if (visibleColumns === 'all') return columnsIngredients
@@ -184,9 +186,7 @@ export function IngredientsTable({ ingredients }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						<Button color="primary" endContent={<PlusIcon />}>
-							{`Ajout d'ingrédient`}
-						</Button>
+						<IngredientsModal />
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
