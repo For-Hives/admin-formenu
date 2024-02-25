@@ -35,9 +35,9 @@ export function IngredientsTable({ ingredients }) {
 	const [visibleColumns, setVisibleColumns] = useState(
 		new Set(INITIAL_VISIBLE_COLUMNS)
 	)
-	const [rowsPerPage, setRowsPerPage] = useState(5)
+	const [rowsPerPage, setRowsPerPage] = useState(15)
 	const [sortDescriptor, setSortDescriptor] = useState({
-		column: 'age',
+		column: 'name',
 		direction: 'ascending',
 	})
 	const [page, setPage] = useState(1)
@@ -200,8 +200,8 @@ export function IngredientsTable({ ingredients }) {
 							onChange={onRowsPerPageChange}
 						>
 							<option value="15">15</option>
-							<option value="20">20</option>
 							<option value="30">30</option>
+							<option value={ingredients.length}>{ingredients.length}</option>
 						</select>
 					</label>
 				</div>
