@@ -12,12 +12,12 @@ import {
 	Pagination,
 	Tooltip,
 } from '@nextui-org/react'
-import { PlusIcon } from './PlusIcon'
-import { SearchIcon } from './SearchIcon'
+import { PlusIcon } from '../IconsJSX/PlusIcon'
+import { SearchIcon } from '../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useState } from 'react'
-import { DeleteIcon } from '@/app/ingredients/DeleteIcon'
-import { EditIcon } from '@/app/ingredients/EditIcon'
-import { columnsIngredients } from '@/app/ingredients/data'
+import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
+import { EditIcon } from '@/components/IconsJSX/EditIcon'
+import { columnsIngredients } from '@/components/Ingredients/data'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import Nav from '@/components/Nav/Nav.component'
 import React from 'react'
 
-import MenusDetails from '@/components/MenusDetails.component'
+import MenusDetails from '@/components/Dish/MenusDetails.component'
 import { getMenu } from '@/services/getMenu'
 import { getIngredients } from '@/services/getIngredients'
 import { allergensList } from '@/services/getAllergens'
