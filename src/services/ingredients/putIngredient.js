@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify'
 
-export async function putDishes(id, dish, session) {
+export async function putIngredient(id, ingredient, session) {
 	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/dishes/${id}`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/ingredients/${id}`,
 		{
 			method: 'PUT',
 			headers: {
@@ -12,7 +12,7 @@ export async function putDishes(id, dish, session) {
 				Authorization: `Bearer ${session.jwt}`,
 			},
 			body: JSON.stringify({
-				data: dish,
+				data: ingredient,
 			}),
 		}
 	)
@@ -24,7 +24,7 @@ export async function putDishes(id, dish, session) {
 			toastId: 'toast-alert',
 		})
 	} else {
-		toast('Plat modifié avec succès', {
+		toast('Ingredient modifié avec succès', {
 			type: 'success',
 			icon: '👌',
 			toastId: 'toast-alert',

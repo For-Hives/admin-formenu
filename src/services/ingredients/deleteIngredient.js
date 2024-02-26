@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify'
 
-export async function deleteDish(id, session) {
+export async function deleteIngredient(id, session) {
 	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/dishes/${id}`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/ingredients/${id}`,
 		{
 			method: 'DELETE',
 			headers: {
@@ -21,7 +21,7 @@ export async function deleteDish(id, session) {
 			toastId: 'toast-alert',
 		})
 	} else {
-		toast('Plat supprimé avec succès', {
+		toast('Ingredient supprimé avec succès', {
 			type: 'success',
 			icon: '👌',
 			toastId: 'toast-alert',
