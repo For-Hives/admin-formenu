@@ -21,9 +21,9 @@ import { ModalBodyIngredientsComponent } from '@/components/Dish/ModalDish/Modal
 import { ModalBodyAllergensComponent } from '@/components/Dish/ModalDish/ModalBodyAllergens.component'
 import { ModalFooterMainContentComponent } from '@/components/Dish/ModalDish/ModalFooterMainContent.component'
 import { ModalFooterBackComponent } from '@/components/Dish/ModalDish/ModalFooterBack.component'
-import { postDishes } from '@/services/postDish'
-import { putDishes } from '@/services/putDish'
-import { deleteDish } from '@/services/deleteDish'
+import { postDishes } from '@/services/dish/postDish'
+import { putDishes } from '@/services/dish/putDish'
+import { deleteDish } from '@/services/dish/deleteDish'
 import Image from 'next/image'
 
 const formSchema = z.object({
