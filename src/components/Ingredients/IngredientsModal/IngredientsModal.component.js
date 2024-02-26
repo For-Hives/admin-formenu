@@ -36,7 +36,11 @@ const ingredientSchema = z.object({
 	available_date_end: z.string().optional(),
 })
 
-export function IngredientsModal({ ingredientToEdit, session }) {
+export function IngredientsModal({
+	ingredientToEdit,
+	session,
+	onChangeIngredients,
+}) {
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
 	const isAddMode = !ingredientToEdit
@@ -64,7 +68,11 @@ export function IngredientsModal({ ingredientToEdit, session }) {
 		console.log(data)
 		// Ajoutez ou modifiez l'ingrédient en fonction du mode
 		if (isAddMode) {
-			postIngredient(data, sessionFromStore)
+			postIngredient(data, sessionFromStore).then(res => {
+				// Refresh your ingredients list or state here
+				const newIngredient = { ...res.data.attributes, id: res.data.id }
+				onChangeIngredients(newIngredient)
+			})
 		} else {
 			putIngredient(ingredientToEdit.id, data, sessionFromStore)
 		}

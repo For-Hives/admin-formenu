@@ -28,7 +28,8 @@ const INITIAL_VISIBLE_COLUMNS = [
 	'actions',
 ]
 
-export function IngredientsTableComponent({ ingredients, session }) {
+export function IngredientsTableComponent({ ingredientsBase, session }) {
+	const [ingredients, setIngredients] = useState(ingredientsBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
@@ -172,6 +173,14 @@ export function IngredientsTableComponent({ ingredients, session }) {
 		setPage(1)
 	}, [])
 
+	const onChangeIngredients = newIngredient => {
+		// add new ingredients to the list
+		console.log('newIngredient', newIngredient)
+		const newIngredientsList = [...ingredients, newIngredient]
+		console.log('newIngredientsList', newIngredientsList)
+		setIngredients(newIngredientsList)
+	}
+
 	const topContent = useMemo(() => {
 		return (
 			<div className="flex flex-col gap-4">
@@ -186,7 +195,11 @@ export function IngredientsTableComponent({ ingredients, session }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						<IngredientsModal ingredientToEdit={null} session={session} />
+						<IngredientsModal
+							ingredientToEdit={null}
+							session={session}
+							onChangeIngredients={onChangeIngredients}
+						/>
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
