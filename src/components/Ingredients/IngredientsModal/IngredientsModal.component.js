@@ -1,25 +1,19 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import {
-	Modal,
-	Input,
 	Button,
-	useModal,
-	ModalHeader,
+	Modal,
+	ModalBody,
 	ModalContent,
 	ModalFooter,
-	ModalBody,
+	ModalHeader,
 	useDisclosure,
 } from '@nextui-org/react'
 import { PlusIcon } from '@/components/IconsJSX/PlusIcon'
-import { InputNameDishComponent } from '@/components/Dish/ModalDish/InputNameDish.component'
-import { InputDescriptionDishComponent } from '@/components/Dish/ModalDish/InputDescriptionDish.component'
-import { InputDropzoneImageDishComponent } from '@/components/Dish/ModalDish/InputDropzoneImageDish.component'
-import { customInput } from '@/styles/customConfNextui'
 import { InputNameIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputNameIngredient.component'
 import { InputActivatedIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputActivatedIngredient.component'
 import { InputDateIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputDateIngredient.component'
@@ -40,9 +34,11 @@ export function IngredientsModal({
 	ingredientToEdit,
 	session,
 	onChangeIngredients,
+	isOpen,
+	onClose,
+	onOpen,
+	onOpenChange,
 }) {
-	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
-
 	const isAddMode = !ingredientToEdit
 
 	const {
@@ -62,7 +58,6 @@ export function IngredientsModal({
 
 	const sessionFromStore = useMenusStore(state => state.session)
 	const setSession = useMenusStore(state => state.setSession)
-	const [value, setValue] = useState(ingredientToEdit)
 
 	const onSubmit = data => {
 		console.log(data)
@@ -106,15 +101,6 @@ export function IngredientsModal({
 		}
 	}
 
-	// Set form default values when in edit mode
-	useEffect(() => {
-		if (!isAddMode) {
-			Object.keys(ingredientToEdit).forEach(key => {
-				setValue(key, ingredientToEdit[key])
-			})
-		}
-	}, [ingredientToEdit, isAddMode, setValue])
-
 	useEffect(() => {
 		setSession(session)
 	}, [])
@@ -133,8 +119,10 @@ export function IngredientsModal({
 			</Button>
 
 			<Modal
-				isOpen={isOpen}
-				onOpenChange={onOpenChange}
+				open={isOpen}
+				onClose={onClose}
+				// isOpen={isOpen}
+				// onOpenChange={onOpenChange}
 				scrollBehavior="inside"
 				classNames={{
 					base: '!w-[70vw] max-w-[70vw]',
