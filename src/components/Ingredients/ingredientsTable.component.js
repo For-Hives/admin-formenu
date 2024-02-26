@@ -13,7 +13,7 @@ import {
 	Tooltip,
 } from '@nextui-org/react'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useRef, useMemo, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsIngredients } from '@/components/Ingredients/data'
@@ -29,6 +29,12 @@ const INITIAL_VISIBLE_COLUMNS = [
 ]
 
 export function IngredientsTableComponent({ ingredientsBase, session }) {
+	const modalRef = useRef()
+
+	const handleEditIngredient = ingredient => {
+		modalRef.current.openModalWithIngredient(ingredient)
+	}
+
 	const [ingredients, setIngredients] = useState(ingredientsBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
@@ -86,64 +92,67 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		})
 	}, [sortDescriptor, items])
 
-	const renderCell = useCallback((ingredient, columnKey) => {
-		const cellValue = ingredient[columnKey]
+	const renderCell = useCallback(
+		(ingredient, columnKey) => {
+			const cellValue = ingredient[columnKey]
 
-		switch (columnKey) {
-			case 'id':
-				return <div className="flex flex-col">{ingredient.id}</div>
-			case 'name':
-				return <div className="flex flex-col">{ingredient.name}</div>
-			case 'available_date_start':
-				return (
-					<div
-						className={`flex flex-col ${ingredient.available_date_start ? '' : 'italic opacity-75'}`}
-					>
-						{ingredient.available_date_start
-							? ingredient.available_date_start
-							: 'Non défini'}
-					</div>
-				)
-			case 'available_date_end':
-				return (
-					<div
-						className={`flex flex-col ${
-							ingredient.available_date_end ? '' : 'italic opacity-75'
-						}`}
-					>
-						{ingredient.available_date_end
-							? ingredient.available_date_end
-							: 'Non défini'}
-					</div>
-				)
-			case 'activated':
-				return (
-					<div className="flex flex-col">
-						{ingredient.activated ? 'Oui' : 'Non'}
-					</div>
-				)
-			case 'actions':
-				return (
-					<div className="relative flex items-center justify-start gap-2">
-						<Tooltip content="Modifier l'ingredient">
-							<span
-								className="cursor-pointer text-lg text-default-400 active:opacity-50"
-								onClick={() => handleOpenModal(ingredient)}
-							>
-								<EditIcon />
-							</span>
-						</Tooltip>
-						<Tooltip color="danger" content="Supprimer ingredient">
-							<span className="cursor-pointer text-lg text-danger active:opacity-50">
-								<DeleteIcon />
-							</span>
-						</Tooltip>
-					</div>
-				)
-			default:
-				return cellValue
-		}
-	}, [])
+			switch (columnKey) {
+				case 'id':
+					return <div className="flex flex-col">{ingredient.id}</div>
+				case 'name':
+					return <div className="flex flex-col">{ingredient.name}</div>
+				case 'available_date_start':
+					return (
+						<div
+							className={`flex flex-col ${ingredient.available_date_start ? '' : 'italic opacity-75'}`}
+						>
+							{ingredient.available_date_start
+								? ingredient.available_date_start
+								: 'Non défini'}
+						</div>
+					)
+				case 'available_date_end':
+					return (
+						<div
+							className={`flex flex-col ${
+								ingredient.available_date_end ? '' : 'italic opacity-75'
+							}`}
+						>
+							{ingredient.available_date_end
+								? ingredient.available_date_end
+								: 'Non défini'}
+						</div>
+					)
+				case 'activated':
+					return (
+						<div className="flex flex-col">
+							{ingredient.activated ? 'Oui' : 'Non'}
+						</div>
+					)
+				case 'actions':
+					return (
+						<div className="relative flex items-center justify-start gap-2">
+							<Tooltip content="Modifier l'ingredient">
+								<span
+									className="cursor-pointer text-lg text-default-400 active:opacity-50"
+									onClick={() => handleEditIngredient(ingredient)}
+								>
+									<EditIcon />
+								</span>
+							</Tooltip>
+							<Tooltip color="danger" content="Supprimer ingredient">
+								<span className="cursor-pointer text-lg text-danger active:opacity-50">
+									<DeleteIcon />
+								</span>
+							</Tooltip>
+						</div>
+					)
+				default:
+					return cellValue
+			}
+		},
+		[handleEditIngredient]
+	)
 
 	const onNextPage = useCallback(() => {
 		if (page < pages) {
@@ -213,13 +222,9 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 					/>
 					<div className="flex gap-3">
 						<IngredientsModal
-							ingredientToEdit={ingredientToEdit}
+							ref={modalRef}
 							session={session}
 							onChangeIngredients={onChangeIngredients}
-							onOpenChangeFromParent={onOpenChange}
-							isOpenFromParent={isOpen}
-							onCloseFromParent={onClose}
-							onOpenFromParent={onOpen}
 						/>
 					</div>
 				</div>

@@ -1,6 +1,16 @@
 import { toast } from 'react-toastify'
+import { getDataMe } from '@/services/data/getData'
 
 export async function putIngredient(id, ingredient, session) {
+	const resUser = await getDataMe(session)
+
+	ingredient = {
+		...ingredient,
+		company: resUser.company,
+		available_date_start: ingredient.available_date_start ? ingredient : null,
+		available_date_end: ingredient.available_date_end ? ingredient : null,
+	}
+
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/ingredients/${id}`,
 		{
