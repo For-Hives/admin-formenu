@@ -173,12 +173,26 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		setPage(1)
 	}, [])
 
-	const onChangeIngredients = newIngredient => {
+	const onChangeIngredients = (newIngredient, isEdit) => {
+		if (isEdit) {
+			// edit ingredient
+			const newIngredientsList = ingredients.map(ingredient => {
+				if (ingredient.id === newIngredient.id) {
+					return newIngredient
+				}
+				return ingredient
+			})
+			setIngredients(newIngredientsList)
+		} else {
+			// add new ingredients to the list
+			const newIngredientsList = [...ingredients, newIngredient]
+			setIngredients(newIngredientsList)
+		}
 		// add new ingredients to the list
-		console.log('newIngredient', newIngredient)
-		const newIngredientsList = [...ingredients, newIngredient]
-		console.log('newIngredientsList', newIngredientsList)
-		setIngredients(newIngredientsList)
+		// console.log('newIngredient', newIngredient)
+		// const newIngredientsList = [...ingredients, newIngredient]
+		// console.log('newIngredientsList', newIngredientsList)
+		// setIngredients(newIngredientsList)
 	}
 
 	const topContent = useMemo(() => {

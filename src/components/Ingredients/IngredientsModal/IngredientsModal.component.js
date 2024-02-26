@@ -71,10 +71,14 @@ export function IngredientsModal({
 			postIngredient(data, sessionFromStore).then(res => {
 				// Refresh your ingredients list or state here
 				const newIngredient = { ...res.data.attributes, id: res.data.id }
-				onChangeIngredients(newIngredient)
+				onChangeIngredients(newIngredient, false)
 			})
 		} else {
-			putIngredient(ingredientToEdit.id, data, sessionFromStore)
+			putIngredient(ingredientToEdit.id, data, sessionFromStore).then(res => {
+				// Refresh your ingredients list or state here
+				const newIngredient = { ...res.data.attributes, id: res.data.id }
+				onChangeIngredients(newIngredient, true)
+			})
 		}
 		reset(
 			{
