@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useSession } from 'next-auth/react'
-import { changePassword } from '@/services/changePassword'
+import { changePassword } from '@/services/auth/changePassword'
 
 const schema = zod
 	.object({
