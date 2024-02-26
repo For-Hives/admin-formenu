@@ -4,9 +4,11 @@ import { getDataMe } from '../data/getData'
 export async function postIngredient(ingredient, session) {
 	const resUser = await getDataMe(session)
 	// add company from the actual user if not exist in the dish object
-	dish = {
-		...dish,
+	ingredient = {
+		...ingredient,
 		company: resUser.company,
+		available_date_start: ingredient.available_date_start ? ingredient : null,
+		available_date_end: ingredient.available_date_end ? ingredient : null,
 	}
 
 	const res = await fetch(

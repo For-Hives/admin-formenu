@@ -23,6 +23,10 @@ import { customInput } from '@/styles/customConfNextui'
 import { InputNameIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputNameIngredient.component'
 import { InputActivatedIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputActivatedIngredient.component'
 import { InputDateIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputDateIngredient.component'
+import { postIngredient } from '@/services/ingredients/postIngredient'
+import { putIngredient } from '@/services/ingredients/putIngredient'
+import { deleteIngredient } from '@/services/ingredients/deleteIngredient'
+import { useMenusStore } from '@/stores/menu.store'
 // import { postIngredient, putIngredient, deleteIngredient } from '@/services/ingredientService' // Remplacez ceci par vos fonctions de service réelles
 
 const ingredientSchema = z.object({
@@ -32,7 +36,7 @@ const ingredientSchema = z.object({
 	available_date_end: z.string().optional(),
 })
 
-export function IngredientsModal({ ingredientToEdit }) {
+export function IngredientsModal({ ingredientToEdit, session }) {
 	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
 
 	const isAddMode = !ingredientToEdit
@@ -46,34 +50,34 @@ export function IngredientsModal({ ingredientToEdit }) {
 		resolver: zodResolver(ingredientSchema),
 		defaultValues: {
 			name: '',
-			activated: true,
+			activated: false,
 			available_date_start: '',
 			available_date_end: '',
 		},
 	})
 
+	const sessionFromStore = useMenusStore(state => state.session)
+	const setSession = useMenusStore(state => state.setSession)
 	const [value, setValue] = useState(ingredientToEdit)
 
-	// Set form default values when in edit mode
-	useEffect(() => {
-		if (!isAddMode) {
-			Object.keys(ingredientToEdit).forEach(key => {
-				setValue(key, ingredientToEdit[key])
-			})
-		}
-	}, [ingredientToEdit, isAddMode, setValue])
-
 	const onSubmit = data => {
-		const submitFunction = isAddMode ? postIngredient : putIngredient
-		submitFunction(data)
-			.then(() => {
-				reset()
-				close()
-				// Refresh your ingredients list or state here
-			})
-			.catch(error => {
-				console.error('There was an error submitting the form', error)
-			})
+		console.log(data)
+		// Ajoutez ou modifiez l'ingrédient en fonction du mode
+		if (isAddMode) {
+			postIngredient(data, sessionFromStore)
+		} else {
+			putIngredient(ingredientToEdit.id, data, sessionFromStore)
+		}
+		reset(
+			{
+				name: '',
+				activated: false,
+				available_date_start: '',
+				available_date_end: '',
+			},
+			{ keepValues: false }
+		)
+		onClose()
 	}
 
 	const handleDelete = () => {
@@ -90,6 +94,19 @@ export function IngredientsModal({ ingredientToEdit }) {
 		}
 	}
 
+	// Set form default values when in edit mode
+	useEffect(() => {
+		if (!isAddMode) {
+			Object.keys(ingredientToEdit).forEach(key => {
+				setValue(key, ingredientToEdit[key])
+			})
+		}
+	}, [ingredientToEdit, isAddMode, setValue])
+
+	useEffect(() => {
+		setSession(session)
+	}, [])
+
 	return (
 		<>
 			<Button
@@ -97,7 +114,6 @@ export function IngredientsModal({ ingredientToEdit }) {
 				color="primary"
 				endContent={<PlusIcon />}
 				onClick={() => {
-					console.log('onOpen')
 					onOpen()
 				}}
 			>
@@ -128,13 +144,13 @@ export function IngredientsModal({ ingredientToEdit }) {
 										<InputNameIngredientComponent
 											control={control}
 											errors={errors}
-											name={'ingredientName'}
+											name={'name'}
 											value={ingredientToEdit?.name}
 										/>
 										<InputActivatedIngredientComponent
 											control={control}
 											errors={errors}
-											name={'ingredientActivated'}
+											name={'activated'}
 											value={ingredientToEdit?.activated}
 											isAddMode={isAddMode}
 										/>
@@ -143,14 +159,14 @@ export function IngredientsModal({ ingredientToEdit }) {
 										<InputDateIngredientComponent
 											control={control}
 											errors={errors}
-											name={'ingredientAvailableDateStart'}
+											name={'available_date_start'}
 											value={ingredientToEdit?.available_date_start}
 											title={"Date de début d'activation de l'ingrédient"}
 										/>
 										<InputDateIngredientComponent
 											control={control}
 											errors={errors}
-											name={'ingredientAvailableDateEnd'}
+											name={'available_date_end'}
 											value={ingredientToEdit?.available_date_end}
 											title={"Date de fin d'activation de l'ingrédient"}
 										/>

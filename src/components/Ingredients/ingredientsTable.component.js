@@ -28,7 +28,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 	'actions',
 ]
 
-export function IngredientsTableComponent({ ingredients }) {
+export function IngredientsTableComponent({ ingredients, session }) {
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
@@ -186,7 +186,7 @@ export function IngredientsTableComponent({ ingredients }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						<IngredientsModal />
+						<IngredientsModal ingredientToEdit={null} session={session} />
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
