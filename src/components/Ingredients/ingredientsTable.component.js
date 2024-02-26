@@ -30,8 +30,6 @@ const INITIAL_VISIBLE_COLUMNS = [
 ]
 
 export function IngredientsTableComponent({ ingredientsBase, session }) {
-	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
-
 	const [ingredients, setIngredients] = useState(ingredientsBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
@@ -91,7 +89,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 
 	const handleOpenModal = ingredient => {
 		setIngredientToEdit(ingredient)
-		onOpen()
+		// setIsModalOpen(true)
 	}
 
 	const renderCell = useCallback((ingredient, columnKey) => {
@@ -136,10 +134,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						<Tooltip content="Modifier l'ingredient">
 							<span
 								className="cursor-pointer text-lg text-default-400 active:opacity-50"
-								onClick={() => {
-									console.log('edit ingredient')
-									handleOpenModal(ingredient)
-								}}
+								onClick={() => handleOpenModal(ingredient)}
 							>
 								<EditIcon />
 							</span>
@@ -202,6 +197,11 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 			const newIngredientsList = [...ingredients, newIngredient]
 			setIngredients(newIngredientsList)
 		}
+		// add new ingredients to the list
+		// console.log('newIngredient', newIngredient)
+		// const newIngredientsList = [...ingredients, newIngredient]
+		// console.log('newIngredientsList', newIngredientsList)
+		// setIngredients(newIngredientsList)
 	}
 
 	const topContent = useMemo(() => {
@@ -222,10 +222,6 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 							ingredientToEdit={ingredientToEdit}
 							session={session}
 							onChangeIngredients={onChangeIngredients}
-							isOpen={isOpen}
-							onOpen={onOpen}
-							onClose={onClose}
-							onOpenChange={onOpenChange}
 						/>
 					</div>
 				</div>

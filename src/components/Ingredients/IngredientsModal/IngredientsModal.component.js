@@ -34,11 +34,9 @@ export function IngredientsModal({
 	ingredientToEdit,
 	session,
 	onChangeIngredients,
-	isOpen,
-	onClose,
-	onOpen,
-	onOpenChange,
 }) {
+	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+
 	const isAddMode = !ingredientToEdit
 
 	const {
@@ -119,10 +117,8 @@ export function IngredientsModal({
 			</Button>
 
 			<Modal
-				open={isOpen}
-				onClose={onClose}
-				// isOpen={isOpen}
-				// onOpenChange={onOpenChange}
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
 				scrollBehavior="inside"
 				classNames={{
 					base: '!w-[70vw] max-w-[70vw]',
