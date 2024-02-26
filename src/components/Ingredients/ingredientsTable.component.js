@@ -18,6 +18,8 @@ import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsIngredients } from '@/components/Ingredients/data'
 import { IngredientsModal } from '@/components/Ingredients/IngredientsModal/IngredientsModal.component'
+import { deleteIngredient } from '@/services/ingredients/deleteIngredient'
+import ConfirmationModal from '@/components/Ingredients/IngredientsModal/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
@@ -141,9 +143,17 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 								</span>
 							</Tooltip>
 							<Tooltip color="danger" content="Supprimer ingredient">
-								<span className="cursor-pointer text-lg text-danger active:opacity-50">
-									<DeleteIcon />
-								</span>
+								<Tooltip color="danger" content="Supprimer ingredient">
+									<span
+										className="cursor-pointer text-lg text-danger active:opacity-50"
+										onClick={() => {
+											console.log('delete ingredient', ingredient)
+											handleDeleteClick(ingredient)
+										}}
+									>
+										<DeleteIcon />
+									</span>
+								</Tooltip>
 							</Tooltip>
 						</div>
 					)
@@ -289,34 +299,66 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		)
 	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
 
+	const [ingredientToDelete, setIngredientToDelete] = useState(null)
+
+	const confirmationModalRef = useRef(null)
+
+	const handleDeleteClick = ingredient => {
+		setIngredientToDelete(ingredient)
+		confirmationModalRef.current.open()
+	}
+
+	const handleDeleteConfirmed = () => {
+		if (ingredientToDelete) {
+			deleteIngredient(ingredientToDelete.id).then(() => {
+				const newIngredientsList = ingredients.filter(
+					ingredient => ingredient.id !== ingredientToDelete.id
+				)
+				setIngredients(newIngredientsList)
+			})
+		}
+	}
+
 	return (
-		<Table
-			aria-label="Table des ingredients"
-			isHeaderSticky
-			bottomContent={bottomContent}
-			bottomContentPlacement="outside"
-			classNames={{
-				wrapper: 'max-h-[75vh]',
-			}}
-			sortDescriptor={sortDescriptor}
-			topContent={topContent}
-			topContentPlacement="outside"
-			onSortChange={setSortDescriptor}
-		>
-			<TableHeader columns={headerColumns}>
-				{column => (
-					<TableColumn key={column.uid} allowsSorting={column.sortable}>
-						{column.name}
-					</TableColumn>
-				)}
-			</TableHeader>
-			<TableBody emptyContent={'Aucun ingredients trouvé'} items={sortedItems}>
-				{item => (
-					<TableRow key={item.id}>
-						{columnKey => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-					</TableRow>
-				)}
-			</TableBody>
-		</Table>
+		<>
+			<ConfirmationModal
+				ref={confirmationModalRef}
+				message={`Êtes-vous sûr de vouloir supprimer cet ingrédient ?`}
+				onConfirm={handleDeleteConfirmed}
+			/>
+			<Table
+				aria-label="Table des ingredients"
+				isHeaderSticky
+				bottomContent={bottomContent}
+				bottomContentPlacement="outside"
+				classNames={{
+					wrapper: 'max-h-[75vh]',
+				}}
+				sortDescriptor={sortDescriptor}
+				topContent={topContent}
+				topContentPlacement="outside"
+				onSortChange={setSortDescriptor}
+			>
+				<TableHeader columns={headerColumns}>
+					{column => (
+						<TableColumn key={column.uid} allowsSorting={column.sortable}>
+							{column.name}
+						</TableColumn>
+					)}
+				</TableHeader>
+				<TableBody
+					emptyContent={'Aucun ingredients trouvé'}
+					items={sortedItems}
+				>
+					{item => (
+						<TableRow key={item.id}>
+							{columnKey => (
+								<TableCell>{renderCell(item, columnKey)}</TableCell>
+							)}
+						</TableRow>
+					)}
+				</TableBody>
+			</Table>
+		</>
 	)
 }

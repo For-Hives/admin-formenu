@@ -43,7 +43,6 @@ export const IngredientsModal = forwardRef(
 
 		useImperativeHandle(ref, () => ({
 			openModalWithIngredient(ingredient) {
-				console.log('ingredient', ingredient)
 				setIngredientToEdit(ingredient)
 				setValue('name', ingredient.name)
 				setValue('activated', ingredient.activated)
