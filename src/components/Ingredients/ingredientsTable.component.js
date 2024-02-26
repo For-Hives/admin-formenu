@@ -28,7 +28,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 	'actions',
 ]
 
-export function IngredientsTable({ ingredients }) {
+export function IngredientsTableComponent({ ingredients }) {
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
