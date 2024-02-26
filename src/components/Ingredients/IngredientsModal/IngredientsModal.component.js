@@ -35,8 +35,7 @@ export function IngredientsModal({
 	session,
 	onChangeIngredients,
 }) {
-	const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
-
+	const { isOpen, onClose, onOpenChange, onOpen } = useDisclosure()
 	const isAddMode = !ingredientToEdit
 
 	const {
@@ -58,8 +57,6 @@ export function IngredientsModal({
 	const setSession = useMenusStore(state => state.setSession)
 
 	const onSubmit = data => {
-		console.log(data)
-		// Ajoutez ou modifiez l'ingrédient en fonction du mode
 		if (isAddMode) {
 			postIngredient(data, sessionFromStore).then(res => {
 				// Refresh your ingredients list or state here
@@ -105,18 +102,12 @@ export function IngredientsModal({
 
 	return (
 		<>
-			<Button
-				auto
-				color="primary"
-				endContent={<PlusIcon />}
-				onClick={() => {
-					onOpen()
-				}}
-			>
+			<Button auto color="primary" endContent={<PlusIcon />} onClick={onOpen}>
 				{`Ajout d'ingrédient`}
 			</Button>
 
 			<Modal
+				onClose={onClose}
 				isOpen={isOpen}
 				onOpenChange={onOpenChange}
 				scrollBehavior="inside"
@@ -127,55 +118,51 @@ export function IngredientsModal({
 				}}
 			>
 				<ModalContent>
-					{onClose => (
-						<>
-							<ModalHeader>
-								{isAddMode
-									? 'Ajouter un nouvel ingrédient'
-									: 'Modifier l’ingrédient'}
-							</ModalHeader>
-							<ModalBody>
-								<div className={'grid h-full w-full grid-cols-12 gap-16 p-8'}>
-									<div className={'col-span-7 flex flex-col gap-6'}>
-										<InputNameIngredientComponent
-											control={control}
-											errors={errors}
-											name={'name'}
-											value={ingredientToEdit?.name}
-										/>
-										<InputActivatedIngredientComponent
-											control={control}
-											errors={errors}
-											name={'activated'}
-											value={ingredientToEdit?.activated}
-											isAddMode={isAddMode}
-										/>
-									</div>
-									<div className={'col-span-5 flex flex-col gap-6'}>
-										<InputDateIngredientComponent
-											control={control}
-											errors={errors}
-											name={'available_date_start'}
-											value={ingredientToEdit?.available_date_start}
-											title={"Date de début d'activation de l'ingrédient"}
-										/>
-										<InputDateIngredientComponent
-											control={control}
-											errors={errors}
-											name={'available_date_end'}
-											value={ingredientToEdit?.available_date_end}
-											title={"Date de fin d'activation de l'ingrédient"}
-										/>
-									</div>
-								</div>
-							</ModalBody>
-							<ModalFooter>
-								<Button auto color="primary" onClick={handleSubmit(onSubmit)}>
-									{isAddMode ? 'Ajouter' : 'Modifier'}
-								</Button>
-							</ModalFooter>
-						</>
-					)}
+					<ModalHeader>
+						{isAddMode
+							? 'Ajouter un nouvel ingrédient'
+							: 'Modifier l’ingrédient'}
+					</ModalHeader>
+					<ModalBody>
+						<div className={'grid h-full w-full grid-cols-12 gap-16 p-8'}>
+							<div className={'col-span-7 flex flex-col gap-6'}>
+								<InputNameIngredientComponent
+									control={control}
+									errors={errors}
+									name={'name'}
+									value={ingredientToEdit?.name}
+								/>
+								<InputActivatedIngredientComponent
+									control={control}
+									errors={errors}
+									name={'activated'}
+									value={ingredientToEdit?.activated}
+									isAddMode={isAddMode}
+								/>
+							</div>
+							<div className={'col-span-5 flex flex-col gap-6'}>
+								<InputDateIngredientComponent
+									control={control}
+									errors={errors}
+									name={'available_date_start'}
+									value={ingredientToEdit?.available_date_start}
+									title={"Date de début d'activation de l'ingrédient"}
+								/>
+								<InputDateIngredientComponent
+									control={control}
+									errors={errors}
+									name={'available_date_end'}
+									value={ingredientToEdit?.available_date_end}
+									title={"Date de fin d'activation de l'ingrédient"}
+								/>
+							</div>
+						</div>
+					</ModalBody>
+					<ModalFooter>
+						<Button auto color="primary" onClick={handleSubmit(onSubmit)}>
+							{isAddMode ? 'Ajouter' : 'Modifier'}
+						</Button>
+					</ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>

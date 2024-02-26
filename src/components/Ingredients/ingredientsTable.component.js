@@ -11,10 +11,9 @@ import {
 	Button,
 	Pagination,
 	Tooltip,
-	useDisclosure,
 } from '@nextui-org/react'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsIngredients } from '@/components/Ingredients/data'
@@ -86,11 +85,6 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 			return sortDescriptor.direction === 'descending' ? -cmp : cmp
 		})
 	}, [sortDescriptor, items])
-
-	const handleOpenModal = ingredient => {
-		setIngredientToEdit(ingredient)
-		// setIsModalOpen(true)
-	}
 
 	const renderCell = useCallback((ingredient, columnKey) => {
 		const cellValue = ingredient[columnKey]
@@ -222,6 +216,10 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 							ingredientToEdit={ingredientToEdit}
 							session={session}
 							onChangeIngredients={onChangeIngredients}
+							onOpenChangeFromParent={onOpenChange}
+							isOpenFromParent={isOpen}
+							onCloseFromParent={onClose}
+							onOpenFromParent={onOpen}
 						/>
 					</div>
 				</div>
