@@ -1,4 +1,4 @@
-import { getMenu } from '@/services/getMenu'
+import { getMenu } from '@/services/menu/getMenu'
 import { toast } from 'react-toastify'
 
 export async function toggleDishState(id, activated, session) {
