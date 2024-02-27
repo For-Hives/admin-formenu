@@ -209,11 +209,6 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 			const newIngredientsList = [...ingredients, newIngredient]
 			setIngredients(newIngredientsList)
 		}
-		// add new ingredients to the list
-		// console.log('newIngredient', newIngredient)
-		// const newIngredientsList = [...ingredients, newIngredient]
-		// console.log('newIngredientsList', newIngredientsList)
-		// setIngredients(newIngredientsList)
 	}
 
 	const topContent = useMemo(() => {
