@@ -1,19 +1,19 @@
 'use client'
 
 import {
-	Table,
-	TableHeader,
-	TableColumn,
-	TableBody,
-	TableRow,
-	TableCell,
-	Input,
 	Button,
+	Input,
 	Pagination,
+	Table,
+	TableBody,
+	TableCell,
+	TableColumn,
+	TableHeader,
+	TableRow,
 	Tooltip,
 } from '@nextui-org/react'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
-import { useCallback, useRef, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsIngredients } from '@/components/Ingredients/data'

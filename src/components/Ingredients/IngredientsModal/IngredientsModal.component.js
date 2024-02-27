@@ -24,9 +24,7 @@ import { InputActivatedIngredientComponent } from '@/components/Ingredients/Ingr
 import { InputDateIngredientComponent } from '@/components/Ingredients/IngredientsModal/InputDateIngredient.component'
 import { postIngredient } from '@/services/ingredients/postIngredient'
 import { putIngredient } from '@/services/ingredients/putIngredient'
-import { deleteIngredient } from '@/services/ingredients/deleteIngredient'
 import { useMenusStore } from '@/stores/menu.store'
-// import { postIngredient, putIngredient, deleteIngredient } from '@/services/ingredientService' // Remplacez ceci par vos fonctions de service réelles
 
 const ingredientSchema = z.object({
 	name: z.string().min(1, 'Le nom de l’ingrédient est requis'),
@@ -200,3 +198,5 @@ export const IngredientsModal = forwardRef(
 		)
 	}
 )
+
+IngredientsModal.displayName = 'IngredientsModal'

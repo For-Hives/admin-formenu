@@ -52,4 +52,6 @@ const ConfirmationModal = forwardRef(({ message, onConfirm }, ref) => {
 	)
 })
 
+ConfirmationModal.displayName = 'ConfirmationModal'
+
 export default ConfirmationModal
