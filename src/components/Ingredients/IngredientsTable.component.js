@@ -34,7 +34,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 	const modalRef = useRef()
 
 	const handleEditIngredient = ingredient => {
-		modalRef.current.openModalWithIngredient(ingredient)
+		modalRef?.current?.openModalWithIngredient(ingredient)
 	}
 
 	const [ingredients, setIngredients] = useState(ingredientsBase)
@@ -147,7 +147,6 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 									<span
 										className="cursor-pointer text-lg text-danger active:opacity-50"
 										onClick={() => {
-											console.log('delete ingredient', ingredient)
 											handleDeleteClick(ingredient)
 										}}
 									>
@@ -301,16 +300,16 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 
 	const [ingredientToDelete, setIngredientToDelete] = useState(null)
 
-	const confirmationModalRef = useRef(null)
+	const confirmationModalRef = useRef()
 
 	const handleDeleteClick = ingredient => {
 		setIngredientToDelete(ingredient)
-		confirmationModalRef.current.open()
+		confirmationModalRef?.current?.open()
 	}
 
 	const handleDeleteConfirmed = () => {
 		if (ingredientToDelete) {
-			deleteIngredient(ingredientToDelete.id).then(() => {
+			deleteIngredient(ingredientToDelete.id, session).then(() => {
 				const newIngredientsList = ingredients.filter(
 					ingredient => ingredient.id !== ingredientToDelete.id
 				)
