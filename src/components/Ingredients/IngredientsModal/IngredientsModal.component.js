@@ -38,8 +38,9 @@ const ingredientSchema = z.object({
 export const IngredientsModal = forwardRef(
 	({ session, onChangeIngredients }, ref) => {
 		const { isOpen, onClose, onOpenChange, onOpen } = useDisclosure()
+
 		const [ingredientToEdit, setIngredientToEdit] = useState(null)
-		const isAddMode = !ingredientToEdit
+		const [isAddMode, setIsAddMode] = useState(!ingredientToEdit)
 
 		useImperativeHandle(ref, () => ({
 			openModalWithIngredient(ingredient) {
@@ -97,13 +98,42 @@ export const IngredientsModal = forwardRef(
 			onClose()
 		}
 
+		const openAdd = () => {
+			setIngredientToEdit(null)
+			onOpen()
+		}
+
 		useEffect(() => {
 			setSession(session)
 		}, [])
 
+		useEffect(() => {
+			if (ingredientToEdit) {
+				setIsAddMode(false)
+			} else {
+				setIsAddMode(true)
+				reset(
+					{
+						name: '',
+						activated: false,
+						available_date_start: '',
+						available_date_end: '',
+					},
+					{ keepValues: false }
+				)
+			}
+		}, [ingredientToEdit])
+
 		return (
 			<>
-				<Button auto color="primary" endContent={<PlusIcon />} onClick={onOpen}>
+				<Button
+					auto
+					color="primary"
+					endContent={<PlusIcon />}
+					onClick={() => {
+						openAdd()
+					}}
+				>
 					{`Ajout d'ingrédient`}
 				</Button>
 
