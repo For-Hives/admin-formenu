@@ -97,20 +97,6 @@ export const IngredientsModal = forwardRef(
 			onClose()
 		}
 
-		const handleDelete = () => {
-			if (!isAddMode && ingredientToEdit?.id) {
-				deleteIngredient(ingredientToEdit.id)
-					.then(() => {
-						reset()
-						close()
-						// Refresh your ingredients list or state here
-					})
-					.catch(error => {
-						console.error('There was an error deleting the ingredient', error)
-					})
-			}
-		}
-
 		useEffect(() => {
 			setSession(session)
 		}, [])
