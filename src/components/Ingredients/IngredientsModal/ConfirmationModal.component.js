@@ -14,7 +14,6 @@ const ConfirmationModal = forwardRef(({ message, onConfirm }, ref) => {
 
 	useImperativeHandle(ref, () => ({
 		open() {
-			console.log('open')
 			onOpen()
 		},
 		close() {
