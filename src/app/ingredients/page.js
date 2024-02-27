@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Nav from '@/components/Nav/Nav.component'
 import { redirect } from 'next/navigation'
-import { IngredientsTableComponent } from '@/components/Ingredients/ingredientsTable.component'
+import { IngredientsTableComponent } from '@/components/Ingredients/IngredientsTable.component'
 import { getIngredients } from '@/services/ingredients/getIngredients'
 
 export default async function Home() {
