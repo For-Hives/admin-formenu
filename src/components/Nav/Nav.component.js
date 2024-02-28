@@ -32,7 +32,7 @@ const menuItems = [
 		href: '/plats',
 		flaticon: 'fi fi-rr-room-service',
 		text: 'Mes plats',
-		enabled: false,
+		enabled: true,
 	},
 	{
 		href: '/mes-stats',
