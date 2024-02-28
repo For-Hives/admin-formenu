@@ -23,10 +23,10 @@ const menuItems = [
 		enabled: false,
 	},
 	{
-		href: '/ingrédients',
+		href: '/ingredients',
 		flaticon: 'fi fi-rr-pan-frying',
 		text: 'Mes ingrédients',
-		enabled: false,
+		enabled: true,
 	},
 	{
 		href: '/plats',

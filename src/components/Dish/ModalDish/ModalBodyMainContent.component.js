@@ -1,10 +1,10 @@
-import { InputNameDishComponent } from '@/components/InputNameDish.component'
-import { InputDescriptionDishComponent } from '@/components/InputDescriptionDish.component'
-import { InputDropzoneImageDishComponent } from '@/components/InputDropzoneImageDish.component'
-import { InputIngredientsDishComponent } from '@/components/InputIngredientsDish.component'
-import { InputPriceDishComponent } from '@/components/InputPriceDish.component'
-import { InputCategoryDishComponent } from '@/components/InputCategoryDish.component'
-import { InputTypeDishComponent } from '@/components/InputTypeDishComponent'
+import { InputNameDishComponent } from '@/components/Dish/ModalDish/InputNameDish.component'
+import { InputDescriptionDishComponent } from '@/components/Dish/ModalDish/InputDescriptionDish.component'
+import { InputDropzoneImageDishComponent } from '@/components/Dish/ModalDish/InputDropzoneImageDish.component'
+import { InputIngredientsDishComponent } from '@/components/Dish/ModalDish/InputIngredientsDish.component'
+import { InputPriceDishComponent } from '@/components/Dish/ModalDish/InputPriceDish.component'
+import { InputCategoryDishComponent } from '@/components/Dish/ModalDish/InputCategoryDish.component'
+import { InputTypeDishComponent } from '@/components/Dish/ModalDish/InputTypeDishComponent'
 
 export function ModalBodyMainContentComponent(props) {
 	return (

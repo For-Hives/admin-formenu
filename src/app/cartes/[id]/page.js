@@ -4,14 +4,14 @@ import { redirect } from 'next/navigation'
 import Nav from '@/components/Nav/Nav.component'
 import React from 'react'
 
-import MenusDetails from '@/components/MenusDetails.component'
-import { getMenu } from '@/services/getMenu'
-import { getIngredients } from '@/services/getIngredients'
-import { allergensList } from '@/services/getAllergens'
-import { dietsList } from '@/services/getDiets'
-import { getCategories } from '@/services/getCategories'
-import { getCategoriesFilteredByDepth } from '@/services/getCategoriesFilteredByDepth'
-import { getTypeDishes } from '@/services/getTypeDishes'
+import MenusDetails from '@/components/Dish/MenusDetails.component'
+import { getMenu } from '@/services/menu/getMenu'
+import { getIngredients } from '@/services/ingredients/getIngredients'
+import { allergensList } from '@/services/allergens/getAllergens'
+import { dietsList } from '@/services/diets/getDiets'
+import { getCategories } from '@/services/categories/getCategories'
+import { getCategoriesFilteredByDepth } from '@/services/categories/getCategoriesFilteredByDepth'
+import { getTypeDishes } from '@/services/type_dishes/getTypeDishes'
 
 export default async function Page({ params }) {
 	const session = await getServerSession(authOptions)
