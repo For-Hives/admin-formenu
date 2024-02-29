@@ -17,7 +17,7 @@ export default async function Page() {
 		<>
 			<Nav />
 			<main className="flex min-h-screen w-full items-center justify-center overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
-				<DishTableComponent dishesBase={dishes} session={session} />
+				<DishTableComponent dishBase={dishes} session={session} />
 			</main>
 		</>
 	)

@@ -18,7 +18,6 @@ import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsDish } from '@/components/Dish/Table/data'
 import { deleteDish } from '@/services/dish/deleteDish'
-// import ConfirmationModal from '@/components/Dish/DishsModal/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
@@ -29,14 +28,15 @@ const INITIAL_VISIBLE_COLUMNS = [
 	'actions',
 ]
 
-export function DishTableComponent({ DishBase, session }) {
+export function DishTableComponent({ dishBase, session }) {
 	const modalRef = useRef()
 
-	const handleEditDish = Dish => {
-		modalRef?.current?.openModalWithDish(Dish)
+	const handleEditDish = dish => {
+		modalRef?.current?.openModalWithDish(dish)
 	}
 
-	const [dish, setDish] = useState(DishBase)
+	console.log('dishBase', dishBase)
+	const [dish, setDish] = useState(dishBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
@@ -52,7 +52,7 @@ export function DishTableComponent({ DishBase, session }) {
 
 	const hasSearchFilter = Boolean(filterValue)
 
-	const [DishToEdit, setDishToEdit] = useState(null)
+	const [dishToEdit, setDishToEdit] = useState(null)
 
 	const headerColumns = useMemo(() => {
 		if (visibleColumns === 'all') return columnsDish
@@ -63,16 +63,17 @@ export function DishTableComponent({ DishBase, session }) {
 	}, [visibleColumns])
 
 	const filteredItems = useMemo(() => {
-		let filteredDish = [...Dish]
+		console.log('dish', dish)
+		let filteredDish = [...(dish || [])]
 
 		if (hasSearchFilter) {
-			filteredDish = filteredDish.filter(Dish =>
-				Dish.name.toLowerCase().includes(filterValue.toLowerCase())
+			filteredDish = filteredDish.filter(dish =>
+				dish.name.toLowerCase().includes(filterValue.toLowerCase())
 			)
 		}
 
 		return filteredDish
-	}, [Dish, filterValue])
+	}, [dish, filterValue])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -94,38 +95,48 @@ export function DishTableComponent({ DishBase, session }) {
 	}, [sortDescriptor, items])
 
 	const renderCell = useCallback(
-		(Dish, columnKey) => {
-			const cellValue = Dish[columnKey]
+		(dish, columnKey) => {
+			const cellValue = dish[columnKey]
 
 			switch (columnKey) {
 				case 'id':
-					return <div className="flex flex-col">{Dish.id}</div>
+					return <div className="flex flex-col">{dish.id}</div>
 				case 'name':
-					return <div className="flex flex-col">{Dish.name}</div>
+					return <div className="flex flex-col">{dish.name}</div>
 				case 'description':
-					return <div className="flex flex-col">{Dish.description}</div>
+					return (
+						<div className="flex flex-col">
+							{dish.description.length > 100
+								? dish.description.substring(0, 100) + '...'
+								: dish.description}
+						</div>
+					)
 				case 'ingredients':
-					return <div className="flex flex-col">{Dish.ingredients.length}</div>
+					return (
+						<div className="flex flex-col">
+							{dish.ingredients?.length ?? 'Aucun ingrédient'}
+						</div>
+					)
 				case 'price':
-					return <div className="flex flex-col">{Dish.price}</div>
+					return <div className="flex flex-col">{dish.price}</div>
 
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
-							<Tooltip content="Modifier l'Dish">
+							<Tooltip content="Modifier le plat">
 								<span
 									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => handleEditDish(Dish)}
+									onClick={() => handleEditDish(dish)}
 								>
 									<EditIcon />
 								</span>
 							</Tooltip>
-							<Tooltip color="danger" content="Supprimer Dish">
-								<Tooltip color="danger" content="Supprimer Dish">
+							<Tooltip color="danger" content="Supprimer dish">
+								<Tooltip color="danger" content="Supprimer dish">
 									<span
 										className="cursor-pointer text-lg text-danger active:opacity-50"
 										onClick={() => {
-											handleDeleteClick(Dish)
+											handleDeleteClick(dish)
 										}}
 									>
 										<DeleteIcon />
@@ -212,7 +223,7 @@ export function DishTableComponent({ DishBase, session }) {
 				</div>
 				<div className="flex items-center justify-between">
 					<span className="text-small text-default-400">
-						Total {dish.length} Dish
+						Total {dish?.length ?? 0} Dish
 					</span>
 					<label className="flex items-center text-small text-default-400">
 						Éléments par page:
@@ -222,7 +233,7 @@ export function DishTableComponent({ DishBase, session }) {
 						>
 							<option value="15">15</option>
 							<option value="30">30</option>
-							<option value={dish.length}>{dish.length}</option>
+							<option value={dish?.length ?? 50}>{dish?.length ?? 50}</option>
 						</select>
 					</label>
 				</div>
@@ -285,11 +296,11 @@ export function DishTableComponent({ DishBase, session }) {
 
 	return (
 		<>
-			<ConfirmationModal
-				ref={confirmationModalRef}
-				message={`Êtes-vous sûr de vouloir supprimer cet ingrédient ?`}
-				onConfirm={handleDeleteConfirmed}
-			/>
+			{/*<ConfirmationModal*/}
+			{/*	ref={confirmationModalRef}*/}
+			{/*	message={`Êtes-vous sûr de vouloir supprimer cet ingrédient ?`}*/}
+			{/*	onConfirm={handleDeleteConfirmed}*/}
+			{/*/>*/}
 			<Table
 				aria-label="Table des Dishs"
 				isHeaderSticky
@@ -310,7 +321,7 @@ export function DishTableComponent({ DishBase, session }) {
 						</TableColumn>
 					)}
 				</TableHeader>
-				<TableBody emptyContent={'Aucun Dishs trouvé'} items={sortedItems}>
+				<TableBody emptyContent={'Aucun Plat trouvé'} items={sortedItems}>
 					{item => (
 						<TableRow key={item.id}>
 							{columnKey => (
