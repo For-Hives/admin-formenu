@@ -12,12 +12,12 @@ import {
 	TableRow,
 	Tooltip,
 } from '@nextui-org/react'
-import { SearchIcon } from '../IconsJSX/SearchIcon'
+import { SearchIcon } from '../../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
-import { columnsDish } from '@/components/Dish/data'
-import { deleteDish } from '@/services/Dish/deleteDish'
+import { columnsDish } from '@/components/Dish/Table/data'
+import { deleteDish } from '@/services/dish/deleteDish'
 import ConfirmationModal from '@/components/Dish/DishsModal/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
@@ -36,7 +36,7 @@ export function DishTableComponent({ DishBase, session }) {
 		modalRef?.current?.openModalWithDish(Dish)
 	}
 
-	const [Dish, setDish] = useState(DishBase)
+	const [dish, setDish] = useState(DishBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
@@ -71,8 +71,8 @@ export function DishTableComponent({ DishBase, session }) {
 			)
 		}
 
-		return filteredDishs
-	}, [Dishs, filterValue])
+		return filteredDish
+	}, [Dish, filterValue])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -102,32 +102,13 @@ export function DishTableComponent({ DishBase, session }) {
 					return <div className="flex flex-col">{Dish.id}</div>
 				case 'name':
 					return <div className="flex flex-col">{Dish.name}</div>
-				case 'available_date_start':
-					return (
-						<div
-							className={`flex flex-col ${Dish.available_date_start ? '' : 'italic opacity-75'}`}
-						>
-							{Dish.available_date_start
-								? Dish.available_date_start
-								: 'Non défini'}
-						</div>
-					)
-				case 'available_date_end':
-					return (
-						<div
-							className={`flex flex-col ${
-								Dish.available_date_end ? '' : 'italic opacity-75'
-							}`}
-						>
-							{Dish.available_date_end ? Dish.available_date_end : 'Non défini'}
-						</div>
-					)
-				case 'activated':
-					return (
-						<div className="flex flex-col">
-							{Dish.activated ? 'Oui' : 'Non'}
-						</div>
-					)
+				case 'description':
+					return <div className="flex flex-col">{Dish.description}</div>
+				case 'ingredients':
+					return <div className="flex flex-col">{Dish.ingredients.length}</div>
+				case 'price':
+					return <div className="flex flex-col">{Dish.price}</div>
+
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
@@ -191,20 +172,20 @@ export function DishTableComponent({ DishBase, session }) {
 		setPage(1)
 	}, [])
 
-	const onChangeDishs = (newDish, isEdit) => {
+	const onChangeDish = (newDish, isEdit) => {
 		if (isEdit) {
 			// edit Dish
-			const newDishsList = Dishs.map(Dish => {
-				if (Dish.id === newDish.id) {
+			const newDishList = dish.map(dish => {
+				if (dish.id === newDish.id) {
 					return newDish
 				}
-				return Dish
+				return dish
 			})
-			setDishs(newDishsList)
+			setDish(newDishList)
 		} else {
 			// add new Dishs to the list
-			const newDishsList = [...Dishs, newDish]
-			setDishs(newDishsList)
+			const newDishList = [...dish, newDish]
+			setDish(newDishList)
 		}
 	}
 
@@ -222,16 +203,16 @@ export function DishTableComponent({ DishBase, session }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						<DishsModal
+						<DishModal
 							ref={modalRef}
 							session={session}
-							onChangeDishs={onChangeDishs}
+							onChangeDish={onChangeDish}
 						/>
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
 					<span className="text-small text-default-400">
-						Total {Dishs.length} Dishs
+						Total {dish.length} Dish
 					</span>
 					<label className="flex items-center text-small text-default-400">
 						Éléments par page:
@@ -241,13 +222,13 @@ export function DishTableComponent({ DishBase, session }) {
 						>
 							<option value="15">15</option>
 							<option value="30">30</option>
-							<option value={Dishs.length}>{Dishs.length}</option>
+							<option value={dish.length}>{dish.length}</option>
 						</select>
 					</label>
 				</div>
 			</div>
 		)
-	}, [filterValue, onRowsPerPageChange, Dishs, onSearchChange, hasSearchFilter])
+	}, [filterValue, onRowsPerPageChange, dish, onSearchChange, hasSearchFilter])
 
 	const bottomContent = useMemo(() => {
 		return (
@@ -284,7 +265,7 @@ export function DishTableComponent({ DishBase, session }) {
 		)
 	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
 
-	const [DishToDelete, setDishToDelete] = useState(null)
+	const [dishToDelete, setDishToDelete] = useState(null)
 
 	const confirmationModalRef = useRef()
 
@@ -294,10 +275,10 @@ export function DishTableComponent({ DishBase, session }) {
 	}
 
 	const handleDeleteConfirmed = () => {
-		if (DishToDelete) {
-			deleteDish(DishToDelete.id, session).then(() => {
-				const newDishsList = Dishs.filter(Dish => Dish.id !== DishToDelete.id)
-				setDishs(newDishsList)
+		if (dishToDelete) {
+			deleteDish(dishToDelete.id, session).then(() => {
+				const newDishList = dish.filter(dish => dish.id !== dishToDelete.id)
+				setDish(newDishList)
 			})
 		}
 	}
