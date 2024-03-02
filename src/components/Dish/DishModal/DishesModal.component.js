@@ -89,22 +89,24 @@ export const DishesModal = forwardRef(
 		const setAllergens = useMenusStore(state => state.setAllergens)
 		const setTypeDishes = useMenusStore(state => state.setTypeDishes)
 		const setDiets = useMenusStore(state => state.setDiets)
-		const setStore = useMenusStore(state => state.setMenu)
 		const setLastDishClicked = useMenusStore(state => state.setLastDishClicked)
 
 		const { isOpen, onClose, onOpenChange, onOpen } = useDisclosure()
 
-		const [isAddMode, setIsAddMode] = useState(false)
+		const [isAddMode, setIsAddMode] = useState(true)
 
 		useImperativeHandle(ref, () => ({
 			openModalWithDish(dish) {
-				setLastDishClicked(dish)
-				console.log('dish', dish)
-				setValue('name', dish.name)
-				setValue('description', dish.description)
-				setValue('price', dish.price)
-				setValue('category', dish.category)
-				setValue('type', dish.type)
+				const newDish = JSON.parse(JSON.stringify(dish))
+				setLastDishClicked(newDish)
+
+				setIsAddMode(false)
+
+				setValue('name', newDish.name)
+				setValue('description', newDish.description)
+				setValue('price', newDish.price)
+				setValue('category', newDish.category)
+				setValue('type', newDish.type)
 
 				onOpen()
 			},
@@ -119,11 +121,11 @@ export const DishesModal = forwardRef(
 		} = useForm({
 			resolver: zodResolver(dishschema),
 			defaultValues: {
-				name_dish: '',
-				description_dish: '',
-				price_dish: '',
-				category_dish: '',
-				type_dish: '',
+				name_dish: lastDishClicked.name || '',
+				description_dish: lastDishClicked.description || '',
+				price_dish: lastDishClicked.price || '',
+				category_dish: lastDishClicked.category || '',
+				type_dish: lastDishClicked.type || '',
 			},
 		})
 
@@ -271,13 +273,13 @@ export const DishesModal = forwardRef(
 			setCategories(initialCategories)
 			setAllergens(initialAllergens)
 			setDiets(initialDiets)
-			setStore(initialMenu)
-			setLastDishClicked(initialLastDishClicked)
+			setLastDishClicked({})
 			setTypeDishes(initialTypeDishes)
 			setUploadedImage(null)
-			setSelectedIngredients(initialSelectedKeys)
-			setInputValue(initialInputValue)
-			setIsIngredientsUpdateOpen(initialIsIngredientsUpdateOpen)
+			setSelectedIngredients([])
+			setInputValue('')
+			setIsIngredientsUpdateOpen(false)
+			setIsAllergensUpdateOpen(false)
 			reset(
 				{
 					name_dish: '',
@@ -290,21 +292,17 @@ export const DishesModal = forwardRef(
 			)
 		}
 
-		const onOpendelete = id => {
-			deleteDish(id, sessionFromStore).then(() => {
-				const updatedMenuFromStore = { ...menuFromStore }
-				updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
-					category => ({
-						...category,
-						dishes: category.dishes.filter(dish => dish.id !== id),
-					})
-				)
-
-				// deep copy of the updatedMenuFromStore
-				const copy = JSON.parse(JSON.stringify(updatedMenuFromStore))
-				setStore(copy)
-			})
-		}
+		// const onOpendelete = id => {
+		// 	deleteDish(id, sessionFromStore).then(() => {
+		// 		const updatedMenuFromStore = { ...menuFromStore }
+		// 		updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
+		// 			category => ({
+		// 				...category,
+		// 				dishes: category.dishes.filter(dish => dish.id !== id),
+		// 			})
+		// 		)
+		// 	})
+		// }
 
 		useEffect(() => {
 			if (Object.keys(ingredientsFromStore).length === 0) {
@@ -368,8 +366,8 @@ export const DishesModal = forwardRef(
 
 		const openAdd = () => {
 			setLastDishClicked({})
-			setIsAddMode(true)
 			resetAll()
+			setIsAddMode(true)
 			onOpen()
 		}
 
@@ -401,7 +399,7 @@ export const DishesModal = forwardRef(
 							<ModalHeaderContentComponent
 								allergensUpdateOpen={isAllergensUpdateOpen}
 								ingredientsUpdateOpen={isIngredientsUpdateOpen}
-								lastDishClicked={lastDishClicked}
+								lastDishClicked={isAddMode ? {} : lastDishClicked}
 								isAddMode={isAddMode}
 							/>
 						</ModalHeader>

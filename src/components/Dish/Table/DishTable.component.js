@@ -229,7 +229,7 @@ export function DishTableComponent({
 						<DishesModal
 							ref={modalRef}
 							session={session}
-							onChangeDish={onChangeDish}
+							onChangeDishes={onChangeDish}
 							ingredients={ingredients}
 							typeDishes={typeDishes}
 							diets={diets}
