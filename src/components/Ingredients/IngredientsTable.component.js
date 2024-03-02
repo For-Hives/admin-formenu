@@ -19,7 +19,7 @@ import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsIngredients } from '@/components/Ingredients/data'
 import { IngredientsModal } from '@/components/Ingredients/IngredientsModal/IngredientsModal.component'
 import { deleteIngredient } from '@/services/ingredients/deleteIngredient'
-import ConfirmationModal from '@/components/Ingredients/IngredientsModal/ConfirmationModal.component'
+import ConfirmationModal from '@/components/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
