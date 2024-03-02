@@ -35,7 +35,6 @@ export function DishTableComponent({ dishBase, session }) {
 		modalRef?.current?.openModalWithDish(dish)
 	}
 
-	console.log('dishBase', dishBase)
 	const [dish, setDish] = useState(dishBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
@@ -63,7 +62,6 @@ export function DishTableComponent({ dishBase, session }) {
 	}, [visibleColumns])
 
 	const filteredItems = useMemo(() => {
-		console.log('dish', dish)
 		let filteredDish = [...(dish || [])]
 
 		if (hasSearchFilter) {
@@ -118,7 +116,12 @@ export function DishTableComponent({ dishBase, session }) {
 						</div>
 					)
 				case 'price':
-					return <div className="flex flex-col">{dish.price}</div>
+					return (
+						<div className="">
+							<span className={'italic'}>{dish.price}</span>
+							<span className={'opacity-80'}>€</span>
+						</div>
+					)
 
 				case 'actions':
 					return (
