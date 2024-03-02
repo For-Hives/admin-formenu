@@ -81,7 +81,6 @@ export default function MenusDetails({
 	const [isAddMode, setIsAddMode] = useState(false)
 
 	// initials values
-	// todo the same functionnality than the ingredients state, but with categories, and update the menu with the good categories
 	// use the category params : categoryId & filter on the menu object , then set the new dish with the correct category ( and set it in the correct way in the store)
 	const initialIngredients = useMenusStore(state => state.ingredients)
 	const initialCategories = useMenusStore(state => state.categories)
