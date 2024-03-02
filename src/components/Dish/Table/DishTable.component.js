@@ -18,6 +18,7 @@ import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsDish } from '@/components/Dish/Table/data'
 import { deleteDish } from '@/services/dish/deleteDish'
+import { DishesModal } from '@/components/Dish/DishModal/DishesModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
@@ -28,7 +29,15 @@ const INITIAL_VISIBLE_COLUMNS = [
 	'actions',
 ]
 
-export function DishTableComponent({ dishBase, session }) {
+export function DishTableComponent({
+	dishBase,
+	session,
+	ingredients,
+	typeDishes,
+	diets,
+	allergens,
+	categories,
+}) {
 	const modalRef = useRef()
 
 	const handleEditDish = dish => {
@@ -217,11 +226,16 @@ export function DishTableComponent({ dishBase, session }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						{/*<DishModal*/}
-						{/*	ref={modalRef}*/}
-						{/*	session={session}*/}
-						{/*	onChangeDish={onChangeDish}*/}
-						{/*/>*/}
+						<DishesModal
+							ref={modalRef}
+							session={session}
+							onChangeDish={onChangeDish}
+							ingredients={ingredients}
+							typeDishes={typeDishes}
+							diets={diets}
+							allergens={allergens}
+							categories={categories}
+						/>
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
