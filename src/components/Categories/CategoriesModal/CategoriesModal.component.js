@@ -31,8 +31,8 @@ import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component
 
 const categorieschema = z.object({
 	name: z.string().min(1, 'Le nom de la categorie est requise'),
-	order: z.string().min(1, 'L’ordre de la categorie est requise'),
-	depth: z.string().min(1, 'La profondeur de la categorie est requise'),
+	order: z.number().min(0, "L'ordre de la categorie est requise"),
+	depth: z.number().min(0, 'La profondeur de la categorie est requise'),
 	menu: z.string().min(1, 'Le menu de la categorie est requise'),
 	category: z.string().min(1, 'La categorie de la categorie est requise'),
 })
@@ -65,13 +65,17 @@ export const CategoriesModal = forwardRef(
 				item => item.id.toString() === dishId.toString()
 			)
 
-			const isDishInCategory = selectedDishes.some(
+			const dishList = categoryToEdit?.dishes || []
+
+			const isDishInCategory = dishList.some(
 				item => item.id.toString() === dishId.toString()
 			)
 
+			console.log('isDishInCategory', isDishInCategory)
+
 			if (!isDishInCategory) {
 				// Create a new array with the added dish
-				const newDishes = [...selectedDishes, dishToAdd]
+				const newDishes = [...dishList, dishToAdd]
 
 				// Deeply clone categoryToEdit and update its dishes
 				const newCategoryToEdit = {
@@ -83,7 +87,7 @@ export const CategoriesModal = forwardRef(
 				setCategoryToEdit(newCategoryToEdit)
 			} else {
 				// Create a new array without the selected dish
-				const newDishes = selectedDishes.filter(
+				const newDishes = dishList.filter(
 					item => item.id.toString() !== dishId.toString()
 				)
 
