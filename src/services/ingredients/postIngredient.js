@@ -3,6 +3,7 @@ import { getDataMe } from '../data/getData'
 
 export async function postIngredient(ingredient, session) {
 	const resUser = await getDataMe(session)
+
 	// add company from the actual user if not exist in the dish object
 	ingredient = {
 		...ingredient,
