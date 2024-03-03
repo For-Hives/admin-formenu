@@ -19,6 +19,7 @@ import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsDish } from '@/components/Dish/Table/data'
 import { deleteDish } from '@/services/dish/deleteDish'
 import { DishesModal } from '@/components/Dish/DishModal/DishesModal.component'
+import ConfirmationModal from '@/components/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
@@ -313,11 +314,11 @@ export function DishTableComponent({
 
 	return (
 		<>
-			{/*<ConfirmationModal*/}
-			{/*	ref={confirmationModalRef}*/}
-			{/*	message={`Êtes-vous sûr de vouloir supprimer cet ingrédient ?`}*/}
-			{/*	onConfirm={handleDeleteConfirmed}*/}
-			{/*/>*/}
+			<ConfirmationModal
+				ref={confirmationModalRef}
+				message={`Êtes-vous sûr de vouloir supprimer cet ingrédient ?`}
+				onConfirm={handleDeleteConfirmed}
+			/>
 			<Table
 				aria-label="Table des Dishs"
 				isHeaderSticky
