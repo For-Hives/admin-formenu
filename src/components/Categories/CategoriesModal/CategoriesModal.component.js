@@ -25,6 +25,9 @@ import { useMenusStore } from '@/stores/menu.store'
 import { InputNameCategoryComponent } from '@/components/Categories/CategoriesModal/InputNameCategory.component'
 import { InputOrderCategoryComponent } from '@/components/Categories/CategoriesModal/InputOrderCategory.component'
 import { InputDepthCategoryComponent } from '@/components/Categories/CategoriesModal/InputDepthCategory.component'
+import { DishesCategoryComponent } from '@/components/Categories/CategoriesModal/DishesCategory.component'
+import { ModalBodyDishesComponent } from '@/components/Categories/CategoriesModal/ModalBodyDishes.component'
+import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component'
 
 const categorieschema = z.object({
 	name: z.string().min(1, 'Le nom de la categorie est requise'),
@@ -35,11 +38,65 @@ const categorieschema = z.object({
 })
 
 export const CategoriesModal = forwardRef(
-	({ session, onChangeCategories }, ref) => {
+	({ session, onChangeCategories, dishes }, ref) => {
 		const { isOpen, onClose, onOpenChange, onOpen } = useDisclosure()
+
+		const [selectedDishes, setSelectedDishes] = useState([])
+		const [isDishesModalOpen, setIsDishesModalOpen] = useState(false)
 
 		const [categoryToEdit, setCategoryToEdit] = useState(null)
 		const [isAddMode, setIsAddMode] = useState(!categoryToEdit)
+
+		const openDishesUpdate = () => {
+			setIsDishesModalOpen(true)
+		}
+		const closeDishesUpdate = () => {
+			setIsDishesModalOpen(false)
+		}
+
+		const isDishesSelected = dishId => {
+			return selectedDishes.includes(dishId.toString())
+		}
+
+		const onSelectionChangeDish = dishId => {
+			if (dishId == null) return
+
+			const dishToAdd = dishes.find(
+				item => item.id.toString() === dishId.toString()
+			)
+
+			const isDishInCategory = selectedDishes.some(
+				item => item.id.toString() === dishId.toString()
+			)
+
+			if (!isDishInCategory) {
+				// Create a new array with the added dish
+				const newDishes = [...selectedDishes, dishToAdd]
+
+				// Deeply clone categoryToEdit and update its dishes
+				const newCategoryToEdit = {
+					...categoryToEdit,
+					dishes: newDishes,
+				}
+
+				// Update the state with the new object
+				setCategoryToEdit(newCategoryToEdit)
+			} else {
+				// Create a new array without the selected dish
+				const newDishes = selectedDishes.filter(
+					item => item.id.toString() !== dishId.toString()
+				)
+
+				// Deeply clone categoryToEdit and update its dishes
+				const newCategoryToEdit = {
+					...categoryToEdit,
+					dishes: newDishes,
+				}
+
+				// Update the state with the new object
+				setCategoryToEdit(newCategoryToEdit)
+			}
+		}
 
 		useImperativeHandle(ref, () => ({
 			openModalWithCategory(category) {
@@ -97,6 +154,8 @@ export const CategoriesModal = forwardRef(
 				},
 				{ keepValues: false }
 			)
+			setCategoryToEdit(null)
+			setSelectedDishes([])
 			onClose()
 		}
 
@@ -125,6 +184,13 @@ export const CategoriesModal = forwardRef(
 					{ keepValues: false }
 				)
 			}
+		}, [categoryToEdit])
+
+		useEffect(() => {
+			if (categoryToEdit?.length === 0) return
+			setSelectedDishes(
+				categoryToEdit?.dishes?.map(item => item.id.toString()) || []
+			)
 		}, [categoryToEdit])
 
 		return (
@@ -158,36 +224,55 @@ export const CategoriesModal = forwardRef(
 								: 'Modifier la catégorie ' + categoryToEdit?.id}
 						</ModalHeader>
 						<ModalBody>
-							<div className={'grid h-full w-full grid-cols-12 gap-16 p-8'}>
-								<div className={'col-span-7 flex flex-col gap-6'}>
-									<InputNameCategoryComponent
-										control={control}
-										errors={errors}
-										name={'name'}
-										value={categoryToEdit?.name}
-									/>
-									<InputOrderCategoryComponent
-										control={control}
-										errors={errors}
-										name={'order'}
-										value={categoryToEdit?.order}
-									/>
-									<InputDepthCategoryComponent
-										control={control}
-										errors={errors}
-										name={'depth'}
-										value={categoryToEdit?.depth}
-									/>
+							{!isDishesModalOpen ? (
+								<div className={'grid h-full w-full grid-cols-12 gap-16 p-8'}>
+									<div className={'col-span-7 flex flex-col gap-6'}>
+										<InputNameCategoryComponent
+											control={control}
+											errors={errors}
+											name={'name'}
+											value={categoryToEdit?.name}
+										/>
+										<InputOrderCategoryComponent
+											control={control}
+											errors={errors}
+											name={'order'}
+											value={categoryToEdit?.order}
+										/>
+										<InputDepthCategoryComponent
+											control={control}
+											errors={errors}
+											name={'depth'}
+											value={categoryToEdit?.depth}
+										/>
+									</div>
+									<div className={'col-span-5 flex flex-col gap-6'}>
+										<DishesCategoryComponent
+											selectedDishes={selectedDishes}
+											categoryToEdit={categoryToEdit}
+											onSelectionChangeDish={onSelectionChangeDish}
+											openDishesUpdate={openDishesUpdate}
+										/>
+									</div>
 								</div>
-								<div className={'col-span-5 flex flex-col gap-6'}>
-									<div>ah</div>
-								</div>
-							</div>
+							) : (
+								//********** Dishes Modal **********
+								<ModalBodyDishesComponent
+									isDisheselected={isDishesSelected}
+									dishesFromStore={dishes}
+									onSelectionChange={onSelectionChangeDish}
+								/>
+							)}
 						</ModalBody>
 						<ModalFooter>
-							<Button auto color="primary" onClick={handleSubmit(onSubmit)}>
-								{isAddMode ? 'Ajouter' : 'Modifier'}
-							</Button>
+							{/* ****************** FOOTER **********************/}
+							{!isDishesModalOpen ? (
+								<Button auto color="primary" onClick={handleSubmit(onSubmit)}>
+									{isAddMode ? 'Ajouter' : 'Modifier'}
+								</Button>
+							) : (
+								<ModalFooterBackComponent onPress={closeDishesUpdate} />
+							)}
 						</ModalFooter>
 					</ModalContent>
 				</Modal>

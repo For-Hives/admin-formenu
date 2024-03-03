@@ -4,6 +4,7 @@ import Nav from '@/components/Nav/Nav.component'
 import { redirect } from 'next/navigation'
 import { getMyCategories } from '@/services/categories/getMyCategories'
 import { CategoriesTableComponent } from '@/components/Categories/CategoriesTable.component'
+import { getDishes } from '@/services/dish/getDishes'
 
 export default async function Home() {
 	const session = await getServerSession(authOptions)
@@ -12,6 +13,7 @@ export default async function Home() {
 	}
 
 	const categories = await getMyCategories(session)
+	const dishes = await getDishes(session)
 
 	return (
 		<>
@@ -21,11 +23,8 @@ export default async function Home() {
 				<CategoriesTableComponent
 					categoriesBase={categories}
 					session={session}
+					dishes={dishes}
 				/>
-				{/*<IngredientsTableComponent*/}
-				{/*	ingredientsBase={ingredients}*/}
-				{/*	session={session}*/}
-				{/*/>*/}
 			</main>
 		</>
 	)
