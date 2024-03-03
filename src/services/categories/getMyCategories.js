@@ -13,5 +13,5 @@ export async function getMyCategories(session) {
 	if (!response.ok) {
 		throw new Error(`${response.status} ${response.statusText}`)
 	}
-	await response.json()
+	return await response.json()
 }
