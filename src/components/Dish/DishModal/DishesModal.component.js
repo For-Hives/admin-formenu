@@ -292,18 +292,6 @@ export const DishesModal = forwardRef(
 			)
 		}
 
-		// const onOpendelete = id => {
-		// 	deleteDish(id, sessionFromStore).then(() => {
-		// 		const updatedMenuFromStore = { ...menuFromStore }
-		// 		updatedMenuFromStore.categories = updatedMenuFromStore.categories.map(
-		// 			category => ({
-		// 				...category,
-		// 				dishes: category.dishes.filter(dish => dish.id !== id),
-		// 			})
-		// 		)
-		// 	})
-		// }
-
 		useEffect(() => {
 			if (Object.keys(ingredientsFromStore).length === 0) {
 				setIngredients(ingredients)
