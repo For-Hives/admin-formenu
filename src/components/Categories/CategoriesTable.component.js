@@ -33,7 +33,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 	'actions',
 ]
 
-export function CategoriesTableComponent({ categoriesBase, session }) {
+export function CategoriesTableComponent({ categoriesBase, session, dishes }) {
 	const modalRef = useRef()
 
 	const handleEditCategory = category => {
@@ -212,6 +212,7 @@ export function CategoriesTableComponent({ categoriesBase, session }) {
 							ref={modalRef}
 							session={session}
 							onChangeCategories={onChangeCategories}
+							dishes={dishes}
 						/>
 					</div>
 				</div>

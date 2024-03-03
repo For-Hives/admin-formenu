@@ -1,20 +1,20 @@
 import { Checkbox } from '@nextui-org/react'
 
-export function ModalBodyIngredientsComponent({
-	ingredientsFromStore,
-	isIngredientSelected,
+export function ModalBodyDishesComponent({
+	dishesFromStore,
+	isDisheselected,
 	onSelectionChange,
 }) {
 	return (
 		<div className={'col-span-12 flex flex-col gap-3'}>
 			<div className={'grid grid-cols-3 gap-4'}>
-				{ingredientsFromStore.map(ingredient => (
-					<div key={ingredient.id}>
+				{dishesFromStore.map(dish => (
+					<div key={dish.id}>
 						<Checkbox
-							isSelected={isIngredientSelected(ingredient.id)}
-							onChange={() => onSelectionChange(ingredient.id)}
+							isSelected={isDisheselected(dish.id)}
+							onChange={() => onSelectionChange(dish.id)}
 						>
-							{ingredient.name}
+							{dish.name}
 						</Checkbox>
 					</div>
 				))}

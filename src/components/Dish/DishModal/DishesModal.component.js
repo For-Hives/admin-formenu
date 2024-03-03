@@ -27,7 +27,7 @@ import { ModalBodyMainContentComponent } from '@/components/Dish/Base/ModalDish/
 import { ModalBodyIngredientsComponent } from '@/components/Dish/Base/ModalDish/ModalBodyIngredients.component'
 import { ModalBodyAllergensComponent } from '@/components/Dish/Base/ModalDish/ModalBodyAllergens.component'
 import { ModalFooterMainContentComponent } from '@/components/Dish/Base/ModalDish/ModalFooterMainContent.component'
-import { ModalFooterBackComponent } from '@/components/Dish/Base/ModalDish/ModalFooterBack.component'
+import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component'
 
 const dishschema = z.object({
 	name_dish: z
@@ -391,22 +391,22 @@ export const DishesModal = forwardRef(
 									<>
 										{!isIngredientsUpdateOpen ? (
 											<ModalBodyMainContentComponent
-												lastDishClicked={lastDishClicked}
 												control={control}
 												errors={errors}
 												ingredientsFromStore={ingredientsFromStore}
-												selectedKeys={selectedIngredients}
 												ingredientSelected={isIngredientSelected}
-												onSelectionChange={onSelectionChangeIngredients}
 												onInputChange={onInputChange}
 												inputValue={inputValue}
-												openIngredientsUpdate={openIngredientsUpdate}
 												closeIngredientsUpdate={closeIngredientsUpdate}
 												session={sessionFromStore}
 												uploadedImage={uploadedImage}
 												setUploadedImage={setUploadedImage}
 												categoriesFromStore={categoriesFromStore}
 												typeDishesFromStore={typeDishesFromStore}
+												selectedKeys={selectedIngredients}
+												lastDishClicked={lastDishClicked}
+												onSelectionChange={onSelectionChangeIngredients}
+												openIngredientsUpdate={openIngredientsUpdate}
 											/>
 										) : (
 											// ************** INGREDIENTS **************
