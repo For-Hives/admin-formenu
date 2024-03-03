@@ -16,28 +16,31 @@ import { SearchIcon } from '../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
-import { columnsIngredients } from '@/components/Ingredients/data'
-import { IngredientsModal } from '@/components/Ingredients/IngredientsModal/IngredientsModal.component'
-import { deleteIngredient } from '@/services/ingredients/deleteIngredient'
+import { columnsCategories } from '@/components/Categories/data'
+import { CategoriesModal } from '@/components/Categories/CategoriesModal/CategoriesModal.component'
+import { deleteCategory } from '@/services/categories/deleteCategory'
 import ConfirmationModal from '@/components/ConfirmationModal.component'
+// import { CategoriesModal } from '@/components/Categories/CategoriesModal/CategoriesModal.component'
+// import { deleteCategory } from '@/services/categories/deleteCategory'
+// import ConfirmationModal from '@/components/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
 	'name',
-	'activated',
-	'available_date_start',
-	'available_date_end',
+	'order',
+	'depth',
+	'dishes',
 	'actions',
 ]
 
-export function IngredientsTableComponent({ ingredientsBase, session }) {
+export function CategoriesTableComponent({ categoriesBase, session }) {
 	const modalRef = useRef()
 
-	const handleEditIngredient = ingredient => {
-		modalRef?.current?.openModalWithIngredient(ingredient)
+	const handleEditCategory = category => {
+		modalRef?.current?.openModalWithCategory(category)
 	}
 
-	const [ingredients, setIngredients] = useState(ingredientsBase)
+	const [categories, setCategories] = useState(categoriesBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
@@ -46,34 +49,34 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 	)
 	const [rowsPerPage, setRowsPerPage] = useState(15)
 	const [sortDescriptor, setSortDescriptor] = useState({
-		column: 'name',
+		column: 'depth',
 		direction: 'ascending',
 	})
 	const [page, setPage] = useState(1)
 
 	const hasSearchFilter = Boolean(filterValue)
 
-	const [ingredientToEdit, setIngredientToEdit] = useState(null)
+	const [categoryToEdit, setCategoryToEdit] = useState(null)
 
 	const headerColumns = useMemo(() => {
-		if (visibleColumns === 'all') return columnsIngredients
+		if (visibleColumns === 'all') return columnsCategories
 
-		return columnsIngredients.filter(column =>
+		return columnsCategories.filter(column =>
 			Array.from(visibleColumns).includes(column.uid)
 		)
 	}, [visibleColumns])
 
 	const filteredItems = useMemo(() => {
-		let filteredIngredients = [...ingredients]
+		let filteredCategories = [...categories]
 
 		if (hasSearchFilter) {
-			filteredIngredients = filteredIngredients.filter(ingredient =>
-				ingredient.name.toLowerCase().includes(filterValue.toLowerCase())
+			filteredCategories = filteredCategories.filter(category =>
+				category.name.toLowerCase().includes(filterValue.toLowerCase())
 			)
 		}
 
-		return filteredIngredients
-	}, [ingredients, filterValue])
+		return filteredCategories
+	}, [categories, filterValue])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -95,59 +98,39 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 	}, [sortDescriptor, items])
 
 	const renderCell = useCallback(
-		(ingredient, columnKey) => {
-			const cellValue = ingredient[columnKey]
+		(category, columnKey) => {
+			const cellValue = category[columnKey]
 
 			switch (columnKey) {
 				case 'id':
-					return <div className="flex flex-col">{ingredient.id}</div>
+					return <div className="flex flex-col">{category.id}</div>
 				case 'name':
-					return <div className="flex flex-col">{ingredient.name}</div>
-				case 'available_date_start':
+					return <div className="flex flex-col">{category.name}</div>
+				case 'order':
+					return <div className="flex flex-col">{category.order}</div>
+				case 'depth':
+					return <div className="flex flex-col">{category.depth}</div>
+				case 'dishes':
 					return (
-						<div
-							className={`flex flex-col ${ingredient.available_date_start ? '' : 'italic opacity-75'}`}
-						>
-							{ingredient.available_date_start
-								? ingredient.available_date_start
-								: 'Non défini'}
-						</div>
-					)
-				case 'available_date_end':
-					return (
-						<div
-							className={`flex flex-col ${
-								ingredient.available_date_end ? '' : 'italic opacity-75'
-							}`}
-						>
-							{ingredient.available_date_end
-								? ingredient.available_date_end
-								: 'Non défini'}
-						</div>
-					)
-				case 'activated':
-					return (
-						<div className="flex flex-col">
-							{ingredient.activated ? 'Oui' : 'Non'}
-						</div>
+						<div className="flex flex-col">{category.dishes?.length || 0}</div>
 					)
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
-							<Tooltip content="Modifier l'ingredient">
+							<Tooltip content="Modifier la categorie">
 								<span
 									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => handleEditIngredient(ingredient)}
+									onClick={() => handleEditCategory(category)}
 								>
 									<EditIcon />
 								</span>
 							</Tooltip>
-							<Tooltip color="danger" content="Supprimer ingredient">
-								<Tooltip color="danger" content="Supprimer ingredient">
+							<Tooltip color="danger" content="Supprimer la categorie">
+								<Tooltip color="danger" content="Supprimer la categorie">
 									<span
 										className="cursor-pointer text-lg text-danger active:opacity-50"
 										onClick={() => {
-											handleDeleteClick(ingredient)
+											handleDeleteClick(category)
 										}}
 									>
 										<DeleteIcon />
@@ -160,7 +143,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 					return cellValue
 			}
 		},
-		[handleEditIngredient]
+		[handleEditCategory]
 	)
 
 	const onNextPage = useCallback(() => {
@@ -194,20 +177,20 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		setPage(1)
 	}, [])
 
-	const onChangeIngredients = (newIngredient, isEdit) => {
+	const onChangeCategories = (newCategory, isEdit) => {
 		if (isEdit) {
-			// edit ingredient
-			const newIngredientsList = ingredients.map(ingredient => {
-				if (ingredient.id === newIngredient.id) {
-					return newIngredient
+			// edit category
+			const newCategoriesList = categories.map(category => {
+				if (category.id === newCategory.id) {
+					return newCategory
 				}
-				return ingredient
+				return category
 			})
-			setIngredients(newIngredientsList)
+			setCategories(newCategoriesList)
 		} else {
-			// add new ingredients to the list
-			const newIngredientsList = [...ingredients, newIngredient]
-			setIngredients(newIngredientsList)
+			// add new categories to the list
+			const newCategoriesList = [...categories, newCategory]
+			setCategories(newCategoriesList)
 		}
 	}
 
@@ -225,16 +208,16 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						<IngredientsModal
+						<CategoriesModal
 							ref={modalRef}
 							session={session}
-							onChangeIngredients={onChangeIngredients}
+							onChangeCategories={onChangeCategories}
 						/>
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
 					<span className="text-small text-default-400">
-						Total {ingredients.length} ingredients
+						Total {categories.length} categories
 					</span>
 					<label className="flex items-center text-small text-default-400">
 						Éléments par page:
@@ -244,7 +227,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						>
 							<option value="15">15</option>
 							<option value="30">30</option>
-							<option value={ingredients.length}>{ingredients.length}</option>
+							<option value={categories.length}>{categories.length}</option>
 						</select>
 					</label>
 				</div>
@@ -253,7 +236,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 	}, [
 		filterValue,
 		onRowsPerPageChange,
-		ingredients,
+		categories,
 		onSearchChange,
 		hasSearchFilter,
 	])
@@ -293,22 +276,22 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		)
 	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
 
-	const [ingredientToDelete, setIngredientToDelete] = useState(null)
+	const [categoryToDelete, setCategoryToDelete] = useState(null)
 
 	const confirmationModalRef = useRef()
 
-	const handleDeleteClick = ingredient => {
-		setIngredientToDelete(ingredient)
+	const handleDeleteClick = category => {
+		setCategoryToDelete(category)
 		confirmationModalRef?.current?.open()
 	}
 
 	const handleDeleteConfirmed = () => {
-		if (ingredientToDelete) {
-			deleteIngredient(ingredientToDelete.id, session).then(() => {
-				const newIngredientsList = ingredients.filter(
-					ingredient => ingredient.id !== ingredientToDelete.id
+		if (categoryToDelete) {
+			deleteCategory(categoryToDelete.id, session).then(() => {
+				const newCategoriesList = categories.filter(
+					category => category.id !== categoryToDelete.id
 				)
-				setIngredients(newIngredientsList)
+				setCategories(newCategoriesList)
 			})
 		}
 	}
@@ -317,11 +300,11 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		<>
 			<ConfirmationModal
 				ref={confirmationModalRef}
-				message={`Êtes-vous sûr de vouloir supprimer cet ingrédient ?`}
+				message={`Êtes-vous sûr de vouloir supprimer cette catégorie ?`}
 				onConfirm={handleDeleteConfirmed}
 			/>
 			<Table
-				aria-label="Table des ingredients"
+				aria-label="Table des categories"
 				isHeaderSticky
 				bottomContent={bottomContent}
 				bottomContentPlacement="outside"
@@ -340,10 +323,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						</TableColumn>
 					)}
 				</TableHeader>
-				<TableBody
-					emptyContent={'Aucun ingredients trouvé'}
-					items={sortedItems}
-				>
+				<TableBody emptyContent={'Aucun categories trouvé'} items={sortedItems}>
 					{item => (
 						<TableRow key={item.id}>
 							{columnKey => (
