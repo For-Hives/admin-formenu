@@ -11,16 +11,16 @@ import {
 	ModalHeader,
 	useDisclosure,
 } from '@nextui-org/react'
-import { DishDetailsComponent } from '@/components/Dish/DishDetails.component'
+import { DishDetailsComponent } from '@/components/Dish/Base/DishDetails.component'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { ModalHeaderContentComponent } from '@/components/Dish/ModalDish/ModalHeaderContent.component'
-import { ModalBodyMainContentComponent } from '@/components/Dish/ModalDish/ModalBodyMainContent.component'
-import { ModalBodyIngredientsComponent } from '@/components/Dish/ModalDish/ModalBodyIngredients.component'
-import { ModalBodyAllergensComponent } from '@/components/Dish/ModalDish/ModalBodyAllergens.component'
-import { ModalFooterMainContentComponent } from '@/components/Dish/ModalDish/ModalFooterMainContent.component'
-import { ModalFooterBackComponent } from '@/components/Dish/ModalDish/ModalFooterBack.component'
+import { ModalHeaderContentComponent } from '@/components/Dish/Base/ModalDish/ModalHeaderContent.component'
+import { ModalBodyMainContentComponent } from '@/components/Dish/Base/ModalDish/ModalBodyMainContent.component'
+import { ModalBodyIngredientsComponent } from '@/components/Dish/Base/ModalDish/ModalBodyIngredients.component'
+import { ModalBodyAllergensComponent } from '@/components/Dish/Base/ModalDish/ModalBodyAllergens.component'
+import { ModalFooterMainContentComponent } from '@/components/Dish/Base/ModalDish/ModalFooterMainContent.component'
+import { ModalFooterBackComponent } from '@/components/Dish/Base/ModalDish/ModalFooterBack.component'
 import { postDishes } from '@/services/dish/postDish'
 import { putDishes } from '@/services/dish/putDish'
 import { deleteDish } from '@/services/dish/deleteDish'
@@ -81,7 +81,6 @@ export default function MenusDetails({
 	const [isAddMode, setIsAddMode] = useState(false)
 
 	// initials values
-	// todo the same functionnality than the ingredients state, but with categories, and update the menu with the good categories
 	// use the category params : categoryId & filter on the menu object , then set the new dish with the correct category ( and set it in the correct way in the store)
 	const initialIngredients = useMenusStore(state => state.ingredients)
 	const initialCategories = useMenusStore(state => state.categories)

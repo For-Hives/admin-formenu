@@ -12,32 +12,40 @@ import {
 	TableRow,
 	Tooltip,
 } from '@nextui-org/react'
-import { SearchIcon } from '../IconsJSX/SearchIcon'
+import { SearchIcon } from '../../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
-import { columnsIngredients } from '@/components/Ingredients/data'
-import { IngredientsModal } from '@/components/Ingredients/IngredientsModal/IngredientsModal.component'
-import { deleteIngredient } from '@/services/ingredients/deleteIngredient'
+import { columnsDish } from '@/components/Dish/Table/data'
+import { deleteDish } from '@/services/dish/deleteDish'
+import { DishesModal } from '@/components/Dish/DishModal/DishesModal.component'
 import ConfirmationModal from '@/components/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',
 	'name',
-	'activated',
-	'available_date_start',
-	'available_date_end',
+	'description',
+	'ingredients',
+	'price',
 	'actions',
 ]
 
-export function IngredientsTableComponent({ ingredientsBase, session }) {
+export function DishTableComponent({
+	dishBase,
+	session,
+	ingredients,
+	typeDishes,
+	diets,
+	allergens,
+	categories,
+}) {
 	const modalRef = useRef()
 
-	const handleEditIngredient = ingredient => {
-		modalRef?.current?.openModalWithIngredient(ingredient)
+	const handleEditDish = dish => {
+		modalRef?.current?.openModalWithDish(dish)
 	}
 
-	const [ingredients, setIngredients] = useState(ingredientsBase)
+	const [dish, setDish] = useState(dishBase)
 	const [filterValue, setFilterValue] = useState('')
 	const [selectedKeys, setSelectedKeys] = useState(new Set([]))
 
@@ -53,27 +61,27 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 
 	const hasSearchFilter = Boolean(filterValue)
 
-	const [ingredientToEdit, setIngredientToEdit] = useState(null)
+	const [dishToEdit, setDishToEdit] = useState(null)
 
 	const headerColumns = useMemo(() => {
-		if (visibleColumns === 'all') return columnsIngredients
+		if (visibleColumns === 'all') return columnsDish
 
-		return columnsIngredients.filter(column =>
+		return columnsDish.filter(column =>
 			Array.from(visibleColumns).includes(column.uid)
 		)
 	}, [visibleColumns])
 
 	const filteredItems = useMemo(() => {
-		let filteredIngredients = [...ingredients]
+		let filteredDish = [...(dish || [])]
 
 		if (hasSearchFilter) {
-			filteredIngredients = filteredIngredients.filter(ingredient =>
-				ingredient.name.toLowerCase().includes(filterValue.toLowerCase())
+			filteredDish = filteredDish.filter(dish =>
+				dish.name.toLowerCase().includes(filterValue.toLowerCase())
 			)
 		}
 
-		return filteredIngredients
-	}, [ingredients, filterValue])
+		return filteredDish
+	}, [dish, filterValue])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -95,59 +103,53 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 	}, [sortDescriptor, items])
 
 	const renderCell = useCallback(
-		(ingredient, columnKey) => {
-			const cellValue = ingredient[columnKey]
+		(dish, columnKey) => {
+			const cellValue = dish[columnKey]
 
 			switch (columnKey) {
 				case 'id':
-					return <div className="flex flex-col">{ingredient.id}</div>
+					return <div className="flex flex-col">{dish.id}</div>
 				case 'name':
-					return <div className="flex flex-col">{ingredient.name}</div>
-				case 'available_date_start':
-					return (
-						<div
-							className={`flex flex-col ${ingredient.available_date_start ? '' : 'italic opacity-75'}`}
-						>
-							{ingredient.available_date_start
-								? ingredient.available_date_start
-								: 'Non défini'}
-						</div>
-					)
-				case 'available_date_end':
-					return (
-						<div
-							className={`flex flex-col ${
-								ingredient.available_date_end ? '' : 'italic opacity-75'
-							}`}
-						>
-							{ingredient.available_date_end
-								? ingredient.available_date_end
-								: 'Non défini'}
-						</div>
-					)
-				case 'activated':
+					return <div className="flex flex-col">{dish.name}</div>
+				case 'description':
 					return (
 						<div className="flex flex-col">
-							{ingredient.activated ? 'Oui' : 'Non'}
+							{dish.description.length > 100
+								? dish.description.substring(0, 100) + '...'
+								: dish.description}
 						</div>
 					)
+				case 'ingredients':
+					return (
+						<div className="flex flex-col">
+							{dish.ingredients?.length ?? 'Aucun ingrédient'}
+						</div>
+					)
+				case 'price':
+					return (
+						<div className="">
+							<span className={'italic'}>{dish.price}</span>
+							<span className={'opacity-80'}>€</span>
+						</div>
+					)
+
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
-							<Tooltip content="Modifier l'ingredient">
+							<Tooltip content="Modifier le plat">
 								<span
 									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => handleEditIngredient(ingredient)}
+									onClick={() => handleEditDish(dish)}
 								>
 									<EditIcon />
 								</span>
 							</Tooltip>
-							<Tooltip color="danger" content="Supprimer ingredient">
-								<Tooltip color="danger" content="Supprimer ingredient">
+							<Tooltip color="danger" content="Supprimer dish">
+								<Tooltip color="danger" content="Supprimer dish">
 									<span
 										className="cursor-pointer text-lg text-danger active:opacity-50"
 										onClick={() => {
-											handleDeleteClick(ingredient)
+											handleDeleteClick(dish)
 										}}
 									>
 										<DeleteIcon />
@@ -160,7 +162,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 					return cellValue
 			}
 		},
-		[handleEditIngredient]
+		[handleEditDish]
 	)
 
 	const onNextPage = useCallback(() => {
@@ -194,20 +196,20 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		setPage(1)
 	}, [])
 
-	const onChangeIngredients = (newIngredient, isEdit) => {
+	const onChangeDish = (newDish, isEdit) => {
 		if (isEdit) {
-			// edit ingredient
-			const newIngredientsList = ingredients.map(ingredient => {
-				if (ingredient.id === newIngredient.id) {
-					return newIngredient
+			// edit Dish
+			const newDishList = dish.map(dish => {
+				if (dish.id === newDish.id) {
+					return newDish
 				}
-				return ingredient
+				return dish
 			})
-			setIngredients(newIngredientsList)
+			setDish(newDishList)
 		} else {
-			// add new ingredients to the list
-			const newIngredientsList = [...ingredients, newIngredient]
-			setIngredients(newIngredientsList)
+			// add new Dishs to the list
+			const newDishList = [...dish, newDish]
+			setDish(newDishList)
 		}
 	}
 
@@ -225,16 +227,21 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						onValueChange={onSearchChange}
 					/>
 					<div className="flex gap-3">
-						<IngredientsModal
+						<DishesModal
 							ref={modalRef}
 							session={session}
-							onChangeIngredients={onChangeIngredients}
+							onChangeDishes={onChangeDish}
+							ingredients={ingredients}
+							typeDishes={typeDishes}
+							diets={diets}
+							allergens={allergens}
+							categories={categories}
 						/>
 					</div>
 				</div>
 				<div className="flex items-center justify-between">
 					<span className="text-small text-default-400">
-						Total {ingredients.length} ingredients
+						Total {dish?.length ?? 0} Dish
 					</span>
 					<label className="flex items-center text-small text-default-400">
 						Éléments par page:
@@ -244,19 +251,13 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						>
 							<option value="15">15</option>
 							<option value="30">30</option>
-							<option value={ingredients.length}>{ingredients.length}</option>
+							<option value={dish?.length ?? 50}>{dish?.length ?? 50}</option>
 						</select>
 					</label>
 				</div>
 			</div>
 		)
-	}, [
-		filterValue,
-		onRowsPerPageChange,
-		ingredients,
-		onSearchChange,
-		hasSearchFilter,
-	])
+	}, [filterValue, onRowsPerPageChange, dish, onSearchChange, hasSearchFilter])
 
 	const bottomContent = useMemo(() => {
 		return (
@@ -293,22 +294,20 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		)
 	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
 
-	const [ingredientToDelete, setIngredientToDelete] = useState(null)
+	const [dishToDelete, setDishToDelete] = useState(null)
 
 	const confirmationModalRef = useRef()
 
-	const handleDeleteClick = ingredient => {
-		setIngredientToDelete(ingredient)
+	const handleDeleteClick = Dish => {
+		setDishToDelete(Dish)
 		confirmationModalRef?.current?.open()
 	}
 
 	const handleDeleteConfirmed = () => {
-		if (ingredientToDelete) {
-			deleteIngredient(ingredientToDelete.id, session).then(() => {
-				const newIngredientsList = ingredients.filter(
-					ingredient => ingredient.id !== ingredientToDelete.id
-				)
-				setIngredients(newIngredientsList)
+		if (dishToDelete) {
+			deleteDish(dishToDelete.id, session).then(() => {
+				const newDishList = dish.filter(dish => dish.id !== dishToDelete.id)
+				setDish(newDishList)
 			})
 		}
 	}
@@ -321,7 +320,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 				onConfirm={handleDeleteConfirmed}
 			/>
 			<Table
-				aria-label="Table des ingredients"
+				aria-label="Table des Dishs"
 				isHeaderSticky
 				bottomContent={bottomContent}
 				bottomContentPlacement="outside"
@@ -340,10 +339,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						</TableColumn>
 					)}
 				</TableHeader>
-				<TableBody
-					emptyContent={'Aucun ingredients trouvé'}
-					items={sortedItems}
-				>
+				<TableBody emptyContent={'Aucun Plat trouvé'} items={sortedItems}>
 					{item => (
 						<TableRow key={item.id}>
 							{columnKey => (
