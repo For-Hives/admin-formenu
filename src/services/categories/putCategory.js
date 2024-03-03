@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify'
 import { getDataMe } from '@/services/data/getData'
 
-export async function putIngredient(id, ingredient, session) {
+export async function putCategory(id, ingredient, session) {
 	const resUser = await getDataMe(session)
 
 	ingredient = {
@@ -34,7 +34,7 @@ export async function putIngredient(id, ingredient, session) {
 			toastId: 'toast-alert',
 		})
 	} else {
-		toast('Ingredient modifié avec succès', {
+		toast('Categorie modifié avec succès', {
 			type: 'success',
 			icon: '👌',
 			toastId: 'toast-alert',
