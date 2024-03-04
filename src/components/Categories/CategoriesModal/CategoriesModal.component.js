@@ -31,8 +31,8 @@ import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component
 
 const categorieschema = z.object({
 	name: z.string().min(1, 'Le nom de la categorie est requise'),
-	order: z.number().min(0, "L'ordre de la categorie est requise"),
-	depth: z.number().min(0, 'La profondeur de la categorie est requise'),
+	order: z.string().min(0, "L'ordre de la categorie est requise"),
+	depth: z.string().min(0, 'La profondeur de la categorie est requise'),
 	menu: z.string().min(1, 'Le menu de la categorie est requise'),
 	category: z.string().min(1, 'La categorie de la categorie est requise'),
 })
@@ -135,18 +135,22 @@ export const CategoriesModal = forwardRef(
 		const setSession = useMenusStore(state => state.setSession)
 
 		const onSubmit = data => {
+			console.log('data', data)
+			console.log('isAddMode', isAddMode)
 			if (isAddMode) {
-				postCategory(data, sessionFromStore).then(res => {
-					// Refresh your categories list or state here
-					const newCategory = { ...res.data.attributes, id: res.data.id }
-					onChangeCategories(newCategory, false)
-				})
+				console.log('postCategory')
+				// postCategory(data, sessionFromStore).then(res => {
+				// 	// Refresh your categories list or state here
+				// 	const newCategory = { ...res.data.attributes, id: res.data.id }
+				// 	onChangeCategories(newCategory, false)
+				// })
 			} else {
-				putCategory(categoryToEdit.id, data, sessionFromStore).then(res => {
-					// Refresh your categories list or state here
-					const newCategory = { ...res.data.attributes, id: res.data.id }
-					onChangeCategories(newCategory, true)
-				})
+				console.log('putCategory')
+				// putCategory(categoryToEdit.id, data, sessionFromStore).then(res => {
+				// 	// Refresh your categories list or state here
+				// 	const newCategory = { ...res.data.attributes, id: res.data.id }
+				// 	onChangeCategories(newCategory, true)
+				// })
 			}
 			reset(
 				{
@@ -223,7 +227,7 @@ export const CategoriesModal = forwardRef(
 				>
 					<ModalContent>
 						<ModalHeader>
-							{isAddMode
+							{isAddMode || categoryToEdit?.id === undefined
 								? 'Ajouter une nouvelle categorie'
 								: 'Modifier la catégorie ' + categoryToEdit?.id}
 						</ModalHeader>
@@ -272,7 +276,9 @@ export const CategoriesModal = forwardRef(
 							{/* ****************** FOOTER **********************/}
 							{!isDishesModalOpen ? (
 								<Button auto color="primary" onClick={handleSubmit(onSubmit)}>
-									{isAddMode ? 'Ajouter' : 'Modifier'}
+									{isAddMode || categoryToEdit?.id === undefined
+										? 'Ajouter'
+										: 'Modifier'}
 								</Button>
 							) : (
 								<ModalFooterBackComponent onPress={closeDishesUpdate} />
