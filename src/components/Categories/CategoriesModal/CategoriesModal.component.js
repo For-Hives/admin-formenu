@@ -28,6 +28,8 @@ import { InputDepthCategoryComponent } from '@/components/Categories/CategoriesM
 import { DishesCategoryComponent } from '@/components/Categories/CategoriesModal/DishesCategory.component'
 import { ModalBodyDishesComponent } from '@/components/Categories/CategoriesModal/ModalBodyDishes.component'
 import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component'
+import { InputCategoryCategoryComponent } from '@/components/Categories/CategoriesModal/InputCategoryCategory.component'
+import { InputMenuCategoryComponent } from '@/components/Categories/CategoriesModal/InputMenuCategory.component'
 
 const categorieschema = z.object({
 	name: z.string().min(1, 'Le nom de la categorie est requise'),
@@ -38,7 +40,7 @@ const categorieschema = z.object({
 })
 
 export const CategoriesModal = forwardRef(
-	({ session, onChangeCategories, dishes }, ref) => {
+	({ session, onChangeCategories, dishes, menus, categories }, ref) => {
 		const { isOpen, onClose, onOpenChange, onOpen } = useDisclosure()
 
 		const [selectedDishes, setSelectedDishes] = useState([])
@@ -138,19 +140,17 @@ export const CategoriesModal = forwardRef(
 			console.log('data', data)
 			console.log('isAddMode', isAddMode)
 			if (isAddMode) {
-				console.log('postCategory')
-				// postCategory(data, sessionFromStore).then(res => {
-				// 	// Refresh your categories list or state here
-				// 	const newCategory = { ...res.data.attributes, id: res.data.id }
-				// 	onChangeCategories(newCategory, false)
-				// })
+				postCategory(data, sessionFromStore).then(res => {
+					// Refresh your categories list or state here
+					const newCategory = { ...res.data.attributes, id: res.data.id }
+					onChangeCategories(newCategory, false)
+				})
 			} else {
-				console.log('putCategory')
-				// putCategory(categoryToEdit.id, data, sessionFromStore).then(res => {
-				// 	// Refresh your categories list or state here
-				// 	const newCategory = { ...res.data.attributes, id: res.data.id }
-				// 	onChangeCategories(newCategory, true)
-				// })
+				putCategory(categoryToEdit.id, data, sessionFromStore).then(res => {
+					// Refresh your categories list or state here
+					const newCategory = { ...res.data.attributes, id: res.data.id }
+					onChangeCategories(newCategory, true)
+				})
 			}
 			reset(
 				{
@@ -260,6 +260,20 @@ export const CategoriesModal = forwardRef(
 											categoryToEdit={categoryToEdit}
 											onSelectionChangeDish={onSelectionChangeDish}
 											openDishesUpdate={openDishesUpdate}
+										/>
+										<InputCategoryCategoryComponent
+											value={categoryToEdit?.category}
+											control={control}
+											errors={errors}
+											name={'category'}
+											categories={categories}
+										/>
+										<InputMenuCategoryComponent
+											value={categoryToEdit?.menu}
+											control={control}
+											errors={errors}
+											name={'menu'}
+											menus={menus}
 										/>
 									</div>
 								</div>

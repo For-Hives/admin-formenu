@@ -9,11 +9,12 @@ export function InputCategoryCategoryComponent({
 	value,
 	categories,
 }) {
+	console.log(categories)
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
 				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est la catégorie de la catégorie ?
+					Quel est la catégorie parent ?
 				</h2>
 				<p className={'text-sm italic'}>
 					{`Cela permettra de savoir à quel catégorie appartient cette catégorie.`}
@@ -32,7 +33,8 @@ export function InputCategoryCategoryComponent({
 							classNames={customInput}
 							color="primary"
 							variant="bordered"
-							selectedKeys={field.value.toString()}
+							selectionMode={'single'}
+							selectedKey={field.value.toString()}
 							radius="sm"
 							data-cy={name}
 							id={name}
@@ -44,7 +46,7 @@ export function InputCategoryCategoryComponent({
 							{categories?.length > 0 &&
 								categories.map(category => (
 									<SelectItem key={category.id} value={category.id.toString()}>
-										{category.attributes.name}
+										{category.name}
 									</SelectItem>
 								))}
 						</Select>

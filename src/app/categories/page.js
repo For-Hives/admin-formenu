@@ -13,6 +13,7 @@ export default async function Home() {
 		redirect('/auth/signin')
 	}
 
+	const categoriesBase = await getMyCategories(session)
 	const categories = await getMyCategories(session)
 	const dishes = await getDishes(session)
 	const menus = await getMenus(session)
@@ -23,10 +24,11 @@ export default async function Home() {
 			{/* +4rem -> equivalent of pr-16 / pl-16, space to don't be under the nav bar  */}
 			<main className="flex min-h-screen w-full items-center justify-center overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
 				<CategoriesTableComponent
-					categoriesBase={categories}
+					categoriesBase={categoriesBase}
 					session={session}
 					dishes={dishes}
 					menus={menus}
+					categoriesFromParent={categories}
 				/>
 			</main>
 		</>

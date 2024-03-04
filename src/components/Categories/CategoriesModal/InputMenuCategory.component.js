@@ -32,7 +32,8 @@ export function InputMenuCategoryComponent({
 							classNames={customInput}
 							color="primary"
 							variant="bordered"
-							selectedKeys={field.value.toString()}
+							selectionMode={'single'}
+							selectedKey={field.value.toString()}
 							radius="sm"
 							data-cy={name}
 							id={name}
@@ -44,7 +45,7 @@ export function InputMenuCategoryComponent({
 							{menus?.length > 0 &&
 								menus.map(menu => (
 									<SelectItem key={menu.id} value={menu.id.toString()}>
-										{menu.attributes.name}
+										{menu.title}
 									</SelectItem>
 								))}
 						</Select>
