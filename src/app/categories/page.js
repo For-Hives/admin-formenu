@@ -14,7 +14,8 @@ export default async function Home() {
 	}
 
 	const categoriesBase = await getMyCategories(session)
-	const categories = await getMyCategories(session)
+	let categories = await getMyCategories(session)
+	categories = categories.filter(category => category.depth === 0)
 	const dishes = await getDishes(session)
 	const menus = await getMenus(session)
 

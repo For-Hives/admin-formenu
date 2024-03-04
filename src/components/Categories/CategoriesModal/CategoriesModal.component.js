@@ -36,7 +36,7 @@ const categorieschema = z.object({
 	order: z.string().min(0, "L'ordre de la categorie est requise"),
 	depth: z.string().min(0, 'La profondeur de la categorie est requise'),
 	menu: z.string().min(1, 'Le menu de la categorie est requise'),
-	category: z.string().min(1, 'La categorie de la categorie est requise'),
+	category: z.optional(z.string()),
 })
 
 export const CategoriesModal = forwardRef(
@@ -139,7 +139,7 @@ export const CategoriesModal = forwardRef(
 		const onSubmit = data => {
 			console.log('data', data)
 			console.log('isAddMode', isAddMode)
-			if (isAddMode) {
+			if (isAddMode || categoryToEdit?.id === undefined) {
 				postCategory(data, sessionFromStore).then(res => {
 					// Refresh your categories list or state here
 					const newCategory = { ...res.data.attributes, id: res.data.id }

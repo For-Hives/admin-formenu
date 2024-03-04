@@ -20,9 +20,6 @@ import { columnsCategories } from '@/components/Categories/data'
 import { CategoriesModal } from '@/components/Categories/CategoriesModal/CategoriesModal.component'
 import { deleteCategory } from '@/services/categories/deleteCategory'
 import ConfirmationModal from '@/components/ConfirmationModal.component'
-// import { CategoriesModal } from '@/components/Categories/CategoriesModal/CategoriesModal.component'
-// import { deleteCategory } from '@/services/categories/deleteCategory'
-// import ConfirmationModal from '@/components/ConfirmationModal.component'
 
 const INITIAL_VISIBLE_COLUMNS = [
 	'id',

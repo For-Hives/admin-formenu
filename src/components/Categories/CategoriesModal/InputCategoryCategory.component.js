@@ -13,11 +13,9 @@ export function InputCategoryCategoryComponent({
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
-				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est la catégorie parent ?
-				</h2>
+				<h2 className={'font-kanit text-lg font-medium'}>Quel est le menu ?</h2>
 				<p className={'text-sm italic'}>
-					{`Cela permettra de savoir à quel catégorie appartient cette catégorie.`}
+					{`Cela permettra de savoir à quel menu appartient cette catégorie.`}
 				</p>
 			</div>
 			<div>

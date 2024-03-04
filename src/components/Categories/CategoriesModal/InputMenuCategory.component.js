@@ -13,7 +13,7 @@ export function InputMenuCategoryComponent({
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
 				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est le menu de la catégorie ?
+					Quel est la carte de la catégorie ?
 				</h2>
 				<p className={'text-sm italic'}>
 					{`Cela permettra de savoir à quel menu appartient cette catégorie.`}
