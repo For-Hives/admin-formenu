@@ -2,21 +2,21 @@ import { Controller } from 'react-hook-form'
 import { Input, Select, SelectItem } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 
-export function InputMenuCategoryComponent({
+export function InputCategoryCategoryComponent({
 	control,
 	errors,
 	name,
 	value,
-	menus,
+	categories,
 }) {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
 				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est le menu de la catégorie ?
+					Quel est la catégorie de la catégorie ?
 				</h2>
 				<p className={'text-sm italic'}>
-					{`Cela permettra de savoir à quel menu appartient cette catégorie.`}
+					{`Cela permettra de savoir à quel catégorie appartient cette catégorie.`}
 				</p>
 			</div>
 			<div>
@@ -27,8 +27,8 @@ export function InputMenuCategoryComponent({
 					render={({ field }) => (
 						<Select
 							{...field}
-							aria-label="Menu"
-							placeholder="Menu..."
+							aria-label="Categorie"
+							placeholder="Categorie..."
 							classNames={customInput}
 							color="primary"
 							variant="bordered"
@@ -41,10 +41,10 @@ export function InputMenuCategoryComponent({
 							isInvalid={!!errors[name]}
 							errorMessage={errors[name]?.message}
 						>
-							{menus?.length > 0 &&
-								menus.map(menu => (
-									<SelectItem key={menu.id} value={menu.id.toString()}>
-										{menu.attributes.name}
+							{categories?.length > 0 &&
+								categories.map(category => (
+									<SelectItem key={category.id} value={category.id.toString()}>
+										{category.attributes.name}
 									</SelectItem>
 								))}
 						</Select>

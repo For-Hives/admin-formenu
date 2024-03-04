@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { getMyCategories } from '@/services/categories/getMyCategories'
 import { CategoriesTableComponent } from '@/components/Categories/CategoriesTable.component'
 import { getDishes } from '@/services/dish/getDishes'
+import { getMenus } from '@/services/menus/getMenus'
 
 export default async function Home() {
 	const session = await getServerSession(authOptions)
@@ -25,6 +26,7 @@ export default async function Home() {
 					categoriesBase={categories}
 					session={session}
 					dishes={dishes}
+					menus={menus}
 				/>
 			</main>
 		</>
