@@ -2,22 +2,21 @@ import { Controller } from 'react-hook-form'
 import { Input, Select, SelectItem } from '@nextui-org/react'
 import { customInput } from '@/styles/customConfNextui'
 
-export function InputTypeDishComponent({
+export function InputMenuCategoryComponent({
 	control,
 	errors,
 	name,
 	value,
-	typeDish,
+	menus,
 }) {
 	return (
 		<div className={'flex flex-col gap-3'}>
 			<div className={'flex flex-col gap-1'}>
 				<h2 className={'font-kanit text-lg font-medium'}>
-					Quel est le type de plat ? (&nbsp;viande, poissons, oeufs...) ...
-					?&nbsp;)
+					Quel est le menu de la catégorie ?
 				</h2>
 				<p className={'text-sm italic'}>
-					{`Cela permettra de classer votre plat, et de l'afficher correctement dans l'application.`}
+					{`Cela permettra de savoir à quel menu appartient cette catégorie.`}
 				</p>
 			</div>
 			<div>
@@ -28,8 +27,8 @@ export function InputTypeDishComponent({
 					render={({ field }) => (
 						<Select
 							{...field}
-							aria-label="Type du plat"
-							placeholder="Type du plat..."
+							aria-label="Menu"
+							placeholder="Menu..."
 							classNames={customInput}
 							color="primary"
 							variant="bordered"
@@ -42,13 +41,10 @@ export function InputTypeDishComponent({
 							isInvalid={!!errors[name]}
 							errorMessage={errors[name]?.message}
 						>
-							{typeDish?.length > 0 &&
-								typeDish.map(type_dish => (
-									<SelectItem
-										key={type_dish.id}
-										value={type_dish.id.toString()}
-									>
-										{type_dish.attributes.name}
+							{menus?.length > 0 &&
+								menus.map(menu => (
+									<SelectItem key={menu.id} value={menu.id.toString()}>
+										{menu.attributes.name}
 									</SelectItem>
 								))}
 						</Select>

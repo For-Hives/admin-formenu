@@ -1,5 +1,5 @@
-export async function getDishes(session) {
-	let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-dish`, {
+export async function getMenus(session) {
+	let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/my-menu`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

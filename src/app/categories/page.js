@@ -14,6 +14,7 @@ export default async function Home() {
 
 	const categories = await getMyCategories(session)
 	const dishes = await getDishes(session)
+	const menus = await getMenus(session)
 
 	return (
 		<>
