@@ -123,7 +123,16 @@ export function CategoriesTableComponent({
 							<Tooltip content="Modifier la categorie">
 								<span
 									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => handleEditCategory(category)}
+									onClick={() => {
+										console.log(
+											'//////////////////////////////// handleEditCategory ////////////////////////////////'
+										)
+										console.log('category', category)
+										console.log(
+											'//////////////////////////////// handleEditCategory ////////////////////////////////'
+										)
+										handleEditCategory(category)
+									}}
 								>
 									<EditIcon />
 								</span>
