@@ -33,7 +33,7 @@ export function InputMenuCategoryComponent({
 							color="primary"
 							variant="bordered"
 							selectionMode={'single'}
-							selectedKey={field.value.toString()}
+							selectedKeys={[field.value.toString()]}
 							radius="sm"
 							data-cy={name}
 							id={name}
