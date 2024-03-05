@@ -7,8 +7,6 @@ export async function postCategory(category, session) {
 	category = {
 		...category,
 		company: resUser.company,
-		available_date_start: category.available_date_start ? category : null,
-		available_date_end: category.available_date_end ? category : null,
 	}
 
 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, {

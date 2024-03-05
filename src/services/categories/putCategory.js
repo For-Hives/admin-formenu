@@ -1,18 +1,19 @@
 import { toast } from 'react-toastify'
 import { getDataMe } from '@/services/data/getData'
 
-export async function putCategory(id, ingredient, session) {
+export async function putCategory(id, category, session) {
 	const resUser = await getDataMe(session)
 
-	ingredient = {
-		...ingredient,
+	category = {
+		...category,
 		company: resUser.company,
-		available_date_start: ingredient.available_date_start ? ingredient : null,
-		available_date_end: ingredient.available_date_end ? ingredient : null,
+		// to number
+		menu: ~~category.menu,
+		category: ~~category.category,
 	}
 
 	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/ingredients/${id}`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${id}`,
 		{
 			method: 'PUT',
 			headers: {
@@ -22,7 +23,7 @@ export async function putCategory(id, ingredient, session) {
 				Authorization: `Bearer ${session.jwt}`,
 			},
 			body: JSON.stringify({
-				data: ingredient,
+				data: category,
 			}),
 		}
 	)
