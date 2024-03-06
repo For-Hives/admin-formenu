@@ -73,8 +73,6 @@ export const CategoriesModal = forwardRef(
 				item => item.id.toString() === dishId.toString()
 			)
 
-			console.log('isDishInCategory', isDishInCategory)
-
 			if (!isDishInCategory) {
 				// Create a new array with the added dish
 				const newDishes = [...dishList, dishToAdd]
@@ -107,18 +105,6 @@ export const CategoriesModal = forwardRef(
 		useImperativeHandle(ref, () => ({
 			openModalWithCategory(category) {
 				setCategoryToEdit(category)
-				console.log(
-					'xxxxxxxxxxxxxxxxxxxxxxxxxx Open modal category xxxxxxxxxxxxxxxxxxxxxxxxxx',
-					category
-				)
-				console.log(
-					'xxxxxxxxxxxxxxxxxxxxxxxxxx Open modal category xxxxxxxxxxxxxxxxxxxxxxxxxx',
-					category
-				)
-				console.log(
-					'xxxxxxxxxxxxxxxxxxxxxxxxxx Open modal category xxxxxxxxxxxxxxxxxxxxxxxxxx',
-					category
-				)
 				setValue('name', category.name.toString())
 				setValue('order', category.order.toString())
 				setValue('depth', category.depth.toString())
@@ -149,9 +135,6 @@ export const CategoriesModal = forwardRef(
 		const setSession = useMenusStore(state => state.setSession)
 
 		const onSubmit = data => {
-			console.log('data', data)
-			console.log('isAddMode', isAddMode)
-			console.log('Dishes selected', selectedDishes)
 			data = {
 				...data,
 				dishes: selectedDishes,
@@ -163,31 +146,29 @@ export const CategoriesModal = forwardRef(
 					onChangeCategories(newCategory, false)
 				})
 			} else {
-				putCategory(categoryToEdit.id, data, sessionFromStore)
-					.then(res => {
-						// Refresh your categories list or state here
-						let newCategory = {
-							...res.data.attributes,
-							id: res.data.id,
-							category: {
-								...newCategory.category?.data.attributes,
-								id: newCategory.category?.data.id,
-							},
-							menu: {
-								...newCategory.menu?.data.attributes,
-								id: newCategory.menu?.data.id,
-							},
-							// fixme 	attributes dishes to clean
-						}
+				putCategory(categoryToEdit.id, data, sessionFromStore).then(res => {
+					// Refresh your categories list or state here
+					const newCategory = {
+						...res.data.attributes,
+						id: res.data.id,
+						category: {
+							...res.data.attributes.category?.data.attributes,
+							id: res.data.attributes.category?.data.id,
+						},
+						menu: {
+							...res.data.attributes.menu?.data.attributes,
+							id: res.data.attributes.menu?.data.id,
+						},
+						dishes: res.data.attributes.dishes?.data.map(dish => {
+							return {
+								...dish.attributes,
+								id: dish.id,
+							}
+						}),
+					}
 
-						newCategory = {
-							...newCategory,
-						}
-						onChangeCategories(newCategory, true)
-					})
-					.catch(err => {
-						console.error('error put', err)
-					})
+					onChangeCategories(newCategory, true)
+				})
 			}
 			reset(
 				{

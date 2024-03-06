@@ -44,7 +44,6 @@ export function DishesCategoryComponent({
 			<div className={'flex w-full justify-start'}>
 				<Button
 					onClick={() => {
-						console.log('openDishesUpdate')
 						openDishesUpdate()
 					}}
 					color={'primary'}

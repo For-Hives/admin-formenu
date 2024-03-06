@@ -124,14 +124,6 @@ export function CategoriesTableComponent({
 								<span
 									className="cursor-pointer text-lg text-default-400 active:opacity-50"
 									onClick={() => {
-										console.log(
-											'//////////////////////////////// handleEditCategory ////////////////////////////////'
-										)
-										console.log('category', category)
-										console.log('session jwt', session.jwt)
-										console.log(
-											'//////////////////////////////// handleEditCategory ////////////////////////////////'
-										)
 										handleEditCategory(category)
 									}}
 								>
