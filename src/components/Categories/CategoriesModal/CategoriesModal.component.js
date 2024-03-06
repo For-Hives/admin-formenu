@@ -151,6 +151,11 @@ export const CategoriesModal = forwardRef(
 		const onSubmit = data => {
 			console.log('data', data)
 			console.log('isAddMode', isAddMode)
+			console.log('Dishes selected', selectedDishes)
+			data = {
+				...data,
+				dishes: selectedDishes,
+			}
 			if (isAddMode || categoryToEdit?.id === undefined) {
 				postCategory(data, sessionFromStore).then(res => {
 					// Refresh your categories list or state here
@@ -161,7 +166,23 @@ export const CategoriesModal = forwardRef(
 				putCategory(categoryToEdit.id, data, sessionFromStore)
 					.then(res => {
 						// Refresh your categories list or state here
-						const newCategory = { ...res.data.attributes, id: res.data.id }
+						let newCategory = {
+							...res.data.attributes,
+							id: res.data.id,
+							category: {
+								...newCategory.category?.data.attributes,
+								id: newCategory.category?.data.id,
+							},
+							menu: {
+								...newCategory.menu?.data.attributes,
+								id: newCategory.menu?.data.id,
+							},
+							// fixme 	attributes dishes to clean
+						}
+
+						newCategory = {
+							...newCategory,
+						}
 						onChangeCategories(newCategory, true)
 					})
 					.catch(err => {
