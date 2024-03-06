@@ -1,6 +1,6 @@
-export async function getCategories(session) {
+export async function getMenus(session) {
 	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/categories`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/my-menus`,
 		{
 			method: 'GET',
 			headers: {

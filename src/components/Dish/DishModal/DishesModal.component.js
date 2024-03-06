@@ -19,16 +19,15 @@ import {
 	useDisclosure,
 } from '@nextui-org/react'
 import { PlusIcon } from '@/components/IconsJSX/PlusIcon'
-import { postDish, postDishes } from '@/services/dish/postDish'
-import { putDish, putDishes } from '@/services/dish/putDish'
+import { postDishes } from '@/services/dish/postDish'
+import { putDishes } from '@/services/dish/putDish'
 import { useMenusStore } from '@/stores/menu.store'
 import { ModalHeaderContentComponent } from '@/components/Dish/Base/ModalDish/ModalHeaderContent.component'
 import { ModalBodyMainContentComponent } from '@/components/Dish/Base/ModalDish/ModalBodyMainContent.component'
 import { ModalBodyIngredientsComponent } from '@/components/Dish/Base/ModalDish/ModalBodyIngredients.component'
 import { ModalBodyAllergensComponent } from '@/components/Dish/Base/ModalDish/ModalBodyAllergens.component'
 import { ModalFooterMainContentComponent } from '@/components/Dish/Base/ModalDish/ModalFooterMainContent.component'
-import { ModalFooterBackComponent } from '@/components/Dish/Base/ModalDish/ModalFooterBack.component'
-import { deleteDish } from '@/services/dish/deleteDish'
+import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component'
 
 const dishschema = z.object({
 	name_dish: z
@@ -70,11 +69,6 @@ export const DishesModal = forwardRef(
 		const initialTypeDishes = useMenusStore(state => state.typeDishes)
 		const initialAllergens = useMenusStore(state => state.allergens)
 		const initialDiets = useMenusStore(state => state.diets)
-		const initialMenu = useMenusStore(state => state.menu)
-		const initialLastDishClicked = useMenusStore(state => state.lastDishClicked)
-		const initialSelectedKeys = []
-		const initialInputValue = ''
-		const initialIsIngredientsUpdateOpen = false
 
 		// States
 		const ingredientsFromStore = useMenusStore(state => state.ingredients)
@@ -82,7 +76,7 @@ export const DishesModal = forwardRef(
 		const allergensFromStore = useMenusStore(state => state.allergens)
 		const typeDishesFromStore = useMenusStore(state => state.typeDishes)
 		const dietsFromStore = useMenusStore(state => state.diets)
-		const menuFromStore = useMenusStore(state => state.menu)
+
 		// Setters
 		const setIngredients = useMenusStore(state => state.setIngredients)
 		const setCategories = useMenusStore(state => state.setCategories)
@@ -397,22 +391,22 @@ export const DishesModal = forwardRef(
 									<>
 										{!isIngredientsUpdateOpen ? (
 											<ModalBodyMainContentComponent
-												lastDishClicked={lastDishClicked}
 												control={control}
 												errors={errors}
 												ingredientsFromStore={ingredientsFromStore}
-												selectedKeys={selectedIngredients}
 												ingredientSelected={isIngredientSelected}
-												onSelectionChange={onSelectionChangeIngredients}
 												onInputChange={onInputChange}
 												inputValue={inputValue}
-												openIngredientsUpdate={openIngredientsUpdate}
 												closeIngredientsUpdate={closeIngredientsUpdate}
 												session={sessionFromStore}
 												uploadedImage={uploadedImage}
 												setUploadedImage={setUploadedImage}
 												categoriesFromStore={categoriesFromStore}
 												typeDishesFromStore={typeDishesFromStore}
+												selectedKeys={selectedIngredients}
+												lastDishClicked={lastDishClicked}
+												onSelectionChange={onSelectionChangeIngredients}
+												openIngredientsUpdate={openIngredientsUpdate}
 											/>
 										) : (
 											// ************** INGREDIENTS **************

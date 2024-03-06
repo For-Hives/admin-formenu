@@ -20,7 +20,7 @@ import { ModalBodyMainContentComponent } from '@/components/Dish/Base/ModalDish/
 import { ModalBodyIngredientsComponent } from '@/components/Dish/Base/ModalDish/ModalBodyIngredients.component'
 import { ModalBodyAllergensComponent } from '@/components/Dish/Base/ModalDish/ModalBodyAllergens.component'
 import { ModalFooterMainContentComponent } from '@/components/Dish/Base/ModalDish/ModalFooterMainContent.component'
-import { ModalFooterBackComponent } from '@/components/Dish/Base/ModalDish/ModalFooterBack.component'
+import { ModalFooterBackComponent } from '@/components/ModalFooterBack.component'
 import { postDishes } from '@/services/dish/postDish'
 import { putDishes } from '@/services/dish/putDish'
 import { deleteDish } from '@/services/dish/deleteDish'

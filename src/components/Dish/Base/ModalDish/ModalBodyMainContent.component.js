@@ -33,18 +33,10 @@ export function ModalBodyMainContentComponent(props) {
 			</div>
 			<div className={'col-span-6 flex flex-col gap-6'}>
 				<InputIngredientsDishComponent
-					ingredientsFromStore={props.ingredientsFromStore}
 					selectedKeys={props.selectedKeys}
 					lastDishClicked={props.lastDishClicked}
-					isIngredientSelected={props.ingredientSelected}
 					onSelectionChange={props.onSelectionChange}
-					onInputChange={props.onInputChange}
-					inputValue={props.inputValue}
 					openIngredientsUpdate={props.openIngredientsUpdate}
-					closeIngredientsUpdate={props.closeIngredientsUpdate}
-					control={props.control}
-					errors={props.errors}
-					name={'ingredients_dish'}
 				/>
 				<InputPriceDishComponent
 					value={props.lastDishClicked?.price}

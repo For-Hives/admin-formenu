@@ -1,0 +1,20 @@
+meta {
+  name: Get categories
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories/13
+  body: none
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/json
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzA4MDA4ODE3LCJleHAiOjE3MTA2MDA4MTd9.zLnevBLlrSUU53XchxguIstC-zr7YqnfpkJ5PNWlNoQ
+}

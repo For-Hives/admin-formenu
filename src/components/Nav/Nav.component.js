@@ -20,7 +20,7 @@ const menuItems = [
 		href: '/categories',
 		flaticon: 'fi fi-rr-folder-tree',
 		text: 'Mes catégories',
-		enabled: false,
+		enabled: true,
 	},
 	{
 		href: '/ingredients',
