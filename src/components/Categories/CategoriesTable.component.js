@@ -128,6 +128,7 @@ export function CategoriesTableComponent({
 											'//////////////////////////////// handleEditCategory ////////////////////////////////'
 										)
 										console.log('category', category)
+										console.log('session jwt', session.jwt)
 										console.log(
 											'//////////////////////////////// handleEditCategory ////////////////////////////////'
 										)

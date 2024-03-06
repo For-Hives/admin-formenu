@@ -35,8 +35,8 @@ const categorieschema = z.object({
 	name: z.string().min(1, 'Le nom de la categorie est requise'),
 	order: z.string().min(0, "L'ordre de la categorie est requise"),
 	depth: z.string().min(0, 'La profondeur de la categorie est requise'),
-	menu: z.string().min(1, 'Le menu de la categorie est requise'),
-	category: z.optional(z.string()),
+	menu: z.string().min(0, 'Le menu de la categorie est requise'),
+	category: z.string().min(0, 'La categorie de la categorie est requise'),
 })
 
 export const CategoriesModal = forwardRef(
@@ -107,11 +107,23 @@ export const CategoriesModal = forwardRef(
 		useImperativeHandle(ref, () => ({
 			openModalWithCategory(category) {
 				setCategoryToEdit(category)
-				setValue('name', category.name)
-				setValue('order', category.order)
-				setValue('depth', category.depth)
-				setValue('menu', category.menu)
-				setValue('category', category.category)
+				console.log(
+					'xxxxxxxxxxxxxxxxxxxxxxxxxx Open modal category xxxxxxxxxxxxxxxxxxxxxxxxxx',
+					category
+				)
+				console.log(
+					'xxxxxxxxxxxxxxxxxxxxxxxxxx Open modal category xxxxxxxxxxxxxxxxxxxxxxxxxx',
+					category
+				)
+				console.log(
+					'xxxxxxxxxxxxxxxxxxxxxxxxxx Open modal category xxxxxxxxxxxxxxxxxxxxxxxxxx',
+					category
+				)
+				setValue('name', category.name.toString())
+				setValue('order', category.order.toString())
+				setValue('depth', category.depth.toString())
+				setValue('menu', category.menu?.id.toString())
+				setValue('category', category.category?.id.toString())
 				onOpen()
 			},
 		}))
@@ -146,11 +158,15 @@ export const CategoriesModal = forwardRef(
 					onChangeCategories(newCategory, false)
 				})
 			} else {
-				putCategory(categoryToEdit.id, data, sessionFromStore).then(res => {
-					// Refresh your categories list or state here
-					const newCategory = { ...res.data.attributes, id: res.data.id }
-					onChangeCategories(newCategory, true)
-				})
+				putCategory(categoryToEdit.id, data, sessionFromStore)
+					.then(res => {
+						// Refresh your categories list or state here
+						const newCategory = { ...res.data.attributes, id: res.data.id }
+						onChangeCategories(newCategory, true)
+					})
+					.catch(err => {
+						console.error('error put', err)
+					})
 			}
 			reset(
 				{
