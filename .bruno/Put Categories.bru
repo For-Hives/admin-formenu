@@ -1,0 +1,50 @@
+meta {
+  name: Put Categories
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories/13
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  Accept: application/json
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzA4MDA4ODE3LCJleHAiOjE3MTA2MDA4MTd9.zLnevBLlrSUU53XchxguIstC-zr7YqnfpkJ5PNWlNoQ
+}
+
+body:json {
+  {
+      "name": "fdsfdfsdzzzzx",
+      "order": "0",
+      "depth": "1",
+      "menu": 0,
+      "category": 0,
+      "company": {
+          "id": 1,
+          "name": "Les pieds dans l'eau",
+          "description": "Restaurant au bord du Lac Léman",
+          "country": "France",
+          "postcode": 74200,
+          "street": "Plage De Corzent, 14 Rue de la Plage",
+          "city": "Anthy-sur-Léman",
+          "createdAt": "2023-09-10T15:24:49.616Z",
+          "updatedAt": "2023-11-11T17:57:31.593Z",
+          "locale": "fr",
+          "color": "blue",
+          "fonts": "lato",
+          "fonts_title": "fraunces",
+          "slug": "les-pieds-dans-l-eau",
+          "activated": true,
+          "suscribe_date_start": "2023-11-01",
+          "suscribe_date_end": "2024-11-01"
+      }
+  }
+  
+}
