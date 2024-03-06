@@ -9,18 +9,21 @@ export async function postCategory(category, session) {
 		company: resUser.company,
 	}
 
-	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`, {
-		method: 'POST',
-		headers: {
-			// 	token
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-			Authorization: `Bearer ${session.jwt}`,
-		},
-		body: JSON.stringify({
-			data: category,
-		}),
-	})
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/api/categories?populate=category,menu`,
+		{
+			method: 'POST',
+			headers: {
+				// 	token
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				Authorization: `Bearer ${session.jwt}`,
+			},
+			body: JSON.stringify({
+				data: category,
+			}),
+		}
+	)
 
 	if (!res.ok) {
 		toast('Une erreur est survenue, veuillez réessayer plus tard', {
