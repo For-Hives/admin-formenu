@@ -5,7 +5,6 @@ export async function putCategory(id, category, session) {
 	const resUser = await getDataMe(session)
 
 	// add company
-	console.log('PUT CATEGORY', category)
 	// and add "menu" and "category" to the category object, if they are undefined or null, then just don't add them
 	category = {
 		...category,
@@ -20,10 +19,8 @@ export async function putCategory(id, category, session) {
 		delete category.category
 	}
 
-	console.log('PUT CATEGORYw', category)
-
 	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${id}?populate=category,menu`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/categories/${id}?populate=category,menu,dishes`,
 		{
 			method: 'PUT',
 			headers: {

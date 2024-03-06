@@ -10,7 +10,7 @@ export async function postCategory(category, session) {
 	}
 
 	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/categories?populate=category,menu`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/categories?populate=category,menu,dishes`,
 		{
 			method: 'POST',
 			headers: {
