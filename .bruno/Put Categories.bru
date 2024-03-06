@@ -5,9 +5,13 @@ meta {
 }
 
 put {
-  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories/13
+  url: {{process.env.NEXT_PUBLIC_API_URL}}/api/categories/13?populate=category,menu,dishes
   body: json
   auth: bearer
+}
+
+query {
+  populate: category,menu,dishes
 }
 
 headers {
