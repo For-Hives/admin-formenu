@@ -12,7 +12,10 @@ export async function putTypeDish(id, typeDish, session) {
 				Authorization: `Bearer ${session.jwt}`,
 			},
 			body: JSON.stringify({
-				data: typeDish,
+				data: {
+					...typeDish,
+					icon: typeDish.icon ? typeDish.icon : null,
+				},
 			}),
 		}
 	)
