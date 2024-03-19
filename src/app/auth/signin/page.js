@@ -1,3 +1,4 @@
+// auth/signin/page.js
 'use client'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -87,7 +88,7 @@ function Signin() {
 							<h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
 								{session && session.user && !_.isEmpty(session.user)
 									? 'Bonjour ' +
-									  (session.user.name ? session.user.name : session.user.email)
+										(session.user.name ? session.user.name : session.user.email)
 									: 'Connexion'}
 							</h2>
 						</div>
@@ -186,7 +187,7 @@ function Signin() {
 									<Link
 										type="submit"
 										className="btn-alt-primary mt-8"
-										href={'/auth/profil'}
+										href={'/profil'}
 									>
 										Retourner sur mon profil
 									</Link>
