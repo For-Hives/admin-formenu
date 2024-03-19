@@ -6,7 +6,6 @@ export async function postTypeDish(typeDish, session) {
 		{
 			method: 'POST',
 			headers: {
-				// 	token
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
 				Authorization: `Bearer ${session.jwt}`,

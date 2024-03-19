@@ -68,10 +68,20 @@ export const TypeDishModal = forwardRef(
 
 		const onSubmit = data => {
 			if (isAddMode) {
-				postTypeDish(data, sessionFromStore).then(res => {
+				const newTypeDish = {
+					...data,
+					icon: data.icon ? data.icon.id : null,
+				}
+				postTypeDish(newTypeDish, sessionFromStore).then(res => {
 					// Refresh your typeDishes list or state here
-					const newTypeDish = { ...res.data.attributes, id: res.data.id }
-					onChangeTypeDishes(newTypeDish, false)
+					const formattedTypeDish = {
+						id: res.data.id,
+						attributes: {
+							...res.data.attributes,
+							icon: data.icon,
+						},
+					}
+					onChangeTypeDishes(formattedTypeDish, false)
 				})
 			} else {
 				putTypeDish(typeDishToEdit.id, data, sessionFromStore).then(res => {
