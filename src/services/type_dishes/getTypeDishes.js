@@ -1,6 +1,6 @@
 export async function getTypeDishes(session) {
 	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/type-dishes`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/type-dishes?populate=*`,
 		{
 			method: 'GET',
 			headers: {
