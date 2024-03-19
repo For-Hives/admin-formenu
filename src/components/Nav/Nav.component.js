@@ -50,7 +50,7 @@ const menuItems = [
 		href: '/mes-parametres',
 		flaticon: 'fi fi-rr-settings-sliders',
 		text: 'Mes paramètres',
-		enabled: false,
+		enabled: true,
 	},
 ]
 
