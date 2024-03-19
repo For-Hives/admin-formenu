@@ -1,3 +1,4 @@
+// api/auth/[...nextauth].js
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
@@ -68,6 +69,10 @@ export const authOptions = {
 				token.jwt = user.jwt
 			}
 			return token
+		},
+		async signOut({ token, session }) {
+			localStorage.removeItem('next-auth.session-token')
+			return true
 		},
 	},
 }
