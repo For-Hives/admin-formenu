@@ -17,9 +17,10 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsTypeDish } from '@/components/TypeDish/data'
-import { TypeDishModal } from '@/components/TypeDish/TypeDishModal/TypeDishModal.component'
 import { deleteTypeDish } from '@/services/type_dishes/deleteTypeDish'
 import ConfirmationModal from '@/components/ConfirmationModal.component'
+import { TypeDishModal } from '@/components/TypeDish/TypeDishModal.component'
+import Image from 'next/image'
 
 const INITIAL_VISIBLE_COLUMNS = ['id', 'name', 'color', 'icon', 'actions']
 
@@ -79,10 +80,24 @@ export function TypeDishTableComponent({ typeDishesBase, session }) {
 
 	const sortedItems = useMemo(() => {
 		return [...items].sort((a, b) => {
-			const first = a[sortDescriptor.column]
-			const second = b[sortDescriptor.column]
-			const cmp = first < second ? -1 : first > second ? 1 : 0
+			let first = a[sortDescriptor.column]
+			let second = b[sortDescriptor.column]
 
+			// Check if the data is nested inside the `attributes` property
+			if (a.attributes && a.attributes[sortDescriptor.column]) {
+				first = a.attributes[sortDescriptor.column]
+			}
+			if (b.attributes && b.attributes[sortDescriptor.column]) {
+				second = b.attributes[sortDescriptor.column]
+			}
+
+			// Handle sorting for the `icon` column
+			if (sortDescriptor.column === 'icon') {
+				first = a.attributes.icon.data.attributes.url
+				second = b.attributes.icon.data.attributes.url
+			}
+
+			const cmp = first < second ? -1 : first > second ? 1 : 0
 			return sortDescriptor.direction === 'descending' ? -cmp : cmp
 		})
 	}, [sortDescriptor, items])
@@ -95,18 +110,24 @@ export function TypeDishTableComponent({ typeDishesBase, session }) {
 				case 'id':
 					return <div className="flex flex-col">{typeDish.id}</div>
 				case 'name':
-					return <div className="flex flex-col">{typeDish.name}</div>
+					return <div className="flex flex-col">{typeDish.attributes.name}</div>
 				case 'color':
-					return <div className="flex flex-col">{typeDish.color}</div>
+					return (
+						<div className="flex flex-col">{typeDish.attributes.color}</div>
+					)
 				case 'icon':
 					return (
 						<div className="flex flex-col">
-							<img
-								src={typeDish.icon.url}
-								alt={typeDish.icon.alternativeText}
-								width={30}
-								height={30}
-							/>
+							{typeDish.attributes?.icon?.data?.attributes?.url ? (
+								<Image
+									src={typeDish.attributes?.icon?.data.attributes.url}
+									alt={typeDish.attributes?.icon?.data.attributes.url}
+									width={30}
+									height={30}
+								/>
+							) : (
+								<span className="text-default-400">Aucune icône</span>
+							)}
 						</div>
 					)
 				case 'actions':
@@ -184,7 +205,15 @@ export function TypeDishTableComponent({ typeDishesBase, session }) {
 			setTypeDishes(newTypeDishList)
 		} else {
 			// add new typeDishes to the list
-			const newTypeDishList = [...typeDishes, newTypeDish]
+			const formattedTypeDish = {
+				id: newTypeDish.id,
+				attributes: {
+					name: newTypeDish.name,
+					color: newTypeDish.color,
+					icon: newTypeDish.icon,
+				},
+			}
+			const newTypeDishList = [...typeDishes, formattedTypeDish]
 			setTypeDishes(newTypeDishList)
 		}
 	}
