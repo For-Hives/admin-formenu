@@ -18,7 +18,7 @@
 		]
 	},
 	"dependencies": {
-		"@flaticon/flaticon-uicons": "3.1.0",
+		"@flaticon/flaticon-uicons": "3.2.0",
 		"@headlessui/react": "1.7.18",
 		"@heroicons/react": "2.1.1",
 		"@hookform/resolvers": "3.3.4",
