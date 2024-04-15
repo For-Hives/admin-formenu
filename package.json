@@ -19,7 +19,7 @@
 	},
 	"dependencies": {
 		"@flaticon/flaticon-uicons": "3.2.1",
-		"@headlessui/react": "1.7.18",
+		"@headlessui/react": "1.7.19",
 		"@heroicons/react": "2.1.1",
 		"@hookform/resolvers": "3.3.4",
 		"@nextui-org/react": "2.2.10",
