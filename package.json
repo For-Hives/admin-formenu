@@ -22,7 +22,7 @@
 		"@headlessui/react": "1.7.19",
 		"@heroicons/react": "2.1.1",
 		"@hookform/resolvers": "3.3.4",
-		"@nextui-org/react": "2.3.3",
+		"@nextui-org/react": "2.3.4",
 		"framer-motion": "11.0.6",
 		"html-react-parser": "5.1.10",
 		"lodash": "4.17.21",
