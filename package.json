@@ -21,7 +21,7 @@
 		"@flaticon/flaticon-uicons": "3.2.1",
 		"@headlessui/react": "1.7.19",
 		"@heroicons/react": "2.1.1",
-		"@hookform/resolvers": "3.5.0",
+		"@hookform/resolvers": "3.6.0",
 		"@nextui-org/react": "2.4.1",
 		"framer-motion": "11.0.6",
 		"html-react-parser": "5.1.10",
