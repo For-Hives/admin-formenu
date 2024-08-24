@@ -35,7 +35,7 @@
 		"remark": "15.0.1",
 		"remark-html": "16.0.1",
 		"remark-parse": "11.0.0",
-		"sharp": "0.33.2",
+		"sharp": "0.33.5",
 		"zod": "3.23.8",
 		"zustand": "4.5.5"
 	},
