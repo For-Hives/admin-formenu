@@ -1,3 +1,4 @@
+'use client'
 // auth/signout/page.js
 import { LoaderComponent } from '@/components/Loaders/Loader.component'
 
