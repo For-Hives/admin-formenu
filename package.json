@@ -24,7 +24,7 @@
 		"@hookform/resolvers": "3.9.0",
 		"@nextui-org/react": "2.4.6",
 		"framer-motion": "11.3.30",
-		"html-react-parser": "5.1.14",
+		"html-react-parser": "5.1.15",
 		"lodash": "4.17.21",
 		"next": "14.2.7",
 		"next-auth": "4.24.7",
