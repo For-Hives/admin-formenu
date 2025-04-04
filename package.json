@@ -43,7 +43,7 @@
 		"@tailwindcss/forms": "0.5.10",
 		"@tailwindcss/typography": "0.5.16",
 		"autoprefixer": "10.4.21",
-		"eslint": "8.57.1",
+		"eslint": "9.24.0",
 		"eslint-config-next": "14.2.26",
 		"eslint-config-prettier": "9.1.0",
 		"husky": "9.1.7",
