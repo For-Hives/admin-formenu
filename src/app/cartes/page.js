@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 import Nav from '@/components/Nav/Nav.component'
-import { get_data_menus } from '@/services/data/getData'
+import { get_data_menus, getDataMe } from '@/services/data/getData'
 import Image from 'next/image'
 import ToggleMenuComponent from '@/components/Toggle/ToggleMenu.component'
 import Link from 'next/link'
@@ -13,10 +13,28 @@ export default async function Cartes() {
 	if (!session) {
 		redirect('/auth/signin')
 	}
-	const companie = await getCompanie(session)
-	const companie_data = await get_data_menus(companie.data.attributes.slug)
+	
+	// Get user's company from their profile instead of hardcoding ID=1
+	const userData = await getDataMe(session)
+	const companySlug = userData?.company?.slug
+	
+	if (!companySlug) {
+		return (
+			<>
+				<Nav />
+				<main className="flex min-h-screen w-full flex-col gap-6 overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
+					<div className="p-4 bg-yellow-100 border border-yellow-400 rounded">
+						<h2 className="text-yellow-800 font-bold">Aucune entreprise associée</h2>
+						<p>Votre compte n'est pas associé à une entreprise. Contactez un administrateur.</p>
+					</div>
+				</main>
+			</>
+		)
+	}
+	
+	const companie_data = await get_data_menus(companySlug)
 	const companie_menus = companie_data.filter(
-		data => data.company.slug === companie.data.attributes.slug
+		data => data.company.slug === companySlug
 	)
 
 	return (
@@ -96,23 +114,4 @@ export default async function Cartes() {
 			</main>
 		</>
 	)
-}
-
-async function getCompanie(session) {
-	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/companies/1`,
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${session.jwt}`,
-			},
-		}
-	)
-	if (!response.ok) {
-		throw new Error('Failed to fetch Data')
-	}
-
-	return await response.json()
 }
