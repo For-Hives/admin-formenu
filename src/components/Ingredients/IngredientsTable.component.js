@@ -10,7 +10,6 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
-	Tooltip,
 } from '@nextui-org/react'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useRef, useState } from 'react'
@@ -134,26 +133,20 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
-							<Tooltip content="Modifier l'ingredient">
-								<span
-									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => handleEditIngredient(ingredient)}
-								>
-									<EditIcon />
-								</span>
-							</Tooltip>
-							<Tooltip color="danger" content="Supprimer ingredient">
-								<Tooltip color="danger" content="Supprimer ingredient">
-									<span
-										className="cursor-pointer text-lg text-danger active:opacity-50"
-										onClick={() => {
-											handleDeleteClick(ingredient)
-										}}
-									>
-										<DeleteIcon />
-									</span>
-								</Tooltip>
-							</Tooltip>
+							<span
+								title="Modifier l'ingredient"
+								className="cursor-pointer text-lg text-default-400 active:opacity-50 hover:text-primary"
+								onClick={() => handleEditIngredient(ingredient)}
+							>
+								<EditIcon />
+							</span>
+							<span
+								title="Supprimer ingredient"
+								className="cursor-pointer text-lg text-danger active:opacity-50 hover:text-red-700"
+								onClick={() => handleDeleteClick(ingredient)}
+							>
+								<DeleteIcon />
+							</span>
 						</div>
 					)
 				default:

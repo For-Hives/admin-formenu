@@ -10,7 +10,6 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
-	Tooltip,
 } from '@nextui-org/react'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -126,28 +125,24 @@ export function CategoriesTableComponent({
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
-							<Tooltip content="Modifier la categorie">
-								<span
-									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => {
-										handleEditCategory(category)
-									}}
-								>
-									<EditIcon />
-								</span>
-							</Tooltip>
-							<Tooltip color="danger" content="Supprimer la categorie">
-								<Tooltip color="danger" content="Supprimer la categorie">
-									<span
-										className="cursor-pointer text-lg text-danger active:opacity-50"
-										onClick={() => {
-											handleDeleteClick(category)
-										}}
-									>
-										<DeleteIcon />
-									</span>
-								</Tooltip>
-							</Tooltip>
+							<span
+								title="Modifier la categorie"
+								className="cursor-pointer text-lg text-default-400 active:opacity-50 hover:text-primary"
+								onClick={() => {
+									handleEditCategory(category)
+								}}
+							>
+								<EditIcon />
+							</span>
+							<span
+								title="Supprimer la categorie"
+								className="cursor-pointer text-lg text-danger active:opacity-50 hover:text-red-700"
+								onClick={() => {
+									handleDeleteClick(category)
+								}}
+							>
+								<DeleteIcon />
+							</span>
 						</div>
 					)
 				default:

@@ -10,7 +10,6 @@ import {
 	TableColumn,
 	TableHeader,
 	TableRow,
-	Tooltip,
 } from '@nextui-org/react'
 import { SearchIcon } from '../../IconsJSX/SearchIcon'
 import { useCallback, useMemo, useRef, useState } from 'react'
@@ -136,26 +135,20 @@ export function DishTableComponent({
 				case 'actions':
 					return (
 						<div className="relative flex items-center justify-start gap-2">
-							<Tooltip content="Modifier le plat">
-								<span
-									className="cursor-pointer text-lg text-default-400 active:opacity-50"
-									onClick={() => handleEditDish(dish)}
-								>
-									<EditIcon />
-								</span>
-							</Tooltip>
-							<Tooltip color="danger" content="Supprimer dish">
-								<Tooltip color="danger" content="Supprimer dish">
-									<span
-										className="cursor-pointer text-lg text-danger active:opacity-50"
-										onClick={() => {
-											handleDeleteClick(dish)
-										}}
-									>
-										<DeleteIcon />
-									</span>
-								</Tooltip>
-							</Tooltip>
+							<span
+								title="Modifier le plat"
+								className="cursor-pointer text-lg text-default-400 active:opacity-50 hover:text-primary"
+								onClick={() => handleEditDish(dish)}
+							>
+								<EditIcon />
+							</span>
+							<span
+								title="Supprimer le plat"
+								className="cursor-pointer text-lg text-danger active:opacity-50 hover:text-red-700"
+								onClick={() => handleDeleteClick(dish)}
+							>
+								<DeleteIcon />
+							</span>
 						</div>
 					)
 				default:
