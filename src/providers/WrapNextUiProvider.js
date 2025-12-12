@@ -11,13 +11,10 @@ const WrapNextUiProvider = ({ children }) => {
 		setMounted(true)
 	}, [])
 
-	// Prevent hydration mismatch by waiting for client-side mount
+	// Don't render NextUI components until client-side mount is complete
+	// This prevents ResizeObserver errors from @react-aria
 	if (!mounted) {
-		return (
-			<div style={{ visibility: 'hidden' }}>
-				{children}
-			</div>
-		)
+		return null
 	}
 
 	return (
