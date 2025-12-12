@@ -13,7 +13,7 @@ import {
 	Tooltip,
 } from '@nextui-org/react'
 import { SearchIcon } from '../IconsJSX/SearchIcon'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { DeleteIcon } from '@/components/IconsJSX/DeleteIcon'
 import { EditIcon } from '@/components/IconsJSX/EditIcon'
 import { columnsCategories } from '@/components/Categories/data'
@@ -38,6 +38,12 @@ export function CategoriesTableComponent({
 	categoriesFromParent,
 }) {
 	const modalRef = useRef()
+	
+	// Fix for NextUI ResizeObserver SSR hydration issue
+	const [mounted, setMounted] = useState(false)
+	useEffect(() => {
+		setMounted(true)
+	}, [])
 
 	const handleEditCategory = category => {
 		modalRef?.current?.openModalWithCategory(category)
@@ -302,6 +308,11 @@ export function CategoriesTableComponent({
 				setCategories(newCategoriesList)
 			})
 		}
+	}
+
+	// Prevent ResizeObserver errors during SSR/hydration
+	if (!mounted) {
+		return <div className="flex min-h-[400px] items-center justify-center">Chargement...</div>
 	}
 
 	return (

@@ -16,3 +16,17 @@ export async function middleware(req) {
 
 	return NextResponse.next()
 }
+
+// Exclude auth pages, API routes, and static assets from middleware
+export const config = {
+	matcher: [
+		/*
+		 * Match all request paths except:
+		 * - /auth/* (authentication pages)
+		 * - /api/* (API routes including NextAuth)
+		 * - /_next/* (Next.js internals)
+		 * - /favicon.ico, /assets/* (static files)
+		 */
+		'/((?!auth|api|_next|favicon.ico|assets).*)',
+	],
+}
