@@ -192,7 +192,7 @@ export const CategoriesModal = forwardRef(
 
 		useEffect(() => {
 			setSession(session)
-		}, [])
+		}, [session, setSession])
 
 		useEffect(() => {
 			if (categoryToEdit) {
@@ -210,7 +210,7 @@ export const CategoriesModal = forwardRef(
 					{ keepValues: false }
 				)
 			}
-		}, [categoryToEdit])
+		}, [categoryToEdit, reset])
 
 		useEffect(() => {
 			if (categoryToEdit?.length === 0) return

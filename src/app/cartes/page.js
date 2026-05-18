@@ -28,7 +28,7 @@ export default async function Cartes() {
 							Aucune entreprise associée
 						</h2>
 						<p>
-							Votre compte n'est pas associé à une entreprise. Contactez un
+							Votre compte n&apos;est pas associé à une entreprise. Contactez un
 							administrateur.
 						</p>
 					</div>

@@ -44,9 +44,9 @@ export function CategoriesTableComponent({
 		setMounted(true)
 	}, [])
 
-	const handleEditCategory = category => {
+	const handleEditCategory = useCallback(category => {
 		modalRef?.current?.openModalWithCategory(category)
-	}
+	}, [])
 
 	const [categories, setCategories] = useState(categoriesBase)
 	const [filterValue, setFilterValue] = useState('')
@@ -84,7 +84,7 @@ export function CategoriesTableComponent({
 		}
 
 		return filteredCategories
-	}, [categories, filterValue])
+	}, [categories, filterValue, hasSearchFilter])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -183,7 +183,7 @@ export function CategoriesTableComponent({
 		setPage(1)
 	}, [])
 
-	const onChangeCategories = (newCategory, isEdit) => {
+	const onChangeCategories = useCallback((newCategory, isEdit) => {
 		if (isEdit) {
 			// edit category
 			const newCategoriesList = categories.map(category => {
@@ -198,7 +198,7 @@ export function CategoriesTableComponent({
 			const newCategoriesList = [...categories, newCategory]
 			setCategories(newCategoriesList)
 		}
-	}
+	}, [categories])
 
 	const topContent = useMemo(() => {
 		return (
@@ -248,6 +248,12 @@ export function CategoriesTableComponent({
 		categories,
 		onSearchChange,
 		hasSearchFilter,
+		categoriesFromParent,
+		dishes,
+		menus,
+		onChangeCategories,
+		onClear,
+		session,
 	])
 
 	const bottomContent = useMemo(() => {
@@ -283,7 +289,7 @@ export function CategoriesTableComponent({
 				</div>
 			</div>
 		)
-	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
+	}, [selectedKeys, items.length, page, pages, hasSearchFilter, onNextPage, onPreviousPage])
 
 	const [categoryToDelete, setCategoryToDelete] = useState(null)
 

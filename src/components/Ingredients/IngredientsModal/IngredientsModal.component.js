@@ -103,7 +103,7 @@ export const IngredientsModal = forwardRef(
 
 		useEffect(() => {
 			setSession(session)
-		}, [])
+		}, [session, setSession])
 
 		useEffect(() => {
 			if (ingredientToEdit) {
@@ -120,7 +120,7 @@ export const IngredientsModal = forwardRef(
 					{ keepValues: false }
 				)
 			}
-		}, [ingredientToEdit])
+		}, [ingredientToEdit, reset])
 
 		return (
 			<>

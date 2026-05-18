@@ -9,7 +9,7 @@ function ToggleComponent({ id, activated, onUpdate }) {
 
 	useEffect(() => {
 		setIsSelected(activated)
-	}, [menuFromStore])
+	}, [menuFromStore, activated])
 
 	const handleChange = async checked => {
 		setIsSelected(!isSelected)

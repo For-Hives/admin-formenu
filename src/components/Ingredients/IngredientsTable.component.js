@@ -32,9 +32,9 @@ const INITIAL_VISIBLE_COLUMNS = [
 export function IngredientsTableComponent({ ingredientsBase, session }) {
 	const modalRef = useRef()
 
-	const handleEditIngredient = ingredient => {
+	const handleEditIngredient = useCallback(ingredient => {
 		modalRef?.current?.openModalWithIngredient(ingredient)
-	}
+	}, [])
 
 	const [ingredients, setIngredients] = useState(ingredientsBase)
 	const [filterValue, setFilterValue] = useState('')
@@ -72,7 +72,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		}
 
 		return filteredIngredients
-	}, [ingredients, filterValue])
+	}, [ingredients, filterValue, hasSearchFilter])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -187,7 +187,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		setPage(1)
 	}, [])
 
-	const onChangeIngredients = (newIngredient, isEdit) => {
+	const onChangeIngredients = useCallback((newIngredient, isEdit) => {
 		if (isEdit) {
 			// edit ingredient
 			const newIngredientsList = ingredients.map(ingredient => {
@@ -202,7 +202,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 			const newIngredientsList = [...ingredients, newIngredient]
 			setIngredients(newIngredientsList)
 		}
-	}
+	}, [ingredients])
 
 	const topContent = useMemo(() => {
 		return (
@@ -249,6 +249,9 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 		ingredients,
 		onSearchChange,
 		hasSearchFilter,
+		onChangeIngredients,
+		onClear,
+		session,
 	])
 
 	const bottomContent = useMemo(() => {
@@ -284,7 +287,7 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 				</div>
 			</div>
 		)
-	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
+	}, [selectedKeys, items.length, page, pages, hasSearchFilter, onNextPage, onPreviousPage])
 
 	const [ingredientToDelete, setIngredientToDelete] = useState(null)
 

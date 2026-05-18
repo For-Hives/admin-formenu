@@ -40,9 +40,9 @@ export function DishTableComponent({
 }) {
 	const modalRef = useRef()
 
-	const handleEditDish = dish => {
+	const handleEditDish = useCallback(dish => {
 		modalRef?.current?.openModalWithDish(dish)
-	}
+	}, [])
 
 	const [dish, setDish] = useState(dishBase)
 	const [filterValue, setFilterValue] = useState('')
@@ -80,7 +80,7 @@ export function DishTableComponent({
 		}
 
 		return filteredDish
-	}, [dish, filterValue])
+	}, [dish, filterValue, hasSearchFilter])
 
 	const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
@@ -189,14 +189,14 @@ export function DishTableComponent({
 		setPage(1)
 	}, [])
 
-	const onChangeDish = (newDish, isEdit) => {
+	const onChangeDish = useCallback((newDish, isEdit) => {
 		if (isEdit) {
 			// edit Dish
-			const newDishList = dish.map(dish => {
-				if (dish.id === newDish.id) {
+			const newDishList = dish.map(dishItem => {
+				if (dishItem.id === newDish.id) {
 					return newDish
 				}
-				return dish
+				return dishItem
 			})
 			setDish(newDishList)
 		} else {
@@ -204,7 +204,7 @@ export function DishTableComponent({
 			const newDishList = [...dish, newDish]
 			setDish(newDishList)
 		}
-	}
+	}, [dish])
 
 	const topContent = useMemo(() => {
 		return (
@@ -250,7 +250,7 @@ export function DishTableComponent({
 				</div>
 			</div>
 		)
-	}, [filterValue, onRowsPerPageChange, dish, onSearchChange, hasSearchFilter])
+	}, [filterValue, onRowsPerPageChange, dish, onSearchChange, hasSearchFilter, allergens, categories, diets, ingredients, onChangeDish, onClear, session, typeDishes])
 
 	const bottomContent = useMemo(() => {
 		return (
@@ -285,7 +285,7 @@ export function DishTableComponent({
 				</div>
 			</div>
 		)
-	}, [selectedKeys, items.length, page, pages, hasSearchFilter])
+	}, [selectedKeys, items.length, page, pages, hasSearchFilter, onNextPage, onPreviousPage])
 
 	const [dishToDelete, setDishToDelete] = useState(null)
 

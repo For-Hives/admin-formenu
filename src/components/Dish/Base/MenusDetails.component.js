@@ -337,19 +337,19 @@ export default function MenusDetails({
 		if (Object.keys(ingredientsFromStore).length === 0) {
 			setIngredients(ingredients)
 		}
-	}, [ingredientsFromStore])
+	}, [ingredientsFromStore, ingredients, setIngredients])
 
 	useEffect(() => {
 		if (Object.keys(allergensFromStore).length === 0) {
 			setAllergens(allergens)
 		}
-	}, [allergensFromStore])
+	}, [allergensFromStore, allergens, setAllergens])
 
 	useEffect(() => {
 		if (Object.keys(dietsFromStore).length === 0) {
 			setDiets(diets)
 		}
-	}, [dietsFromStore])
+	}, [dietsFromStore, diets, setDiets])
 
 	useEffect(() => {
 		if (
@@ -358,7 +358,7 @@ export default function MenusDetails({
 		) {
 			setCategories(categories)
 		}
-	}, [categoriesFromStore])
+	}, [categoriesFromStore, categories, setCategories])
 
 	useEffect(() => {
 		if (
@@ -367,7 +367,7 @@ export default function MenusDetails({
 		) {
 			setTypeDishes(typeDishes)
 		}
-	}, [typeDishesFromStore])
+	}, [typeDishesFromStore, typeDishes, setTypeDishes])
 
 	useEffect(() => {
 		if (Object.keys(lastDishClicked).length === 0) return
@@ -387,11 +387,11 @@ export default function MenusDetails({
 				type_dish: lastDishClicked.type_dish?.id?.toString(),
 			})
 		}
-	}, [lastDishClicked, reset])
+	}, [lastDishClicked, reset, isAddMode])
 
 	useEffect(() => {
 		setSession(session)
-	}, [])
+	}, [session, setSession])
 
 	return (
 		<>
