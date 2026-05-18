@@ -37,7 +37,7 @@ export function CategoriesTableComponent({
 	categoriesFromParent,
 }) {
 	const modalRef = useRef()
-	
+
 	// Fix for NextUI ResizeObserver SSR hydration issue
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => {
@@ -127,7 +127,7 @@ export function CategoriesTableComponent({
 						<div className="relative flex items-center justify-start gap-2">
 							<span
 								title="Modifier la categorie"
-								className="cursor-pointer text-lg text-default-400 active:opacity-50 hover:text-primary"
+								className="cursor-pointer text-lg text-default-400 hover:text-primary active:opacity-50"
 								onClick={() => {
 									handleEditCategory(category)
 								}}
@@ -136,7 +136,7 @@ export function CategoriesTableComponent({
 							</span>
 							<span
 								title="Supprimer la categorie"
-								className="cursor-pointer text-lg text-danger active:opacity-50 hover:text-red-700"
+								className="cursor-pointer text-lg text-danger hover:text-red-700 active:opacity-50"
 								onClick={() => {
 									handleDeleteClick(category)
 								}}
@@ -307,7 +307,11 @@ export function CategoriesTableComponent({
 
 	// Prevent ResizeObserver errors during SSR/hydration
 	if (!mounted) {
-		return <div className="flex min-h-[400px] items-center justify-center">Chargement...</div>
+		return (
+			<div className="flex min-h-[400px] items-center justify-center">
+				Chargement...
+			</div>
+		)
 	}
 
 	return (

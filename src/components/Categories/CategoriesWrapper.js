@@ -3,13 +3,19 @@
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { CategoriesTableComponent } from '@/components/Categories/CategoriesTable.component'
 
-export default function CategoriesWrapper({ categoriesBase, session, dishes, menus, categoriesFromParent }) {
+export default function CategoriesWrapper({
+	categoriesBase,
+	session,
+	dishes,
+	menus,
+	categoriesFromParent,
+}) {
 	console.log('🟡 CategoriesWrapper rendering with props:', {
 		categoriesBaseLength: categoriesBase?.length,
 		sessionExists: !!session,
 		dishesLength: dishes?.length,
 		menusLength: menus?.length,
-		categoriesFromParentLength: categoriesFromParent?.length
+		categoriesFromParentLength: categoriesFromParent?.length,
 	})
 
 	return (

@@ -13,25 +13,30 @@ export default async function Cartes() {
 	if (!session) {
 		redirect('/auth/signin')
 	}
-	
+
 	// Get user's company from their profile instead of hardcoding ID=1
 	const userData = await getDataMe(session)
 	const companySlug = userData?.company?.slug
-	
+
 	if (!companySlug) {
 		return (
 			<>
 				<Nav />
 				<main className="flex min-h-screen w-full flex-col gap-6 overflow-hidden py-8 pl-[calc(250px+4rem)] pr-16">
-					<div className="p-4 bg-yellow-100 border border-yellow-400 rounded">
-						<h2 className="text-yellow-800 font-bold">Aucune entreprise associée</h2>
-						<p>Votre compte n'est pas associé à une entreprise. Contactez un administrateur.</p>
+					<div className="rounded border border-yellow-400 bg-yellow-100 p-4">
+						<h2 className="font-bold text-yellow-800">
+							Aucune entreprise associée
+						</h2>
+						<p>
+							Votre compte n'est pas associé à une entreprise. Contactez un
+							administrateur.
+						</p>
 					</div>
 				</main>
 			</>
 		)
 	}
-	
+
 	const companie_data = await get_data_menus(companySlug)
 	const companie_menus = companie_data.filter(
 		data => data.company.slug === companySlug

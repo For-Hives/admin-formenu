@@ -135,14 +135,14 @@ export function IngredientsTableComponent({ ingredientsBase, session }) {
 						<div className="relative flex items-center justify-start gap-2">
 							<span
 								title="Modifier l'ingredient"
-								className="cursor-pointer text-lg text-default-400 active:opacity-50 hover:text-primary"
+								className="cursor-pointer text-lg text-default-400 hover:text-primary active:opacity-50"
 								onClick={() => handleEditIngredient(ingredient)}
 							>
 								<EditIcon />
 							</span>
 							<span
 								title="Supprimer ingredient"
-								className="cursor-pointer text-lg text-danger active:opacity-50 hover:text-red-700"
+								className="cursor-pointer text-lg text-danger hover:text-red-700 active:opacity-50"
 								onClick={() => handleDeleteClick(ingredient)}
 							>
 								<DeleteIcon />

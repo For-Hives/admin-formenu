@@ -9,28 +9,31 @@ import CategoriesWrapper from '@/components/Categories/CategoriesWrapper'
 
 export default async function Home() {
 	console.log('🟢 Categories page: Starting server render')
-	
+
 	const session = await getServerSession(authOptions)
 	console.log('🟢 Categories page: Session exists:', !!session)
-	
+
 	if (!session) {
 		console.log('🔴 Categories page: No session, redirecting to signin')
 		redirect('/auth/signin')
 	}
 
 	console.log('🟢 Categories page: Fetching data...')
-	
+
 	try {
 		const categoriesBase = await getMyCategories(session)
-		console.log('🟢 Categories page: categoriesBase fetched:', categoriesBase?.length)
-		
+		console.log(
+			'🟢 Categories page: categoriesBase fetched:',
+			categoriesBase?.length
+		)
+
 		let categories = await getMyCategories(session)
 		categories = categories.filter(category => category.depth === 0)
 		console.log('🟢 Categories page: categories filtered:', categories?.length)
-		
+
 		const dishes = await getDishes(session)
 		console.log('🟢 Categories page: dishes fetched:', dishes?.length)
-		
+
 		const menus = await getMenus(session)
 		console.log('🟢 Categories page: menus fetched:', menus?.length)
 

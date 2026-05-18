@@ -137,14 +137,14 @@ export function DishTableComponent({
 						<div className="relative flex items-center justify-start gap-2">
 							<span
 								title="Modifier le plat"
-								className="cursor-pointer text-lg text-default-400 active:opacity-50 hover:text-primary"
+								className="cursor-pointer text-lg text-default-400 hover:text-primary active:opacity-50"
 								onClick={() => handleEditDish(dish)}
 							>
 								<EditIcon />
 							</span>
 							<span
 								title="Supprimer le plat"
-								className="cursor-pointer text-lg text-danger active:opacity-50 hover:text-red-700"
+								className="cursor-pointer text-lg text-danger hover:text-red-700 active:opacity-50"
 								onClick={() => handleDeleteClick(dish)}
 							>
 								<DeleteIcon />

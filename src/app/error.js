@@ -6,9 +6,7 @@ export default function Error({ error, reset }) {
 	return (
 		<main className="relative isolate z-30 min-h-screen overflow-hidden">
 			{/* darken */}
-			<div
-				className={'absolute left-0 top-0 -z-10 h-full w-full bg-black'}
-			/>
+			<div className={'absolute left-0 top-0 -z-10 h-full w-full bg-black'} />
 			<Image
 				src="/error_background.png"
 				alt="error"

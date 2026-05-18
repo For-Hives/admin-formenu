@@ -21,20 +21,24 @@ class ErrorBoundary extends React.Component {
 	render() {
 		if (this.state.hasError) {
 			return (
-				<div className="p-4 bg-red-100 border border-red-400 rounded">
-					<h2 className="text-red-800 font-bold">Something went wrong</h2>
+				<div className="rounded border border-red-400 bg-red-100 p-4">
+					<h2 className="font-bold text-red-800">Something went wrong</h2>
 					<details className="mt-2">
-						<summary className="cursor-pointer text-red-600">Error Details</summary>
-						<pre className="mt-2 text-xs overflow-auto bg-red-50 p-2 rounded">
+						<summary className="cursor-pointer text-red-600">
+							Error Details
+						</summary>
+						<pre className="mt-2 overflow-auto rounded bg-red-50 p-2 text-xs">
 							{this.state.error && this.state.error.toString()}
 						</pre>
-						<pre className="mt-2 text-xs overflow-auto bg-red-50 p-2 rounded max-h-[300px]">
+						<pre className="mt-2 max-h-[300px] overflow-auto rounded bg-red-50 p-2 text-xs">
 							{this.state.errorInfo && this.state.errorInfo.componentStack}
 						</pre>
 					</details>
-					<button 
-						className="mt-4 px-4 py-2 bg-red-600 text-white rounded"
-						onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}
+					<button
+						className="mt-4 rounded bg-red-600 px-4 py-2 text-white"
+						onClick={() =>
+							this.setState({ hasError: false, error: null, errorInfo: null })
+						}
 					>
 						Réessayer
 					</button>
