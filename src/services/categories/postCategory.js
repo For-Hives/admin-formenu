@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { getDataMe } from '../data/getData'
+import { getDataMe } from '../data/getDataMe'
 
 export async function postCategory(category, session) {
 	const resUser = await getDataMe(session)

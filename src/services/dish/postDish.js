@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { getDataMe } from '../data/getData'
+import { getDataMe } from '../data/getDataMe'
 
 export async function postDishes(dish, session) {
 	const resUser = await getDataMe(session)
