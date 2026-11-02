@@ -1,4 +1,4 @@
-import { getDataMe } from '@/services/data/getData'
+import { getDataMe } from '@/services/data/getDataMe'
 
 export async function getCategoriesFilteredByDepth(session, depth = 1) {
 	const resUser = await getDataMe(session)

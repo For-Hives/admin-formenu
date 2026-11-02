@@ -1,15 +1,42 @@
+import 'server-only'
+
+/*
+ * SERVER-ONLY MODULE: it holds the API credential.
+ *
+ * - `import 'server-only'` makes `next build` fail as soon as this file is
+ *   imported, directly or not, by a 'use client' component.
+ * - The token is read from API_TOKEN. Never give it a NEXT_PUBLIC_ name:
+ *   Next.js writes NEXT_PUBLIC_ variables into the JavaScript sent to browsers.
+ * - getDataMe (which uses the JWT of the signed-in user, not this token) lives
+ *   in getDataMe.js, so that client code can keep using it.
+ */
+
+/**
+ * Options of the requests made with the API token
+ * @private
+ */
+function getApiRequestOptions() {
+	const token = process.env.API_TOKEN
+	if (!token) {
+		throw new Error(
+			'API_TOKEN is not set: this server-only variable is required to read /api/all-company'
+		)
+	}
+
+	return {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	}
+}
+
 async function getData() {
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/api/all-company`,
-		{
-			method: 'GET',
-			headers: {
-				// 	token
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-			},
-		}
+		getApiRequestOptions()
 	)
 
 	if (!res.ok) {
@@ -264,22 +291,4 @@ export async function getNextCategoryInfos(
 	})()
 
 	return next_category[0]
-}
-
-export async function getDataMe(session) {
-	let response = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/users/me?populate=company`,
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				Authorization: `Bearer ${session.jwt}`,
-			},
-		}
-	)
-	if (!response.ok) {
-		throw new Error('Failed to fetch data')
-	}
-	return await response.json()
 }

@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getDataMe } from '@/services/data/getData'
+import { getDataMe } from '@/services/data/getDataMe'
 
 export default async function ProfilComponent() {
 	const session = await getServerSession(authOptions)
